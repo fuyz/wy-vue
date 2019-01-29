@@ -5,7 +5,7 @@
       <mt-header fixed style="z-index: 5">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
         <mt-button slot="right" v-if="data.replyCount">
-          <div @click="toComment(data)" >{{ data.replyCount + '跟帖'}}</div>
+          <div @click="toComment(data)">{{ data.replyCount + '跟帖'}}</div>
         </mt-button>
       </mt-header>
 
@@ -61,10 +61,10 @@
       </div>
       <!--段子-->
       <div id="dzContent" v-if="key == 'dz'">
-        <p class="title" >{{ data.title }}</p>
+        <p class="title">{{ data.title }}</p>
         <!--<div id="secHeadWrap">-->
-          <!--<span id="source" class="sText">{{ data.source }}</span>-->
-          <!--<span id="ptime" class="sText">{{ data.ptime.slice(0, -3) }}</span>-->
+        <!--<span id="source" class="sText">{{ data.source }}</span>-->
+        <!--<span id="ptime" class="sText">{{ data.ptime.slice(0, -3) }}</span>-->
         <!--</div>-->
         <div v-html="html_structure"></div>
         <div class="footer">
@@ -87,7 +87,7 @@
 <script>
   import {Indicator} from 'mint-ui';
   import {Header} from 'mint-ui';
-  import { MessageBox } from 'mint-ui';
+  import {MessageBox} from 'mint-ui';
 
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.css'
@@ -112,36 +112,34 @@
       }
     },
     created: function () {
-
       let postid = this.$route.query.postid;
       let skipID = this.$route.query.skipID;
       let photosetID = this.$route.query.photosetID;
       let docid = this.$route.query.docid;
       let setid = this.$route.query.setid;
       let skipType = this.$route.query.skipType;
-
-      if(setid != undefined) {
+      if (setid != undefined) {
         //图片详情
-        this.currentUrl = 'http://c.m.163.com/photo/api/set/0096/'+ setid +'.json';
+        this.currentUrl = 'http://c.m.163.com/photo/api/set/0096/' + setid + '.json';
         this.key = 'pic';
-      }else if(photosetID != undefined){
+      } else if (photosetID != undefined) {
         //图片新闻
         let ID = '';
         ID = photosetID.slice(4);
         ID = ID.replace(/\|/, '/');
         this.currentUrl = 'http://c.3g.163.com/photo/api/set/' + ID + '.json';
         this.key = 'picture';
-      }else if(docid != undefined){
+      } else if (docid != undefined) {
         //文章新闻、段子详情
-        this.currentUrl = 'http://c.m.163.com/nc/article/'+ docid +'/full.html';
-        if(skipType == 'dz'){
+        this.currentUrl = 'http://c.m.163.com/nc/article/' + docid + '/full.html';
+        if (skipType == 'dz') {
           this.key = 'dz';
-        }else{
+        } else {
           this.key = 'article';
         }
       }
-
       getData.bind(this)();
+//    请求新闻详情信息
       function getData() {
         Indicator.open({
           text: '加载中...',
@@ -149,65 +147,21 @@
         });
         this.$http.jsonp(this.host_port + '?key=wy&url=' + this.currentUrl).then((res) => {
           Indicator.close();
-          try{
+          try {
             res = JSON.parse(JSON.parse(res.body));
-            if(setid != undefined){
+            if (setid != undefined) {
               this.data = res;
               this.pictureArr = res.photos;
-              setTimeout(() => {
-                pictureNews.bind(this)();
-              }, 1000)
-            }else if (skipID == undefined || skipID.indexOf('|') == -1) {
+            } else if (skipID == undefined || skipID.indexOf('|') == -1) {
               let urlParamArr = this.currentUrl.split('/');
               let urlKey = urlParamArr[urlParamArr.length - 2];
               this.data = res[urlKey];
-              articleNews.bind(this)();
             } else {
               this.data = res;
               this.pictureArr = res.photos;
-              setTimeout(() => {
-                pictureNews.bind(this)();
-              }, 1000)
             }
-            console.log([ this.currentUrl, this.data]);
-
-            function articleNews() {
-              let body = this.data.body;
-              let video = this.data.video == undefined ? [] : this.data.video;
-              let img = this.data.img == undefined ? [] : this.data.img;
-
-              //转换video标签
-              if (video.length != 0) {
-                for (let i = 0; i < video.length; i++) {
-                  body = body.replace(video[i].ref, '<video src="' + video[i].mp4_url + '"></video>')
-                }
-              }
-              //转换img标签
-              if (img.length != 0) {
-                for (let i = 0; i < img.length; i++) {
-                  let width = img[i].pixel.split('*')[0];
-                  let height = img[i].pixel.split('*')[1];
-                  body = body.replace(img[i].ref, '<img src="' + img[i].src + '" title="' + img[i].alt + '" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"' + img[i].alt + '</p>')
-                }
-              }
-
-              this.html_structure = body;
-
-            }
-            function pictureNews() {
-              var mySwiper = new Swiper('.swiper-container', {
-                direction: 'horizontal',
-                loop: true,
-                // 如果需要前进后退按钮
-                navigation: {
-//              nextEl: '.swiper-button-next',
-//              prevEl: '.swiper-button-prev s',
-                },
-              })
-
-            }
-
-          }catch (err){
+            console.log([this.currentUrl, this.data]);
+          } catch (err) {
             console.log(err);
             MessageBox({
               title: '提示',
@@ -216,7 +170,7 @@
             }).then(action => {
               getData.bind(this)();
             });
-          }finally {
+          } finally {
 
           }
 
@@ -226,33 +180,42 @@
         });
       }
 
-      this.$http.jsonp(this.host_port + '?key=wy&url=' + 'http://c.m.163.com/recommend/getChanListNews?channel=T1457068979049&size=10&offset=0&fn=1').then((res) => {
-        Indicator.close();
-        try{
-          res = JSON.parse(JSON.parse(res.body));
-        }catch (err){
-          console.log(err);
-          MessageBox({
-            title: '提示',
-            message: '网络错误，请刷新重试！',
-            confirmButtonText: '刷新'
-          }).then(action => {
-            window.location.reload();
-          });
-        }finally {
+//      请求评论数据
+      /* this.$http.jsonp(this.host_port + '?key=wy&url=' + 'http://c.m.163.com/recommend/getChanListNews?channel=T1457068979049&size=10&offset=0&fn=1').then((res) => {
+         Indicator.close();
+         try {
+           debugger
+           let json = JSON.parse(res.body);
+           res = Boolean(json) ? JSON.parse(json) : '';
+         } catch (err) {
+           debugger
+           console.log(err);
+           MessageBox({
+             title: '提示',
+             message: '网络错误，请刷新重试！',
+             confirmButtonText: '刷新'
+           }).then(action => {
+             window.location.reload();
+           });
+         } finally {
 
-        }
+         }
 
 
-      }, (res) => {
-        console.log(res)
-      }).then(function () {
+       }, (res) => {
+         console.log(res)
+       }).then(function () {
 
-      });
+       });*/
 
+    },
+    updated: function () {
+      this.pictureNews();
+      this.articleNews();
     },
     watch: {},
     methods: {
+      /*返回*/
       goBack: function () {
         this.$router.go(-1)
       },
@@ -274,9 +237,43 @@
             keyword: obj.keyword,
           }
         })
+      },
+      /*渲染图片文章*/
+      pictureNews: function () {
+        if(document.getElementsByClassName('swiper-container').length == 0)return;
+        var mySwiper = new Swiper('.swiper-container', {
+          direction: 'horizontal',
+          loop: true,
+          // 如果需要前进后退按钮
+          navigation: {
+//              nextEl: '.swiper-button-next',
+//              prevEl: '.swiper-button-prev s',
+          },
+        })
+
+      },
+      /*渲染文本文章*/
+      articleNews: function () {
+        let body = this.data.body;
+        if(typeof body == 'undefined')return;
+        let video = this.data.video == undefined ? [] : this.data.video;
+        let img = this.data.img == undefined ? [] : this.data.img;
+        //转换video标签
+        if (video.length != 0) {
+          for (let i = 0; i < video.length; i++) {
+            body = body.replace(video[i].ref, '<video src="' + video[i].mp4_url + '"></video>')
+          }
+        }
+        //转换img标签
+        if (img.length != 0) {
+          for (let i = 0; i < img.length; i++) {
+            let width = img[i].pixel.split('*')[0];
+            let height = img[i].pixel.split('*')[1];
+            body = body.replace(img[i].ref, '<img src="' + img[i].src + '" title="' + img[i].alt + '" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"' + img[i].alt + '</p>')
+          }
+        }
+        this.html_structure = body;
       }
-
-
     }
 
   }
