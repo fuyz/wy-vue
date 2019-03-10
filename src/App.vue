@@ -92,10 +92,6 @@
     background: white;
   }
 
-  #tabBar img {
-    /*width: 1rem;*/
-  }
-
   .tabBarItem {
     width: 3rem;
     text-decoration: none;

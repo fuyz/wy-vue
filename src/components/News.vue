@@ -17,9 +17,7 @@
 
 <template>
   <div class="indexWrap">
-
     <Nav></Nav>
-
       <!--<transition name="slide">-->
       <router-view name="NewsList"></router-view>
       <!--</transition>-->
@@ -96,7 +94,13 @@
 //
 //      }
     },
-    methods: {}
+    methods: {
+      say: function(){
+        return function(){
+
+        }
+      }
+      }
 
   }
 
