@@ -207,7 +207,7 @@
       <router-link class="tabBarItem" to="/news/head/头条">
         <mt-tab-item id="tab1">
           <img slot="icon" src="./assets/index_icon.png">
-          首页
+          首页123
         </mt-tab-item>
       </router-link>
       <router-link class="tabBarItem" to="/video/videoList/推荐">
