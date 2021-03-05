@@ -4,12 +4,12 @@ import Resource from 'vue-resource'
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css'
 
-import News from '@/components/News'
-import CityList from '@/components/CityList'
-import NewsList from '@/components/NewsList'
-import PictureList from '@/components/PictureList'
-import TextList from '@/components/TextList'
-import NewsList4 from '@/components/NewsList4'
+import News from '@/components/news/News'
+import NewsList from '@/components/news/NewsList'
+import CityList from '@/components/news/CityList'
+import PictureList from '@/components/news/PictureList'
+import TextList from '@/components/news/TextList'
+import NewsList4 from '@/components/news/NewsList4'
 
 import NewsDetail from '@/components/NewsDetail'
 import Special from '@/components/Special'
@@ -31,6 +31,10 @@ Vue.use(Resource);
 export default new Router({
   // mode:'history',
   routes: [
+    {
+      path: '/',
+      redirect: '/news/head/头条'
+    },
     {
       path: '/news',
       name: 'myNews',

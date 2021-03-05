@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav";
+import Nav from "@/components/widgets/Nav";
 
 export default {
   name: "myNews",

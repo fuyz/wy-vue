@@ -123,8 +123,8 @@
 
 <script>
   import {Indicator} from 'mint-ui';
-  import { URL as URL_PARAMS } from '../urls-config';
-  import PARAMS from '../../config/index';
+  import { URL as URL_PARAMS } from '../../urls-config';
+  import PARAMS from '../../../config/index';
 
   export default {
     name: 'myNews',
