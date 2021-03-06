@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Resource from 'vue-resource'
-import Mint from 'mint-ui';
-import 'mint-ui/lib/style.css'
 
 import News from '@/components/news/News'
 import NewsList from '@/components/news/NewsList'
@@ -10,22 +7,19 @@ import CityList from '@/components/news/CityList'
 import PictureList from '@/components/news/PictureList'
 import TextList from '@/components/news/TextList'
 import NewsList4 from '@/components/news/NewsList4'
+import Special from '@/components/news/Special'
+import CommentDetail from '@/components/news/CommentDetail'
+import Search from '@/components/news/Search'
+import NewsDetail from '@/components/news/NewsDetail'
 
-import NewsDetail from '@/components/NewsDetail'
-import Special from '@/components/Special'
-import CommentDetail from '@/components/CommentDetail'
-import Search from '@/components/Search'
+import Video from '@/components/videos/Video'
+import VideoList from '@/components/videos/VideoList'
+import VideoDetail from '@/components/videos/VideoDetail'
 
-import Video from '@/components/Video'
-import VideoList from '@/components/VideoList'
-import VideoDetail from '@/components/VideoDetail'
+import Live from '@/components/live/Live'
+import Mine from '@/components/mine/Mine'
 
-import Live from '@/components/Live'
-import Mine from '@/components/Mine'
-
-Vue.use(Mint);
 Vue.use(Router);
-Vue.use(Resource);
 
 
 export default new Router({

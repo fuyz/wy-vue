@@ -72,7 +72,7 @@
     font-size: 0.25rem;
   }
   .subscibe{
-    float: right;
+    /* float: right; */
     border-radius: 15px;
     background: #aaa;
     outline: none;
@@ -110,7 +110,9 @@
         <div class="infoWrap">
           <p class="title">{{ data.title }}</p>
           <div class="videoTagList">
-            <span class="videoTag" v-for="(item, index) in data.videoTag" v-if="index < 3">{{ item }}</span>
+            <span class="videoTag" v-for="(item, index) in data.videoTag" :key="index">
+              <span v-if="index < 3" >{{ item }}</span>   
+            </span>           
           </div>
         </div>
         <div class="videoTopic">
@@ -138,8 +140,8 @@
   import {Indicator} from 'mint-ui';
   import {Header} from 'mint-ui';
   import {MessageBox} from 'mint-ui';
-  import URL_PARAMS from '../urls-config';
-  import PARAMS from '../../config/index';
+  import URL_PARAMS from '../../urls-config';
+  import PARAMS from '../../../config/index';
 
   export default {
 //    name: 'myNews',

@@ -1,4 +1,4 @@
-<style src="../css/newsDetail.css" scoped=""></style>
+<style src="@/css/newsDetail.css" scoped=""></style>
 <template>
   <transition name="slide">
     <div id="newsDetailWrap">
@@ -19,13 +19,13 @@
         <div v-html="html_structure"></div>
         <p id='ec' class="sText">{{ '责任编辑：' + data.ec }}</p>
         <div class="searchKwList">
-          <span class="searchKw" v-for="item in data.searchKw" @click="toSearch(item)">{{ item.keyword }}</span>
+          <span class="searchKw" v-for="(item, i) in data.searchKw" :key="i" @click="toSearch(item)">{{ item.keyword }}</span>
         </div>
       </div>
       <!--图片新闻1-->
       <div class="imgContent swiper-container" v-if="key == 'picture'">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="(item , index) in pictureArr">
+          <div class="swiper-slide" v-for="(item , index) in pictureArr" :key="index">
             <img :src="item.imgurl" alt="">
             <div class="pic-des">
               <span class="currentNum">{{ index + 1 }}</span><span class="countNum">/ {{ pictureArr.length }}</span>
@@ -45,7 +45,7 @@
       <!--图片新闻2-->
       <div class="imgContent swiper-container" v-if="key == 'pic'">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="(item , index) in pictureArr">
+          <div class="swiper-slide" v-for="(item , index) in pictureArr" :key="index">
             <img :src="item.imgurl" alt="">
             <div class="pic-des">
               <span class="currentNum">{{ index + 1 }}</span><span class="countNum">/ {{ pictureArr.length }}</span>
@@ -92,8 +92,8 @@
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.css'
 
-  import URL_PARAMS from '../urls-config';
-  import PARAMS from '../../config/index';
+  import URL_PARAMS from '../../urls-config';
+  import PARAMS from '../../../config/index';
 
   export default {
     name: 'detail',

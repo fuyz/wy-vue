@@ -19,7 +19,8 @@
   z-index: 20;
 }
 
-#newsDetailContent, #dzContent {
+#newsDetailContent,
+#dzContent {
   font-size: 0.3rem;
   padding: 0.2rem;
   position: relative;
@@ -41,7 +42,8 @@
   margin: 0.1rem 0 0.5rem;
 }
 
-#source, #ptime {
+#source,
+#ptime {
   margin: 0.5rem 0.5rem 0.5rem 0;
   color: #777;
 }
@@ -51,10 +53,11 @@
   margin-top: 0.3rem;
 }
 
-.searchKwList{
+.searchKwList {
   margin-top: 20px;
 }
-.searchKw{
+
+.searchKw {
   display: inline-block;
   background: #eee;
   padding: 2px 10px;
