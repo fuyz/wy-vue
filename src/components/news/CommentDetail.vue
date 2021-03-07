@@ -1,142 +1,121 @@
 <style>
-  #searchWrap {
-    height: calc(100vh - 45px);
+  #commentDetailWrap {
+    height: calc(100vh - 95px);
     position: relative;
     z-index: 20;
-    background: white ;
     overflow-y: scroll;
-    padding-top: 52px;
-  }
-
-  .searchHead {
-    width: 100%;
-    height: 52px;
-    position: fixed;
-    top: 0;
-    z-index: 20;
-    font-size: 0.25rem;
+    margin-top: 40px;
   }
 
   .mint-loadmore {
     /*height: calc(100vh - 35px);*/
   }
 
-  .searchList {
+  .commentList {
     /*position: relative;*/
     /*top: 40px;*/
     /*margin-top: 40px;*/
     /*z-index: 2;*/
     background: white;
-    min-height: calc(100vh - 55px);
+    min-height: calc(100vh - 95px);
     /*overflow-y: scroll;*/
     box-sizing: border-box;
   }
 
-  .speachItem {
-    height: 2rem;
-    padding: .24rem .22rem 0;
-    border-bottom: 1px solid #f5f7f9;
-  }
-
-  .speachItem-wrap {
-    display: flex;
-    height: 100%;
-  }
-
-  .left {
-    width: 60%;
-    padding: 0.1rem 0.1rem 0.1rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .commentItem {
+    padding: 0.2rem 0.2rem;
 
   }
 
-  .right {
-    width: 40%;
+  .user {
+    line-height: 0.4rem;
   }
 
-  .title {
-    font-size: 0.3rem;
+  .avatarWrap {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box; /*必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。*/
-    -webkit-line-clamp: 2; /*用来限制在一个块元素显示的文本的行数*/
-    -webkit-box-orient: vertical;
-    margin-top: 0;
-    margin-bottom: 5px;
+    display: inline-block;
+    vertical-align: 5px;
   }
 
-  .detial {
-    line-height: 0.5rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .pubTime {
-    /*margin-right: 0.5rem;*/
-  }
-
-  .special, .source, .pubTime, .reply {
-    font-size: 0.2rem;
-    color: #999;
-    margin-right: 10px;
-  }
-
-  .special {
-    color: red;
-  }
-
-  .newsImg {
-    vertical-align: -webkit-baseline-middle;
+  .avatar {
     width: 100%;
-    max-height: 100%;
   }
 
+  .userInfo {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 35px)
+  }
+
+  .name {
+    color: rgb(48, 131, 251);
+    font-size: 0.25rem;
+  }
+
+  .other span {
+    margin-right: 5px;
+    color: #999;
+  }
+
+  .content {
+    font-size: 0.3rem;
+    /*padding-left: 40px;*/
+    color: #222;
+  }
+
+  #commentDetailWrap .commentWrap {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    line-height: 35px;
+    font-size: 0.3rem;
+    background: #fff;
+    color: #ccc;
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
+
+  #commentDetailWrap .comment-input {
+    width: 95vw;
+    display: inline-block;
+    margin: 15px auto;
+    outline: none;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid #ccc;
+    padding: 3px 10px;
+    box-sizing: border-box;
+    color: #111;
+  }
 </style><!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <template>
   <transition name="slide">
-    <div id="searchWrap">
-      <mt-search class="searchHead"
-                 cancel-text="取消"
-                 placeholder="搜索">
-      </mt-search>
+    <div id="commentDetailWrap">
+      <mt-header fixed style="z-index: 5">
+        <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
+      </mt-header>
 
-      <mt-loadmore
-        id="listWrap"
-        style="font-size: 0.3rem;"
-        :bottom-method="loadMore"
-        :bottom-all-loaded="allLoaded"
-        ref="loadmore"
-        :autoFill=false
+      <mt-loadmore style="font-size: 0.3rem;"
+                   :bottom-method="loadMore"
+                   :bottom-all-loaded="allLoaded"
+                   ref="loadmore"
+                   :autoFill=false
       >
-        <!--文章新闻-->
-        <div class="searchItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
-          <div class="searchItem-wrap" v-if="item.skipType == undefined">
-            <mt-swipe :auto="4000" v-if="item.hasImg">
-              <mt-swipe-item>
-                <img class="newsImg" :src="item.imgsrc" alt="">
-              </mt-swipe-item>
-              <!--<mt-swipe-item>3</mt-swipe-item>-->
-            </mt-swipe>
-            <div class="left" v-if="!item.hasImg">
-              <h3 class="title">{{ item.title }}</h3>
-              <div class="detial">
-                <span class="source">{{ item.source }}</span>
-                <span class="pubTime">{{ item.mtime.slice(5, -3) }}</span>
-                <span class="reply">{{ item.replyCount }}跟帖</span>
-              </div>
-            </div>
-            <div class="right" v-if="!item.hasImg">
-              <img class="newsImg" :src="item.imgsrc" alt="">
-            </div>
-          </div>
-        </div>
+        <div class="commentList" v-html="html_structure">
 
+        </div>
       </mt-loadmore>
 
+      <div class="commentWrap">
+        <input class="comment-input" type="text" placeholder="写跟帖">
+      </div>
 
     </div>
   </transition>
@@ -144,9 +123,8 @@
 
 <script>
   import {Indicator} from 'mint-ui';
-  import {Header} from 'mint-ui';
-  import { URL as URL_PARAMS } from '../urls-config';
-  import PARAMS from '../../config/index';
+  import URL_PARAMS from '../../urls-config';
+  import PARAMS from '../../../config/index';
 
   export default {
     name: 'comment',
@@ -154,23 +132,23 @@
       return {
         host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
         currentUrl: '',
-        dataList: [],
+        html_structure: '',
         allLoaded: false,
       }
     },
     created: function () {
-      console.log(this.$route);
+//      console.log(this.$route);
       let docid = this.$route.query.docid;
       let postid = this.$route.query.postid;
       let key = docid ? docid : postid;
-      this.currentUrl = 'http://c.m.163.com/search/comp2/Kg%3D%3D/20/6buE5rW35rOi.html?deviceId=uxGr11o3NAPfZGlyCllTkHr2kKvBJ%2Fpli9SInyoBygw%2FSoTJgjnVV7%2Ft0WxZ27gS&version=newsclient.37.2.android&channel=VDEzNDg2NDc5MDkxMDc%3D&canal=b3Bwb19zdG9yZTIwMTRfbmV3cw%3D%3D&dtype=0&tabname=zonghe&qId=MTYyMDA4NjIyMjQzMjUx&position=5pCc57Si5Y6G5Y%2By&ts=1529044030&lat=X%2Fnl%2BNAym6VpiFBmfD0QKQ%3D%3D&lon=NLt2AapSR2nOrohszqrfdg%3D%3D&sign=s%2FmCxjkFMQtF5JsD407FmZBDIGArZFbXmbjPk5Q%2FBtF48ErR02zJ6%2FKXOnxX046I&spever=FALSE&open=scheme_%E9%BB%98%E8%AE%A4&openpath=/doc/DKBLBTJ70517JVUJ';
+      this.currentUrl = 'http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/' + key + '/app/comments/hotList?offset=0&limit=10';
       this.ajaxData({});
 
     },
     mounted: function () {
 
       setTimeout(function () {
-//        document.getElementById('commentDetailWrap').scrollTop = 0
+        document.getElementById('commentDetailWrap').scrollTop = 0
       }, 1000);
 
     },
@@ -183,7 +161,6 @@
         } else if (obj.loadNew) {
           this.currentUrl = this.transformUrl(this.currentUrl, 'loadNew');
         }
-        console.log(this.currentUrl);
 
         Indicator.open({
           text: '加载中...',
@@ -220,6 +197,9 @@
             let str = '';
             for (let i = 0; i < commentArr.length; i++) {
 
+              if (!commentArr[i]) {
+                continue;
+              }
               if (commentArr[i].otherComment == undefined) {
                 getDom(commentArr[i], false);
               } else {
@@ -294,7 +274,7 @@
               }
 
             }
-            console.log(commentArr);
+            console.log([this.currentUrl, commentArr]);
             this.html_structure = str;
           } catch (err) {
             console.log(err);
@@ -314,30 +294,6 @@
       /*上拉加载更多*/
       loadMore: function () {
         this.ajaxData({loadMore: true});
-      },
-      toDetail: function (obj) {
-        if( obj.specialID ){
-          this.$router.push({
-            name: 'special',
-            query: {
-              specialID: obj.specialID
-            }
-          })
-
-
-        }else {
-          this.$router.push({
-            name: 'newsDetail',
-            query: {
-              postid: obj.postid,
-              skipID: obj.skipID,
-              docid: obj.docid,
-              photosetID: obj.photosetID,
-              setid: obj.setid,
-              skipType: obj.skipType,
-            }
-          })
-        }
       },
       /*转换url*/
       transformUrl: function (url, key) {
