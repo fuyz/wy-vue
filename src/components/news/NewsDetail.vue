@@ -85,8 +85,7 @@
 </template>
 
 <script>
-  import {Indicator} from 'mint-ui';
-  import {Header} from 'mint-ui';
+  import { Indicator, Header} from 'mint-ui';
   import {MessageBox} from 'mint-ui';
 
   import Swiper from 'swiper'
