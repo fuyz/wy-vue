@@ -141,7 +141,7 @@
 //    请求新闻详情信息
       function getData() {
         Indicator.open({
-          text: '加载中...',
+          text: '加载中123...',
           spinnerType: 'snake'
         });
         this.$http.jsonp(this.host_port + '?key=wy&url=' + this.currentUrl).then((res) => {

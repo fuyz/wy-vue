@@ -144,7 +144,8 @@ import Vue from "vue";
 import { Indicator, Lazyload, MessageBox } from "mint-ui";
 import { URL as URL_PARAMS } from "@/urls-config";
 import PARAMS from "@/../config/index";
-
+import Common from "@/util/common.js";
+console.log([PARAMS, Common]);
 Vue.use(Lazyload);
 
 export default {
@@ -171,7 +172,16 @@ export default {
       this.ajaxData({ title: this.title });
     },
   },
-  mounted: function () {
+  mounted() {
+    // Common.MessageBox.comfirm('删除')
+    // Common.MessageBox.alert('hhhh')
+     MessageBox({
+              title: "提示",
+              message: "网络错误，请刷新重试！",
+              confirmButtonText: "刷新",
+            }).then((action) => {
+              this.ajaxData();
+            });
     //详情页返回到新闻列表时回到原位置
     // let pageY = this.$store.state.Position[this.title];
     // document.getElementsByClassName('indexWrap')[0].scrollTop = pageY ? pageY.y : 0;
@@ -179,6 +189,7 @@ export default {
   methods: {
     /*请求数据*/
     ajaxData: function (obj) {
+      debugger
       if (obj.loadMore) {
         //加载更多
         this.currentUrl = this.transformUrl(this.currentUrl, "loadMore");
@@ -194,13 +205,13 @@ export default {
         }
       }
 
-      Indicator.open({
+      Common.Indicator.open({
         text: "加载中...",
         spinnerType: "snake",
       });
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
         (res) => {
-          Indicator.close();
+          Common.Indicator.close();
 
           try {
             res = JSON.parse(JSON.parse(res.body));
