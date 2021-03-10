@@ -50,10 +50,6 @@
   white-space: nowrap;
 }
 
-.pubTime {
-  /*margin-right: 0.5rem;*/
-}
-
 .special,
 .source,
 .pubTime,
@@ -138,15 +134,11 @@
     </div>
   </mt-loadmore>
 </template>
-
-<script>
-import Vue from "vue";
-import { Indicator, Lazyload, MessageBox } from "mint-ui";
+<script lang="ts">
 import { URL as URL_PARAMS } from "@/urls-config";
 import PARAMS from "@/../config/index";
-import Common from "@/util/common.js";
-console.log([PARAMS, Common]);
-Vue.use(Lazyload);
+import Dialog from "@/util/dialog";
+import Service from "@/service/service";
 
 export default {
   name: "myNews",
@@ -173,15 +165,12 @@ export default {
     },
   },
   mounted() {
-    // Common.MessageBox.comfirm('删除')
-    // Common.MessageBox.alert('hhhh')
-     MessageBox({
-              title: "提示",
-              message: "网络错误，请刷新重试！",
-              confirmButtonText: "刷新",
-            }).then((action) => {
-              this.ajaxData();
-            });
+    Dialog.confirm({
+      text: '网络错误，请刷新重试',
+      confirmButtonText: "刷新",
+    }, () => {
+      this.ajaxData();
+    })
     //详情页返回到新闻列表时回到原位置
     // let pageY = this.$store.state.Position[this.title];
     // document.getElementsByClassName('indexWrap')[0].scrollTop = pageY ? pageY.y : 0;
@@ -189,7 +178,6 @@ export default {
   methods: {
     /*请求数据*/
     ajaxData: function (obj) {
-      debugger
       if (obj.loadMore) {
         //加载更多
         this.currentUrl = this.transformUrl(this.currentUrl, "loadMore");
@@ -204,15 +192,11 @@ export default {
           return;
         }
       }
-
-      Common.Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
-      });
+      Dialog.showLoading(true);
+      console.warn(Service);
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
         (res) => {
-          Common.Indicator.close();
-
+          Dialog.showLoading(false);
           try {
             res = JSON.parse(JSON.parse(res.body));
 
@@ -244,13 +228,12 @@ export default {
             console.log([obj.title, this.currentUrl, this.dataList]);
           } catch (err) {
             console.log(err);
-            MessageBox({
-              title: "提示",
-              message: "网络错误，请刷新重试！",
-              confirmButtonText: "刷新",
-            }).then((action) => {
+            Dialog.confirm({
+              text: "网络错误，请刷新重试！",
+              confirmButtonText: "刷新"
+            }, (action) => {
               this.ajaxData();
-            });
+            })
           } finally {
             if (obj.loadMore) {
               //关闭loading状态

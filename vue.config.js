@@ -1,7 +1,5 @@
 // Vue.config.js 配置选项
-
 module.exports = {
-    // 选项
     //  基本路径
     publicPath: "./",
 
@@ -130,13 +128,9 @@ module.exports = {
     // CSS 相关选项
 
     css: {
-
         // 将组件内的 CSS 提取到一个单独的 CSS 文件 (只用在生产环境中)
-
         // 也可以是一个传递给 `extract-text-webpack-plugin` 的选项对象
-
         extract: true,
-
         // 是否开启 CSS source map？
 
         sourceMap: false,
@@ -160,38 +154,19 @@ module.exports = {
             }
 
         },
-
         // 为所有的 CSS 及其预处理文件开启 CSS Modules。
-
         // 这个选项不会影响 `*.vue` 文件。
-
         modules: false
-
     },
-
     // 在生产环境下为 Babel 和 TypeScript 使用 `thread-loader`
-
     // 在多核机器下会默认开启。
-
     parallel: require('os').cpus().length > 1,
-
     // PWA 插件的选项。
-
     // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
-
     pwa: {},
 
     // 三方插件的选项
 
     pluginOptions: {
-
-        // ...
-
-    },
-    rules: [
-        { test: /\.css$/, loader: "style-loader!css-loader" },
-        { test: /\.vue$/, loader: "vue-loader" },
-        { test: /\.(jpg|png|jpeg|gif)$/, loader: "url-loader" }
-    ]
-
+    }
 }

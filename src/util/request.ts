@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-// import Dialog from './dialog'
+import Dialog from './dialog'
 
 const axiosBaseConfig: AxiosRequestConfig = {
     baseURL: '',
@@ -41,9 +41,7 @@ service.interceptors.response.use(
         }
         if (ret.code !== 0) {
             const error = ret.msg || '网络异常，请稍后再试'
-            // if (!idDisableAlertError) {
-            Dialog.showError(error, 3000)
-            // }
+            Dialog.showError(error)
             return Promise.reject(new Error(`${url}: ${error}`))
         } else {
             if (ret.data === null || ret.data === undefined) {
@@ -63,7 +61,7 @@ service.interceptors.response.use(
         let ret = message || error.message
 
         if ((code !== 1000 && code !== 1001) || !code) {
-            Dialog.showError(ret, 3000)
+            Dialog.showError(ret)
         } else if (code === 1000) {
             try {
                 ret = { code: 200, data: JSON.parse(message) }
@@ -105,7 +103,6 @@ export function ajaxMethod(method, url, params, options?: object): Promise<unkno
 
 export function ajaxGet(url, params?: object | null, options?: object): Promise<any> {
     const args = Object.assign({}, options, { params })
-
     return ajaxMethod('get', url, args)
 }
 
@@ -118,5 +115,9 @@ export function ajaxPut(url, params?: object | null, options?: object): Promise<
 }
 
 export function ajaxDelete(url, params?: object | null, options?: object): Promise<any> {
+    return ajaxMethod('delete', url, params, options)
+}
+
+export function ajaxJsonp(url, params?: object | null, options?: object): Promise<any> {
     return ajaxMethod('delete', url, params, options)
 }
