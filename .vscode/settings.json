@@ -1,0 +1,30 @@
+{
+
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatterOptions": {
+    // "prettyhtml": {
+    //   // 单行超过160个长度的时候开始换行显示各种参数和事件
+    //   "printWidth": 60,
+    //   "wrapLineLength": 60,
+    //   "wrapAttributes": false
+    // },
+    "js-beautify-html": {
+      "wrap_line_length": 160,
+      "wrap_attributes": false,
+      "end_with_newline": false
+    }
+  },
+  "editor.codeActionsOnSave": {
+    // For ESLint
+    "source.fixAll.eslint": true,
+  },
+  // eslint 校验
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue",
+    "typescript",
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+
+}

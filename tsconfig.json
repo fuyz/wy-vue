@@ -1,41 +1,43 @@
 {
-    "compilerOptions": {
-      "target": "es2018",
-      "module": "esnext",
-      "moduleResolution": "node",
-      "lib": [
-        "esnext",
-        "esnext.asynciterable",
-        "dom",
-        "es2020.promise"
+  "compilerOptions": {
+    // "target": "es2018",
+    "target": "es5",
+    // "module": "esnext",
+    "moduleResolution": "node",
+    "module": "es2015",
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom",
+      "es2020.promise"
+    ],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    // "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./*"
       ],
-      "esModuleInterop": true,
-      "allowJs": true,
-      "sourceMap": true,
-      "strict": true,
-      "noEmit": true,
-      "forceConsistentCasingInFileNames": true,
-      "experimentalDecorators": true,
-      "noImplicitAny": false,
-      "noUnusedParameters": false,
-      "noImplicitReturns": true,
-      "noImplicitThis": true,
-      "noUnusedLocals": false,
-      "skipLibCheck": true,
-      "baseUrl": ".",
-      "paths": {
-        "~/*": [
-          "./*"
-        ],
-        "@/*": [
-          "src/*"
-        ]
-      },
-      "types": [
-        "@types/node"
+      "@/*": [
+        "src/*"
       ]
     },
-    "exclude": [
-      "node_modules"
+    "types": [
+      "@types/node"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

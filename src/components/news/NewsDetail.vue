@@ -19,12 +19,7 @@
         <div v-html="html_structure"></div>
         <p id="ec" class="sText">{{ '责任编辑：' + data.ec }}</p>
         <div class="searchKwList">
-          <span
-            class="searchKw"
-            v-for="(item, i) in data.searchKw"
-            :key="i"
-            @click="toSearch(item)"
-          >{{ item.keyword }}</span>
+          <span class="searchKw" v-for="(item, i) in data.searchKw" :key="i" @click="toSearch(item)">{{ item.keyword }}</span>
         </div>
       </div>
       <!--图片新闻1-->
@@ -99,27 +94,24 @@
 </template>
 
 <script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
 import Dialog from "@/util/dialog";
 import Swiper from "swiper";
 import "swiper/dist/css/swiper.css";
 import PARAMS from "../../../config/index";
 
-export default {
-  name: "detail",
-  data() {
-    return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
-      currentUrl: "",
-      data: {
-        replyCount: "",
-        ptime: "",
-      },
-      html_structure: "",
-      pictureArr: null,
-      key: "article",
-    };
-  },
-  created: function () {
+@Component({})
+export default class NewsDetail extends Vue {
+  host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort;
+  currentUrl = "";
+  data: any = {
+    replyCount: "",
+    ptime: "",
+  };
+  html_structure = "";
+  pictureArr = null;
+  key = "article";
+  created() {
     let postid = this.$route.query.postid;
     let skipID = this.$route.query.skipID;
     let photosetID = this.$route.query.photosetID;
@@ -133,7 +125,7 @@ export default {
       this.key = "pic";
     } else if (photosetID != undefined) {
       //图片新闻
-      let ID = "";
+      let ID: any = "";
       ID = photosetID.slice(4);
       ID = ID.replace(/\|/, "/");
       this.currentUrl = "http://c.3g.163.com/photo/api/set/" + ID + ".json";
@@ -147,12 +139,11 @@ export default {
         this.key = "article";
       }
     }
-    getData.bind(this)();
     //    请求新闻详情信息
-    function getData() {
+    const getData = () => {
       Dialog.showLoading(true);
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
-        (res) => {
+        (res: any) => {
           Dialog.showLoading(false);
           try {
             res = JSON.parse(JSON.parse(res.body));
@@ -170,10 +161,9 @@ export default {
             console.log([this.currentUrl, this.data]);
           } catch (err) {
             console.log(err);
-            Dialog.comfirm(
+            Dialog.confirm(
               {
                 text: "网络错误，请刷新重试！",
-                confirmButtonText: "刷新",
               },
               () => {
                 getData();
@@ -186,86 +176,83 @@ export default {
           console.log(res);
         }
       );
-    }
+    };
+    getData.bind(this)();
+  }
 
-  },
-  updated: function () {
+  updated() {
     this.pictureNews();
     this.articleNews();
-  },
-  watch: {},
-  methods: {
-    /*返回*/
-    goBack: function () {
-      this.$router.go(-1);
-    },
-    /*跳转-》详情页*/
-    toComment: function (obj) {
-      this.$router.push({
-        name: "comment",
-        query: {
-          docid: obj.docid,
-          postid: obj.postid,
-        },
-      });
-    },
-    /*去搜索页*/
-    toSearch: function (obj) {
-      this.$router.push({
-        name: "search",
-        query: {
-          keyword: obj.keyword,
-        },
-      });
-    },
-    /*渲染图片文章*/
-    pictureNews: function () {
-      if (document.getElementsByClassName("swiper-container").length == 0)
-        return;
-      var mySwiper = new Swiper(".swiper-container", {
-        direction: "horizontal",
-        loop: true,
-        // 如果需要前进后退按钮
-        navigation: {
-          //              nextEl: '.swiper-button-next',
-          //              prevEl: '.swiper-button-prev s',
-        },
-      });
-    },
-    /*渲染文本文章*/
-    articleNews: function () {
-      let body = this.data.body;
-      if (typeof body == "undefined") return;
-      let video = this.data.video == undefined ? [] : this.data.video;
-      let img = this.data.img == undefined ? [] : this.data.img;
-      //转换video标签
-      if (video.length != 0) {
-        for (let i = 0; i < video.length; i++) {
-          body = body.replace(
-            video[i].ref,
-            '<video src="' + video[i].mp4_url + '"></video>'
-          );
-        }
+  }
+  /*返回*/
+  goBack() {
+    this.$router.go(-1);
+  }
+  /*跳转-》详情页*/
+  toComment(obj) {
+    this.$router.push({
+      name: "comment",
+      query: {
+        docid: obj.docid,
+        postid: obj.postid,
+      },
+    });
+  }
+  /*去搜索页*/
+  toSearch(obj) {
+    this.$router.push({
+      name: "search",
+      query: {
+        keyword: obj.keyword,
+      },
+    });
+  }
+  /*渲染图片文章*/
+  pictureNews() {
+    if (document.getElementsByClassName("swiper-container").length == 0) return;
+    var mySwiper = new Swiper(".swiper-container", {
+      direction: "horizontal",
+      loop: true,
+      // 如果需要前进后退按钮
+      navigation: {
+        //              nextEl: '.swiper-button-next',
+        //              prevEl: '.swiper-button-prev s',
+      },
+    });
+  }
+  /*渲染文本文章*/
+  articleNews() {
+    let body = this.data.body;
+    if (typeof body == "undefined") return;
+    let video = this.data.video == undefined ? [] : this.data.video;
+    let img = this.data.img == undefined ? [] : this.data.img;
+    //转换video标签
+    if (video.length != 0) {
+      for (let i = 0; i < video.length; i++) {
+        body = body.replace(
+          video[i].ref,
+          '<video src="' + video[i].mp4_url + '"></video>'
+        );
       }
-      //转换img标签
-      if (img.length != 0) {
-        for (let i = 0; i < img.length; i++) {
-          let width = img[i].pixel.split("*")[0];
-          let height = img[i].pixel.split("*")[1];
-          body = body.replace(
-            img[i].ref,
-            '<img src="' +
-              img[i].src +
-              '" title="' +
-              img[i].alt +
-              '" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"' +
-              img[i].alt +
-              "</p>"
-          );
-        }
+    }
+    //转换img标签
+    if (img.length != 0) {
+      for (let i = 0; i < img.length; i++) {
+        let width = img[i].pixel.split("*")[0];
+        let height = img[i].pixel.split("*")[1];
+        body = body.replace(
+          img[i].ref,
+          '<img src="' +
+            img[i].src +
+            '" title="' +
+            img[i].alt +
+            '" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"' +
+            img[i].alt +
+            "</p>"
+        );
       }
-      this.html_structure = body;
-    },
-  },
-};
+    }
+    this.html_structure = body;
+  }
+}
 </script>

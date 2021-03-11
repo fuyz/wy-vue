@@ -135,7 +135,7 @@
   </mt-loadmore>
 </template>
 <script lang="ts">
-import { URL as URL_PARAMS } from "@/urls-config";
+import URL_PARAMS from "@/urls-config";
 import PARAMS from "@/../config/index";
 import Dialog from "@/util/dialog";
 import Service from "@/service/service";
@@ -147,11 +147,12 @@ export default {
       host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       dataList: [],
       title: "头条",
-      currentUrl: URL_PARAMS.urlArray[this.title],
+      currentUrl: '',
       allLoaded: false,
     };
   },
-  created: function () {
+  created() {
+    this.currentUrl = URL_PARAMS.urlArray[this.title]
     if (this.dataList.length != 0) return;
     let title = this.$route.params.type ? this.$route.params.type : this.title;
     this.ajaxData({ title: title });
@@ -165,19 +166,13 @@ export default {
     },
   },
   mounted() {
-    Dialog.confirm({
-      text: '网络错误，请刷新重试',
-      confirmButtonText: "刷新",
-    }, () => {
-      this.ajaxData();
-    })
     //详情页返回到新闻列表时回到原位置
     // let pageY = this.$store.state.Position[this.title];
     // document.getElementsByClassName('indexWrap')[0].scrollTop = pageY ? pageY.y : 0;
   },
   methods: {
     /*请求数据*/
-    ajaxData: function (obj) {
+    ajaxData: function (obj?) {
       if (obj.loadMore) {
         //加载更多
         this.currentUrl = this.transformUrl(this.currentUrl, "loadMore");
@@ -193,9 +188,8 @@ export default {
         }
       }
       Dialog.showLoading(true);
-      console.warn(Service);
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
-        (res) => {
+        (res: any) => {
           Dialog.showLoading(false);
           try {
             res = JSON.parse(JSON.parse(res.body));
@@ -235,12 +229,13 @@ export default {
               this.ajaxData();
             })
           } finally {
+            let loadmore: any = this.$refs.loadmore
             if (obj.loadMore) {
               //关闭loading状态
-              this.$refs.loadmore.onBottomLoaded();
+              loadmore.onBottomLoaded();
             } else if (obj.loadNew) {
               //关闭loading状态
-              this.$refs.loadmore.onTopLoaded();
+              loadmore.onTopLoaded();
             }
           }
         },
@@ -258,7 +253,7 @@ export default {
       this.ajaxData({ title: this.title, loadNew: true });
     },
     /*跳转-》详情页*/
-    toDetail: function (obj) {
+    toDetail (obj) {
       if (obj.specialID) {
         this.$router.push({
           name: "special",
@@ -301,7 +296,7 @@ export default {
       let newUrl = arr1.join("/");
       return newUrl;
     },
-  },
-};
+  }
+}
 </script>
 

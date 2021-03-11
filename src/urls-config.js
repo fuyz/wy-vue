@@ -36,6 +36,4 @@ let URL = {
 };
 
 
-export {
-  URL
-}
+export default URL
