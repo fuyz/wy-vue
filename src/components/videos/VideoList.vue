@@ -1,70 +1,4 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#listWrap {
-  font-size: 0.3rem;
-}
-
-.videoItem-wrap {
-  overflow: hidden;
-  padding-bottom: 10px;
-}
-
-.videoWrap {
-  height: 200px;
-  position: relative;
-  /*overflow: hidden;*/
-}
-
-.videoWrap video {
-  position: absolute;
-  top: 0;
-  z-index: 1;
-}
-
-.videoCover {
-  width: 100%;
-  height: 200px;
-  position: relative;
-  z-index: 2;
-  /*background: rgba(1,1,1, 0.1);*/
-}
-
-.videoCover .title {
-  position: absolute;
-  top: 0;
-  padding: 2px 10px;
-  font-size: 0.3rem;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  color: white;
-}
-
-.videoCover .poster {
-  width: 100%;
-  height: 100%;
-}
-
-.avort {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  vertical-align: -10px;
-}
-
-.detial {
-  line-height: 0.5rem;
-  padding: 5px 10px;
-}
-
-.detial .span {
-  background: #eee;
-  border-radius: 15px;
-  padding: 2px 10px;
-  margin: 0 3px;
-  font-size: 0.25rem;
-}
-</style>
-
 <template>
   <mt-loadmore
     id="listWrap"
@@ -105,7 +39,7 @@
 
 <script>
 import { Indicator } from "mint-ui";
-import { URL as URL_PARAMS } from "../../urls-config";
+import URL_PARAMS from "@/util/urls-config";
 import PARAMS from "../../../config/index";
 export default {
   name: "myVideo",
@@ -257,3 +191,68 @@ export default {
 };
 </script>
 
+<style scoped>
+#listWrap {
+  font-size: 0.3rem;
+}
+
+.videoItem-wrap {
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+
+.videoWrap {
+  height: 200px;
+  position: relative;
+  /*overflow: hidden;*/
+}
+
+.videoWrap video {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.videoCover {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  z-index: 2;
+  /*background: rgba(1,1,1, 0.1);*/
+}
+
+.videoCover .title {
+  position: absolute;
+  top: 0;
+  padding: 2px 10px;
+  font-size: 0.3rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.videoCover .poster {
+  width: 100%;
+  height: 100%;
+}
+
+.avort {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: -10px;
+}
+
+.detial {
+  line-height: 0.5rem;
+  padding: 5px 10px;
+}
+
+.detial .span {
+  background: #eee;
+  border-radius: 15px;
+  padding: 2px 10px;
+  margin: 0 3px;
+  font-size: 0.25rem;
+}
+</style>

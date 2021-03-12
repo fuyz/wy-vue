@@ -123,7 +123,7 @@
 
 <script>
   import {Indicator} from 'mint-ui';
-  import { URL as URL_PARAMS } from '../../urls-config';
+  import URL_PARAMS from '@/util/urls-config'
   import PARAMS from '../../../config/index';
 
   export default {

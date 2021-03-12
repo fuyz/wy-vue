@@ -1,13 +1,11 @@
-// import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
+import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
 import Vue from "vue"
-// import Resource from 'vue-resource'
 import PARAMS from "../../config/index";
-// Vue.use(Resource);
 let _vue = new Vue()
 const host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort
 
 export default {
-  getNewsDetail(currentUrl) {
+  getNewsList(currentUrl) {
     return _vue.$http.jsonp(host_port + "?key=wy&url=" + currentUrl)
   }
 }

@@ -51,10 +51,6 @@
     white-space: nowrap;
   }
 
-  .pubTime {
-    /*margin-right: 0.5rem;*/
-  }
-
   .special, .source, .pubTime, .reply {
     font-size: 0.2rem;
     color: #999;
@@ -71,9 +67,6 @@
     max-height: 100%;
   }
 
-  .cellWrap{
-
-  }
   .cell {
     border-radius: 15px;
     display: inline-block;
@@ -109,9 +102,9 @@
 
     </header>
 
-    <div class="" v-for="(item, index) in dataList.topics">
+    <div class="" v-for="(item, index) in dataList.topics" :key="index">
       <div class="newsItem-title" :id="index">{{ ++index +'/'+ dataList.topics.length }} {{ item.tname }}</div>
-      <div class="newsItem" v-for="(e, i) in item.docs"  @click="toDetail(e)">
+      <div class="newsItem" v-for="(e, i) in item.docs" :key="i"  @click="toDetail(e)">
         <div class="left">
           <h3 class="title">{{ e.title }}</h3>
           <div class="detial">
@@ -136,7 +129,7 @@
 <script>
   import {Indicator} from 'mint-ui';
   import { MessageBox } from 'mint-ui';
-  import { URL as URL_PARAMS } from '../../urls-config';
+  import URL_PARAMS from '@/util/urls-config';
   import PARAMS from '../../../config/index';
 
   export default {

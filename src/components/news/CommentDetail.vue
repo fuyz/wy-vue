@@ -7,10 +7,6 @@
     margin-top: 40px;
   }
 
-  .mint-loadmore {
-    /*height: calc(100vh - 35px);*/
-  }
-
   .commentList {
     /*position: relative;*/
     /*top: 40px;*/
@@ -123,7 +119,7 @@
 
 <script>
   import {Indicator} from 'mint-ui';
-  import URL_PARAMS from '../../urls-config';
+  import URL_PARAMS from '@/util/urls-config';
   import PARAMS from '../../../config/index';
 
   export default {

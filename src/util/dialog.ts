@@ -7,13 +7,15 @@ export default {
     confirm(options, resolve, reject?) {
         let _options = {
             title: "提示",
-            text: '',
-            confirmButtonText: '确定'
+            message: '',
+            confirmButtonText: '确定',
+            showCancelButton: true,
+            showCobfirmButton: true
         }
-        if (options.text) {
+        if (options.message) {
             _options = Object.assign(_options, options)
         }
-        MessageBox.confirm(_options).then(resolve, reject)
+        MessageBox(_options).then(resolve, reject)
     },
     showLoading(isShow, option: any = {}) {
         if (isShow) {

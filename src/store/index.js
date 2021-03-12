@@ -28,7 +28,6 @@ const store = new Vuex.Store({
       // if(obj.type == 'position'){
       //   state.Position[obj.title] = obj.position;
       // }
-      console.log(state);
     }
   }
 });
