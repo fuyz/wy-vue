@@ -238,18 +238,16 @@ export default class NewsDetail extends Vue {
     //转换img标签
     if (img.length != 0) {
       for (let i = 0; i < img.length; i++) {
-        let width = img[i].pixel.split("*")[0];
-        let height = img[i].pixel.split("*")[1];
+        let width = 640, height = 320
+        let pixel = img[i].pixel
+        if(pixel){
+           width = img[i].pixel.split("*")[0];
+           height = img[i].pixel.split("*")[1];
+        }
         body = body.replace(
           img[i].ref,
-          '<img src="' +
-            img[i].src +
-            '" title="' +
-            img[i].alt +
-            '" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"' +
-            img[i].alt +
-            "</p>"
-        );
+          `<img src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
+        )
       }
     }
     this.html_structure = body;

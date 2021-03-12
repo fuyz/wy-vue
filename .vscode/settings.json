@@ -9,9 +9,9 @@
     //   "wrapAttributes": false
     // },
     "js-beautify-html": {
-      "wrap_line_length": 160,
-      "wrap_attributes": false,
-      "end_with_newline": false
+      "wrap_line_length": 130,
+      "wrap_attributes": true,
+      "end_with_newline": true
     }
   },
   "editor.codeActionsOnSave": {

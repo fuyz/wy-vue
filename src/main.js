@@ -6,11 +6,11 @@ import router from './router'
 import Resource from 'vue-resource'
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css'
+import '@/css/index.css'
 
 Vue.config.productionTip = false
 Vue.use(Mint);
 Vue.use(Resource);
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,

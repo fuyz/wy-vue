@@ -202,7 +202,7 @@ image[lazy="loading"] {
     <mt-tabbar id="tabBar" fixed v-model="selected">
       <router-link class="tabBarItem" to="/news/head/头条">
         <mt-tab-item id="tab1">
-          <img slot="icon" src="./assets/index_icon.png" />
+          <img slot="icon" src="@/assets/index_icon.png" />
           首页
         </mt-tab-item>
       </router-link>

@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -40,11 +41,12 @@ module.exports = {
         })
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
+        test: /\.(sa|sc|c)ss$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
       },
       {
         test: /\.js$/,
@@ -76,6 +78,10 @@ module.exports = {
         }
       },
       {
+        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+        loader: 'file-loader'
+      },
+      {
         test: /\.tsx?$/,
         loader: 'ts-loader', exclude: /node_modules/, options: {
           appendTsSuffixTo: [/\.vue$/],
@@ -83,6 +89,9 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new VueLoaderPlugin()
+  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).

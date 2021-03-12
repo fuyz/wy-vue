@@ -1,0 +1,9 @@
+html, body{
+    /* font-size: 16px; */
+}
+.noData{
+    text-align: center;
+    color: #acacac;
+    margin: 20px auto;
+    font-size: 13px;
+}

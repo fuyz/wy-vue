@@ -1,4 +1,4 @@
-import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
+// import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
 import Vue from "vue"
 import PARAMS from "../../config/index";
 let _vue = new Vue()

@@ -19,13 +19,14 @@ export default {
     },
     showLoading(isShow, option: any = {}) {
         if (isShow) {
-            if (option.text) {
-                option = Object.assign({
-                    text: '加载中...',
-                    spinnerType: 'fading-circle'
-                }, option)
+            let _option = {
+                text: '加载中...',
+                spinnerType: 'fading-circle'
             }
-            Indicator.open(option)
+            if (option.text) {
+                _option = Object.assign(_option, option)
+            }
+            Indicator.open(_option)
         } else {
             Indicator.close()
         }

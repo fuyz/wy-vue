@@ -1,59 +1,63 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <template>
-  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="false">
-    <div class="newsItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
-      <template v-if="item.skipType !== 'live' && item.skipType != 'video'">
-        <!--图片新闻-->
-        <div class="newsItem-wrap" v-if="item.skipType == 'photoset'">
-          <div class="left">
-            <h3 class="title">{{ item.title }}</h3>
-            <div class="detial">
-              <span class="pubTime">{{ item.mtime.slice(0, -3) }}</span>
-              <span class="reply">{{ item.replyCount }}跟帖</span>
-            </div>
-          </div>
-          <div class="right">
-            <img class="newsImg" :src="item.imgsrc" alt />
-          </div>
-        </div>
-        <!--文章新闻-->
-        <div class="newsItem-wrap" v-if="item.skipType == undefined">
-          <mt-swipe :auto="4000" v-if="item.hasImg" style="height: 3rem">
-            <mt-swipe-item>
-              <img class="newsImg" v-lazy="item.imgsrc" alt />
-            </mt-swipe-item>
-            <!--<mt-swipe-item>3</mt-swipe-item>-->
-          </mt-swipe>
-          <div class="no-swipe">
-            <div class="left" v-if="!item.hasImg">
+  <mt-loadmore class="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
+    :autoFill="false">
+    <template v-if="dataList.length">
+      <div class="newsItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
+        <template v-if="item.skipType !== 'live' && item.skipType != 'video'">
+          <!--图片新闻-->
+          <div class="newsItem-wrap" v-if="item.skipType == 'photoset'">
+            <div class="left">
               <h3 class="title">{{ item.title }}</h3>
               <div class="detial">
-                <span class="source">{{ item.source }}</span>
-                <span class="pubTime">{{ item.mtime.slice(5, -3) }}</span>
+                <span class="pubTime">{{ item.mtime.slice(0, -3) }}</span>
                 <span class="reply">{{ item.replyCount }}跟帖</span>
               </div>
             </div>
-            <div class="right" v-if="!item.hasImg">
+            <div class="right">
               <img class="newsImg" :src="item.imgsrc" alt />
             </div>
           </div>
-        </div>
-        <!--专题新闻-->
-        <div class="newsItem-wrap" v-if="item.skipType == 'special'">
-          <div class="left">
-            <h3 class="title">{{ item.title }}</h3>
-            <div class="detial">
-              <span class="special">专题</span>
-              <span class="source">{{ item.source }}</span>
-              <span class="reply">{{ item.replyCount }}跟帖</span>
+          <!--文章新闻-->
+          <div class="newsItem-wrap" v-if="item.skipType == undefined">
+            <mt-swipe :auto="4000" v-if="item.hasImg" style="height: 3rem">
+              <mt-swipe-item>
+                <img class="newsImg" v-lazy="item.imgsrc" alt />
+              </mt-swipe-item>
+              <!--<mt-swipe-item>3</mt-swipe-item>-->
+            </mt-swipe>
+            <div class="no-swipe">
+              <div class="left" v-if="!item.hasImg">
+                <h3 class="title">{{ item.title }}</h3>
+                <div class="detial">
+                  <span class="source">{{ item.source }}</span>
+                  <span class="pubTime">{{ item.mtime.slice(5, -3) }}</span>
+                  <span class="reply">{{ item.replyCount }}跟帖</span>
+                </div>
+              </div>
+              <div class="right" v-if="!item.hasImg">
+                <img class="newsImg" :src="item.imgsrc" alt />
+              </div>
             </div>
           </div>
-          <div class="right">
-            <img class="newsImg" :src="item.imgsrc" alt />
+          <!--专题新闻-->
+          <div class="newsItem-wrap" v-if="item.skipType == 'special'">
+            <div class="left">
+              <h3 class="title">{{ item.title }}</h3>
+              <div class="detial">
+                <span class="special">专题</span>
+                <span class="source">{{ item.source }}</span>
+                <span class="reply">{{ item.replyCount }}跟帖</span>
+              </div>
+            </div>
+            <div class="right">
+              <img class="newsImg" :src="item.imgsrc" alt />
+            </div>
           </div>
-        </div>
-      </template>
-    </div>
+        </template>
+      </div>
+    </template>
+    <div class="noData">暂无数据</div>
   </mt-loadmore>
 </template>
 <script lang="ts">
@@ -99,6 +103,8 @@ export default Vue.extend({
           //使用缓存数据
           this.dataList = this.$store.state.news_DATA[this.title];
           return;
+        } else {
+          this.dataList = [];
         }
       } else if (obj.loadMore) {
         //加载更多
@@ -213,7 +219,12 @@ export default Vue.extend({
   },
 });
 </script>
-<style scoped>
+<style scoped lang="less">
+.listWrap {
+  .mint-loadmore-content{
+    min-height: 80vh;
+  }
+}
 .newsItem {
   min-height: 2rem;
   padding: 0.1rem 0.22rem;

@@ -7,7 +7,6 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const portfinder = require('portfinder')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -54,21 +53,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
-    new VueLoaderPlugin()
   ]
 })
 
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port
-      resolve(devWebpackConfig)
-    }
-  })
-})
+module.exports = devWebpackConfig
+// new Promise((resolve, reject) => {
+//   portfinder.basePort = process.env.PORT || config.dev.port
+//   portfinder.getPort((err, port) => {
+//     if (err) {
+//       reject(err)
+//     } else {
+//       // publish the new Port, necessary for e2e tests
+//       process.env.PORT = port
+//       // add port to devServer config
+//       devWebpackConfig.devServer.port = port
+//       resolve(devWebpackConfig)
+//     }
+//   })
+// })
