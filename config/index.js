@@ -11,10 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {},
-    // Various Dev Server settings
-    host:  (process.env.NODE_ENV === 'production') ? 'www.fuyingzhi.com':'localhost', // can be overwritten by process.env.HOST
-    /*why？下面的方式本地运行（npm start）不成功*/
-    // host:  (process.env.NODE_ENV === 'development') ? '192.168.1.149':'www.fuyingzhi.com',
+    // Various Dev Server settings    
+    host: (process.env.NODE_ENV === 'production') ? 'www.fuyingzhi.com' : 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     servePort: 9999,
     autoOpenBrowser: true,
@@ -51,22 +49,18 @@ module.exports = {
     /**
      * Source Maps
      */
-
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
+    // 对打包文件进行压缩
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
 
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
+    // 运行带有额外参数的构建命令，在构建完成后查看bundle analyzer报告:
     // `npm run build --report`
-    // Set to `true` or `false` to always turn it on or off
+    // 也可以设置为' true '或' false '总是打开或关闭它
     bundleAnalyzerReport: process.env.npm_config_report
   }
 }

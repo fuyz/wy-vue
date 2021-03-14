@@ -7,9 +7,11 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const webpackConfig = merge(baseWebpackConfig, {
+  mode: 'production',
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
@@ -20,14 +22,16 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    publicPath:'./',
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-  },
+    publicPath: './',
+    filename: utils.assetsPath('js/[name].[chunkhash].bundle.js'),
+    // chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
+  },  
+  // 设置 可以关闭 编译警告提醒
+  performance: { hints: false },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    /*fyz:
-    * 注意，因为这个插件直接执行文本替换，给定的值必须包含字符串本身内的实际引号。通常，有两种方式来达到这个效果，使用 '"production"', 或者使用 JSON.stringify('production')。
+    /* *
+    * 注意，因为这个插件直接执行文本替换，给定的值必须包含字符串本身内的实际引号。
+    通常，有两种方式来达到这个效果，使用 '"production"', 或者使用 JSON.stringify('production')。
     * */
     new webpack.DefinePlugin({
       'process.env': require('../config/prod.env')
@@ -39,8 +43,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         ? { safe: true, map: { inline: false } }
         : { safe: true }
     }),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
+    // 用正确的资源哈希值生成dist.html用于缓存。你可以通过编辑/index.html自定义输出
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
@@ -54,55 +57,48 @@ const webpackConfig = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      // chunksSortMode: 'dependency'
     }),
     // keep module.id stable when vendor modules does not change
-    new webpack.HashedModuleIdsPlugin(),
-    // split vendor js into its own file
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks (module) {
-        // any required modules inside node_modules are extracted to vendor
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, '../node_modules')
-          ) === 0
-        )
+    // new webpack.HashedModuleIdsPlugin(),
+
+    // 没错打包文件先清除旧文件
+    new CleanWebpackPlugin()
+
+  ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 20000,
+      // minRemainingSize: 0,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        }
       }
-    }),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
-    }),
-    // This instance extracts shared chunks from code splitted chunks and bundles them
-    // in a separate chunk, similar to the vendor chunk
-    // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'app',
-      async: 'vendor-async',
-      children: true,
-      minChunks: 3
-    }),
-
-    new CleanWebpackPlugin(['dist'],{
-      root: path.resolve(__dirname, '../'),   //根目录
-      verbose:  true,        　　　　　　　　　　//开启在控制台输出信息
-      // dry:      true        　　　　　　　　　　//启用删除文件
-    })
-
-  ]
+    }
+  }
 })
 
+// 对打包文件进行压缩
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
-
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
-      asset: '[path].gz[query]',
+      filename: '[path].gz[query]',
       algorithm: 'gzip',
       test: new RegExp(
         '\\.(' +

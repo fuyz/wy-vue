@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -16,7 +17,7 @@ module.exports = {
   },
   output: {
     path: config.build.assetsRoot,
-    filename: '[name].js',
+    filename: '[name].bundle.js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
@@ -44,6 +45,10 @@ module.exports = {
         test: /\.(sa|sc|c)ss$/,
         use: ['style-loader', 'css-loader']
       },
+      // {
+      //   test: /\.css$/i,
+      //   use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
+      // },
       {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', 'less-loader']
@@ -90,7 +95,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin()
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

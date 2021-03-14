@@ -10,9 +10,10 @@ const portfinder = require('portfinder')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
-
-// process.env.NODE_ENV = 'development'
-
+const handler = (percentage, message, ...args) => {
+  // e.g. Output each progress message directly to the console:
+  console.info(percentage, message);
+};
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -53,9 +54,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
+    // 展示编译实时进度
+    // new webpack.ProgressPlugin(handler)    
   ]
 })
-
 module.exports = devWebpackConfig
 // new Promise((resolve, reject) => {
 //   portfinder.basePort = process.env.PORT || config.dev.port

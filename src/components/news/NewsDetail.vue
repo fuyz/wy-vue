@@ -99,6 +99,7 @@ import Dialog from "@/util/dialog";
 import Swiper from "swiper";
 import "swiper/dist/css/swiper.css";
 import PARAMS from "../../../config/index";
+import Service from "@/service/service";
 
 @Component({})
 export default class NewsDetail extends Vue {
@@ -112,6 +113,7 @@ export default class NewsDetail extends Vue {
   pictureArr = null;
   key = "article";
   created() {
+    console.log(Service)
     let postid = this.$route.query.postid;
     let skipID = this.$route.query.skipID;
     let photosetID = this.$route.query.photosetID;
