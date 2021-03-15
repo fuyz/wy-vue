@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
@@ -63,7 +64,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     // new webpack.HashedModuleIdsPlugin(),
 
     // 没错打包文件先清除旧文件
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+
+    // new MiniCssExtractPlugin()
+
 
   ],
   optimization: {

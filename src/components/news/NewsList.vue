@@ -1,4 +1,3 @@
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <template>
   <mt-loadmore class="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
     :autoFill="false">

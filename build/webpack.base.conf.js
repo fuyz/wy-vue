@@ -37,7 +37,8 @@ module.exports = {
         options: Object.assign(vueLoaderConfig, {
           loaders: {
             ts: "ts-loader",
-            tsx: "babel-loader!ts-loader"
+            tsx: "babel-loader!ts-loader",
+            css: "css-loader"
           }
         })
       },
@@ -45,10 +46,6 @@ module.exports = {
         test: /\.(sa|sc|c)ss$/,
         use: ['style-loader', 'css-loader']
       },
-      // {
-      //   test: /\.css$/i,
-      //   use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
-      // },
       {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', 'less-loader']
@@ -95,8 +92,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin(),
-    new MiniCssExtractPlugin()
+    new VueLoaderPlugin()
+    // new MiniCssExtractPlugin()
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

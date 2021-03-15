@@ -1,83 +1,3 @@
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.picItem {
-  width: 96%;
-  margin: 0 auto 0.2rem;
-  border-bottom: 1px solid #f5f7f9;
-  box-shadow: 0px 2px 2px 2px #ddd;
-  display: block;
-  color: #333;
-  border-radius: 3px;
-  overflow: hidden;
-  position: relative;
-}
-
-.count {
-  position: absolute;
-  bottom: 0.7rem;
-  right: 10px;
-  color: white;
-  background: rgba(1, 1, 1, 0.6);
-  padding: 2px 4px;
-  font-size: 13px;
-  border-radius: 2px;
-}
-
-.imgCard {
-  height: 4rem;
-  overflow: hidden;
-  display: flex;
-  /*flex-direction: column;*/
-  justify-content: space-between;
-}
-
-.imgCard img {
-  width: 100%;
-  height: 100%;
-  /*width: fit-content;*/
-  /*height: max-content;*/
-}
-
-.f {
-  box-sizing: border-box;
-  height: 4rem;
-  overflow: hidden;
-}
-
-.top {
-  height: 2rem;
-  overflow: hidden;
-  margin-bottom: 0.05rem;
-}
-
-.bottom {
-  height: 2rem;
-  overflow: hidden;
-}
-
-.footer {
-  font-size: 0.3rem;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.1rem 0.2rem;
-  line-height: 0.4rem;
-}
-
-.pTitle {
-  width: 77%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.reply {
-  text-align: right;
-  width: 20%;
-  font-size: 0.25rem;
-  color: #aaa;
-}
-</style>
-
 <template>
   <mt-loadmore
     id="listWrap"
@@ -276,4 +196,81 @@ export default {
   }
 };
 </script>
+<style scoped>
+.picItem {
+  width: 96%;
+  margin: 0 auto 0.2rem;
+  border-bottom: 1px solid #f5f7f9;
+  box-shadow: 0px 2px 2px 2px #ddd;
+  display: block;
+  color: #333;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
 
+.count {
+  position: absolute;
+  bottom: 0.7rem;
+  right: 10px;
+  color: white;
+  background: rgba(1, 1, 1, 0.6);
+  padding: 2px 4px;
+  font-size: 13px;
+  border-radius: 2px;
+}
+
+.imgCard {
+  height: 4rem;
+  overflow: hidden;
+  display: flex;
+  /*flex-direction: column;*/
+  justify-content: space-between;
+}
+
+.imgCard img {
+  width: 100%;
+  height: 100%;
+  /*width: fit-content;*/
+  /*height: max-content;*/
+}
+
+.f {
+  box-sizing: border-box;
+  height: 4rem;
+  overflow: hidden;
+}
+
+.top {
+  height: 2rem;
+  overflow: hidden;
+  margin-bottom: 0.05rem;
+}
+
+.bottom {
+  height: 2rem;
+  overflow: hidden;
+}
+
+.footer {
+  font-size: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.1rem 0.2rem;
+  line-height: 0.4rem;
+}
+
+.pTitle {
+  width: 77%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reply {
+  text-align: right;
+  width: 20%;
+  font-size: 0.25rem;
+  color: #aaa;
+}
+</style>

@@ -2,6 +2,7 @@
 const path = require('path')
 const config = require('../config')
 const packageConfig = require('../package.json')
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -21,6 +22,13 @@ exports.cssLoaders = function (options) {
     }
   }
 
+  // const minCssLoader = {
+  //   loader: MiniCssExtractPlugin.loader,
+  //   options: {
+  //     sourceMap: options.sourceMap
+  //   }
+  // }  
+
   const postcssLoader = {
     loader: 'postcss-loader',
     options: {
@@ -30,7 +38,7 @@ exports.cssLoaders = function (options) {
 
   // generate loader string to be used with extract text plugin
   function generateLoaders(loader, loaderOptions) {
-    const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
+    const loaders = options.usePostCSS ? [cssLoader] : [cssLoader]
 
     if (loader) {
       loaders.push({
@@ -40,12 +48,13 @@ exports.cssLoaders = function (options) {
         })
       })
     }
+    return loaders
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
-    postcss: generateLoaders(),
+    // postcss: generateLoaders(),
     less: generateLoaders('less'),
     sass: generateLoaders('sass', { indentedSyntax: true }),
     scss: generateLoaders('sass'),
@@ -58,9 +67,9 @@ exports.cssLoaders = function (options) {
 exports.styleLoaders = function (options) {
   const output = []
   const loaders = exports.cssLoaders(options)
-
   for (const extension in loaders) {
     const loader = loaders[extension]
+    console.log(loader)
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       use: loader

@@ -1,18 +1,3 @@
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.indexWrap {
-  margin-top: 46px;
-  height: calc(100vh - 101px);
-  overflow-y: scroll;
-}
-
-#listWrap {
-  font-size: 0.3rem;
-  /*height: calc(100vh - 101px);*/
-  /*overflow-y: scroll;*/
-}
-</style>
-
 <template>
   <div class="indexWrap">
     <Nav></Nav>
@@ -93,5 +78,16 @@ export default {
   }
 };
 </script>
+<style>
+.indexWrap {
+  margin-top: 46px;
+  height: calc(100vh - 101px);
+  overflow-y: scroll;
+}
 
-
+#listWrap {
+  font-size: 0.3rem;
+  /*height: calc(100vh - 101px);*/
+  /*overflow-y: scroll;*/
+}
+</style>

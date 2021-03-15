@@ -1,4 +1,38 @@
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<template>
+
+  <div>
+    <h1>模板三</h1>
+    <h1>模板三</h1>
+    <h1>模板三</h1>
+  </div>
+
+</template>
+
+<script>
+  import {Indicator} from 'mint-ui';
+
+  export default {
+    name: 'myNews',
+    data() {
+      return {}
+    },
+    created: function () {
+      debugger
+      console.log(this.$route);
+
+    },
+    watch: {
+      //监听路由变动情况
+      $route: function (val, old) {
+        debugger
+        this.title = val.params.type;
+        this.ajaxData({title: this.title});
+      }
+    },
+    methods: {}
+
+  }
+</script>
 <style scoped>
 
 
@@ -63,40 +97,3 @@
     max-height: 100%;
   }
 </style>
-
-<template>
-
-  <div>
-    <h1>模板三</h1>
-    <h1>模板三</h1>
-    <h1>模板三</h1>
-  </div>
-
-</template>
-
-<script>
-  import {Indicator} from 'mint-ui';
-
-  export default {
-    name: 'myNews',
-    data() {
-      return {}
-    },
-    created: function () {
-      debugger
-      console.log(this.$route);
-
-    },
-    watch: {
-      //监听路由变动情况
-      $route: function (val, old) {
-        debugger
-        this.title = val.params.type;
-        this.ajaxData({title: this.title});
-      }
-    },
-    methods: {}
-
-  }
-</script>
-
