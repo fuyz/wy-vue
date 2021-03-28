@@ -102,8 +102,9 @@ p {
   display: inline-block;
 }
 
-.tabBarItem.router-link-exact-active {
-  color: #26a2ff;
+.tabBarItem.router-link-exact-active a {
+  color: #26a2ff !important;
+  background: rgba(1, 1, 1, 0.05);
   font-weight: 700;
 }
 
@@ -194,21 +195,23 @@ image[lazy="loading"] {
 
 <template>
   <div id="app">
-    <transition name="slide">
-      <router-view></router-view>
-    </transition>
+    <keep-alive>
+      <transition name="slide">
+        <router-view></router-view>
+      </transition>
+    </keep-alive>
 
     <!--//tabBar-->
     <mt-tabbar id="tabBar" fixed v-model="selected">
       <router-link class="tabBarItem" to="/news/head/头条">
         <mt-tab-item id="tab1">
-          <img slot="icon" src="@/assets/index_icon.png" />
+          <img slot="icon" :src="index_icon" />
           首页
         </mt-tab-item>
       </router-link>
       <router-link class="tabBarItem" to="/video/videoList/推荐">
         <mt-tab-item id="tab2">
-          <img slot="icon" src="~@/assets/video_icon.png" />
+          <img slot="icon" :src="video_icon" />
           视频
         </mt-tab-item>
       </router-link>
@@ -220,7 +223,7 @@ image[lazy="loading"] {
       <!--</router-link>-->
       <router-link class="tabBarItem" to="/mine">
         <mt-tab-item id="tab4">
-          <img slot="icon" src="./assets/mine_icon.png" />
+          <img slot="icon" :src="mine_icon" />
           我
         </mt-tab-item>
       </router-link>
@@ -229,13 +232,16 @@ image[lazy="loading"] {
 </template>
 
 <script>
-import store from "@/store/index";
-
+import index_icon from "@/assets/index_icon.png";
+import video_icon from "@/assets/video_icon.png";
+import mine_icon from "@/assets/mine_icon.png";
 export default {
   name: "App",
-  store,
   data: function () {
     return {
+      index_icon,
+      video_icon,
+      mine_icon,
       selected: "tab1",
     };
   },

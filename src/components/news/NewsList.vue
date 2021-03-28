@@ -65,6 +65,7 @@ import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "@/../config/index";
 import Dialog from "@/utils/dialog";
 import Service from "@/service/service";
+
 export default Vue.extend({
   name: "NewsList",
   data() {
@@ -98,9 +99,11 @@ export default Vue.extend({
     getNewsList(obj?) {
       if (!obj) {
         this.currentUrl = URL_PARAMS.urlArray[this.title];
-        if (this.$store.state.news_DATA[this.title] != undefined) {
+        let $state: any = this.$store.state;
+        let news_DATA: any[] = $state.news_DATA;
+        if (news_DATA[this.title] != undefined) {
           //使用缓存数据
-          this.dataList = this.$store.state.news_DATA[this.title];
+          this.dataList = news_DATA[this.title];
           return;
         } else {
           this.dataList = [];

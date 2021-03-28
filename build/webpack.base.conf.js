@@ -32,6 +32,7 @@ let Obj = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        include: [resolve('src')],
         options: {
           extractCSS: true
         }
@@ -55,7 +56,8 @@ let Obj = {
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
-        }
+        },
+        // exclude: [resolve('src/assets')]
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -65,21 +67,15 @@ let Obj = {
           name: utils.assetsPath('media/[name].[hash:7].[ext]')
         }
       },
-      // {
-      //   test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      //   loader: 'url-loader',
-      //   options: {
-      //     limit: 10000,
-      //     name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-      //   }
-      // },
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
         loader: 'file-loader'
       },
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader', exclude: /node_modules/, options: {
+        loader: 'ts-loader', exclude: /node_modules/,
+        include: [resolve('src')],
+        options: {
           appendTsSuffixTo: [/\.vue$/],
         }
       }

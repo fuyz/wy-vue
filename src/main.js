@@ -6,6 +6,7 @@ import Resource from 'vue-resource'
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css'
 import '@/css/index.css'
+import store from "@/store/index";
 
 Vue.config.productionTip = false
 Vue.use(Mint);
@@ -13,6 +14,7 @@ Vue.use(Resource);
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });
