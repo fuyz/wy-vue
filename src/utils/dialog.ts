@@ -1,9 +1,9 @@
 import { Indicator, MessageBox } from 'mint-ui';
 
 export default {
-    showError(text, title?: '网络错误'){
+    showError(text, title?: '网络错误') {
         MessageBox.alert(text, title);
-    }, 
+    },
     confirm(options, resolve, reject?) {
         let _options = {
             title: "提示",

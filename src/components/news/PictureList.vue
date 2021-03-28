@@ -1,12 +1,6 @@
 <template>
-  <mt-loadmore
-    id="listWrap"
-    :top-method="loadNew"
-    :bottom-method="loadMore"
-    :bottom-all-loaded="allLoaded"
-    ref="loadmore"
-    :autoFill="false"
-  >
+  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
+    :autoFill="false">
     <div class="picItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
       <div class="newsItem-wrap">
         <b class="count">{{ item.imgsum + 'pics' }}</b>
@@ -64,7 +58,7 @@
 
 <script>
 import { Indicator } from "mint-ui";
-import URL_PARAMS from "@/util/urls-config";
+import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "@/../config/index";
 
 export default {
@@ -80,22 +74,22 @@ export default {
       newList:
         "http://c.m.163.com/photo/api/morelist/0096/54GI0096/128012.json",
       moreList:
-        "http://c.m.163.com/photo/api/morelist/0096/54GI0096/128022.json"
+        "http://c.m.163.com/photo/api/morelist/0096/54GI0096/128022.json",
     };
   },
-  created: function() {
+  created: function () {
     //      console.log(this.$route);
     if (this.dataList.length != 0) return;
     let title = this.$route.params.type ? this.$route.params.type : this.title;
     this.ajaxData({ title: title });
-    setTimeout(function() {
+    setTimeout(function () {
       // document.getElementsByClassName('indexWrap')[0].scrollTop = 0;
     });
   },
   watch: {},
   methods: {
     /*请求数据*/
-    ajaxData: function(obj) {
+    ajaxData: function (obj) {
       if (obj.loadMore) {
         this.currentUrl = this.transformUrl(this.moreList, "loadMore");
       } else if (obj.loadNew) {
@@ -110,10 +104,10 @@ export default {
 
       Indicator.open({
         text: "加载中...",
-        spinnerType: "snake"
+        spinnerType: "snake",
       });
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
-        res => {
+        (res) => {
           Indicator.close();
 
           res = JSON.parse(JSON.parse(res.body));
@@ -144,26 +138,26 @@ export default {
           this.$store.commit("setData", {
             type: "news",
             title: obj.title,
-            data: this.dataList
+            data: this.dataList,
           });
 
           console.log([obj.title, this.currentUrl, this.dataList]);
         },
-        res => {
+        (res) => {
           console.log(res);
         }
       );
     },
     /*上拉加载更多*/
-    loadMore: function() {
+    loadMore: function () {
       this.ajaxData({ title: this.title, loadMore: true });
     },
     /*下拉刷新*/
-    loadNew: function() {
+    loadNew: function () {
       this.ajaxData({ title: this.title, loadNew: true });
     },
     /*跳转-》详情页*/
-    toDetail: function(obj) {
+    toDetail: function (obj) {
       this.$router.push({
         name: "newsDetail",
         query: {
@@ -171,12 +165,12 @@ export default {
           skipID: obj.skipID,
           docid: obj.docid,
           photosetID: obj.photosetID,
-          setid: obj.setid
-        }
+          setid: obj.setid,
+        },
       });
     },
     /*转换url*/
-    transformUrl: function(url, key) {
+    transformUrl: function (url, key) {
       let arr1 = url.split("/");
       let str = arr1[arr1.length - 1];
       let arr2 = str.split(".");
@@ -192,8 +186,8 @@ export default {
       let newUrl = arr1.join("/");
       console.log(newUrl);
       return newUrl;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

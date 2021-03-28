@@ -5,17 +5,12 @@
 <template>
   <!--navTab-->
   <mt-navbar id="navBar" v-model="navSelected" fixed>
-    <mt-tab-item
-      :id="item"
-      v-for="(item, index) in navBarList"
-      :key="index"
-      :href="'#'+ item.link"
-    >{{ item.title }}</mt-tab-item>
+    <mt-tab-item :id="item" v-for="(item, index) in navBarList" :key="index" :href="'#'+ item.link">{{ item.title }}</mt-tab-item>
   </mt-navbar>
 </template>
 
 <script>
-import URL_PARAMS from "@/util/urls-config";
+import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "../../../config/index";
 
 export default {

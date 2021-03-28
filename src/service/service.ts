@@ -1,6 +1,7 @@
-// import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
 import Vue from "vue"
 import PARAMS from "../../config/index";
+// import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
+
 let _vue = new Vue()
 const host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort
 

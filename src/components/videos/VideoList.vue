@@ -1,13 +1,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <template>
-  <mt-loadmore
-    id="listWrap"
-    :top-method="loadNew"
-    :bottom-method="loadMore"
-    :bottom-all-loaded="allLoaded"
-    ref="loadmore"
-    :autoFill="false"
-  >
+  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
+    :autoFill="false">
     <div class="videoItem" v-for="(item, index) in dataList" :key="index">
       <!--文章新闻-->
       <div class="videoItem-wrap">
@@ -16,14 +10,8 @@
             <h3 class="title">{{ item.title }}</h3>
             <img class="poster" :src="item.cover" alt />
           </div>
-          <video
-            width="100%"
-            height="200px"
-            webkit-playsinline="true"
-            playsinline="true"
-            x-webkit-airplay="true"
-            x5-video-player-fullscreen="false"
-          >
+          <video width="100%" height="200px" webkit-playsinline="true" playsinline="true" x-webkit-airplay="true"
+            x5-video-player-fullscreen="false">
             <source :src="item.mp4_url" />
           </video>
         </div>
@@ -39,7 +27,7 @@
 
 <script>
 import { Indicator } from "mint-ui";
-import URL_PARAMS from "@/util/urls-config";
+import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "../../../config/index";
 export default {
   name: "myVideo",
