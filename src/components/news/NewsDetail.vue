@@ -1,4 +1,5 @@
-<style src="@/css/newsDetail.css" scoped=""></style>
+<style src="../../css/newsDetail.css" scoped=""></style>
+
 <template>
   <transition name="slide">
     <div id="newsDetailWrap">
@@ -95,11 +96,11 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import Dialog from "@/util/dialog";
+import Dialog from "@/utils/dialog";
 import Swiper from "swiper";
-import "swiper/dist/css/swiper.css";
-import PARAMS from "../../../config/index";
+import PARAMS from "@/../config/index";
 import Service from "@/service/service";
+import "swiper/dist/css/swiper.css";
 
 @Component({})
 export default class NewsDetail extends Vue {
@@ -113,7 +114,7 @@ export default class NewsDetail extends Vue {
   pictureArr = null;
   key = "article";
   created() {
-    console.log(Service)
+    console.log(Service);
     let postid = this.$route.query.postid;
     let skipID = this.$route.query.skipID;
     let photosetID = this.$route.query.photosetID;
@@ -240,16 +241,17 @@ export default class NewsDetail extends Vue {
     //转换img标签
     if (img.length != 0) {
       for (let i = 0; i < img.length; i++) {
-        let width = 640, height = 320
-        let pixel = img[i].pixel
-        if(pixel){
-           width = img[i].pixel.split("*")[0];
-           height = img[i].pixel.split("*")[1];
+        let width = 640,
+          height = 320;
+        let pixel = img[i].pixel;
+        if (pixel) {
+          width = img[i].pixel.split("*")[0];
+          height = img[i].pixel.split("*")[1];
         }
         body = body.replace(
           img[i].ref,
           `<img src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
-        )
+        );
       }
     }
     this.html_structure = body;

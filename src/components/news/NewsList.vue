@@ -61,9 +61,9 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import URL_PARAMS from "@/util/urls-config";
+import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "@/../config/index";
-import Dialog from "@/util/dialog";
+import Dialog from "@/utils/dialog";
 import Service from "@/service/service";
 export default Vue.extend({
   name: "NewsList",
@@ -220,7 +220,7 @@ export default Vue.extend({
 </script>
 <style scoped lang="less">
 .listWrap {
-  .mint-loadmore-content{
+  .mint-loadmore-content {
     min-height: 80vh;
   }
 }

@@ -5,12 +5,10 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
-
-module.exports = {
+let Obj = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -34,13 +32,9 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: Object.assign(vueLoaderConfig, {
-          loaders: {
-            ts: "ts-loader",
-            tsx: "babel-loader!ts-loader",
-            css: "css-loader"
-          }
-        })
+        options: {
+          extractCSS: true
+        }
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -71,14 +65,14 @@ module.exports = {
           name: utils.assetsPath('media/[name].[hash:7].[ext]')
         }
       },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-        }
-      },
+      // {
+      //   test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+      //   loader: 'url-loader',
+      //   options: {
+      //     limit: 10000,
+      //     name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+      //   }
+      // },
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
         loader: 'file-loader'
@@ -92,8 +86,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
-    // new MiniCssExtractPlugin()
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin()
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
@@ -108,3 +102,4 @@ module.exports = {
     child_process: 'empty'
   }
 }
+module.exports = Obj

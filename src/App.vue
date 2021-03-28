@@ -208,7 +208,7 @@ image[lazy="loading"] {
       </router-link>
       <router-link class="tabBarItem" to="/video/videoList/推荐">
         <mt-tab-item id="tab2">
-          <img slot="icon" src="./assets/video_icon.png" />
+          <img slot="icon" src="~@/assets/video_icon.png" />
           视频
         </mt-tab-item>
       </router-link>
