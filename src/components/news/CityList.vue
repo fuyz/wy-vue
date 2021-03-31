@@ -2,7 +2,7 @@
 /*新闻列表样式*/
 
 .newsItem {
-  height: 2rem;
+  min-height: 2rem;
   padding: 0.24rem 0.22rem 0;
   border-bottom: 1px solid #f5f7f9;
 }
@@ -55,11 +55,12 @@
 /*color: red;*/
 /*}*/
 
-/*.newsImg {*/
-/*vertical-align: -webkit-baseline-middle;*/
-/*width: 100%;*/
-/*max-height: 100%;*/
-/*}*/
+.newsImg {
+  vertical-align: -webkit-baseline-middle;
+  width: 100%;
+  max-height: 110px;
+  /* max-height: 100%; */
+}
 </style>
 
 <template>
@@ -69,11 +70,11 @@
 
     <div class="newsItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
       <!--图片新闻-->
-      <div class="newsItem-wrap">
+      <div class="newsItem-wrap" v-if="item.skipType == 'photoset'">
         <div class="left">
           <h3 class="title">{{ item.title }}</h3>
           <div class="detial">
-            <span class="pubTime">{{ item.mtime.slice(0, -3) }}</span>
+            <span class="pubTime">{{ item.mtime ? item.mtime.slice(5, -3) : item.ptime.slice(5, -3) }}</span>
             <span class="reply">{{ item.replyCount }}跟帖</span>
           </div>
         </div>
@@ -82,12 +83,12 @@
         </div>
       </div>
       <!--文章新闻-->
-      <div class="newsItem-wrap">
+      <div class="newsItem-wrap" v-if="item.skipType == undefined">
         <div class="left">
           <h3 class="title">{{ item.title }}</h3>
           <div class="detial">
             <span class="source">{{ item.source }}</span>
-            <span class="pubTime">{{ item.mtime.slice(5, -3) }}</span>
+            <span class="pubTime">{{ item.mtime ? item.mtime.slice(5, -3) : item.ptime.slice(5, -3) }}</span>
             <span class="reply">{{ item.replyCount }}跟帖</span>
           </div>
         </div>
@@ -96,7 +97,7 @@
         </div>
       </div>
       <!--专题新闻-->
-      <div class="newsItem-wrap">
+      <div class="newsItem-wrap" v-if="item.skipType == 'special'">
         <div class="left">
           <h3 class="title">{{ item.title }}</h3>
           <div class="detial">

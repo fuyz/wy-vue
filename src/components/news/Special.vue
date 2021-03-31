@@ -74,7 +74,7 @@
   border: 1px solid #bbb;
   text-align: center;
   padding: 0.05rem 0.1rem;
-  font-size: 0.25rem;
+  font-size: 12px;
   width: 1.4rem;
   margin: 0.1rem;
   color: #222;
@@ -98,7 +98,8 @@
     <header>
       <img class="banner" :src="dataList.banner" alt="">
       <div class="cellWrap">
-        <div @click="fyz(index)" class="cell" v-for="(item, index) in dataList.topics" :key="index">{{ item.shortname }}</div>
+        <div @click="fyz(index)" class="cell" v-for="(item, index) in dataList.topics" :key="index">
+          {{ item.shortname || item.tname }}</div>
       </div>
 
     </header>

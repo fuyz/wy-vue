@@ -30,7 +30,7 @@
                 <h3 class="title">{{ item.title }}</h3>
                 <div class="detial">
                   <span class="source">{{ item.source }}</span>
-                  <span class="pubTime">{{ item.mtime.slice(5, -3) }}</span>
+                  <span class="pubTime">{{ item.mtime ? item.mtime.slice(5, -3) : item.ptime.slice(5, -3) }}</span>
                   <span class="reply">{{ item.replyCount }}跟帖</span>
                 </div>
               </div>

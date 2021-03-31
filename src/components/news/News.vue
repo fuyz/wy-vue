@@ -1,13 +1,13 @@
 <template>
   <div class="indexWrap">
     <Nav></Nav>
-    <!--<transition name="slide">-->
-    <router-view name="NewsList"></router-view>
-    <!--</transition>-->
     <transition name="slide">
+      <router-view name="NewsListView"></router-view>
+    </transition>
+    <transition name="slide" mode="out-in">
       <router-view name="PictureList"></router-view>
     </transition>
-    <transition name="slide">
+    <transition name="slide" mode="out-in">
       <router-view name="TextList"></router-view>
     </transition>
     <transition name="slide">
@@ -33,9 +33,9 @@ export default {
     return {};
   },
   components: {
-    Nav: Nav
+    Nav: Nav,
   },
-  created: function() {},
+  created: function () {},
   watch: {
     //      navSelected: function (val, oldVal) {
     //        return
@@ -73,9 +73,7 @@ export default {
     //
     //      }
   },
-  methods: {
-   
-  }
+  methods: {},
 };
 </script>
 <style>

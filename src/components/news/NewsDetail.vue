@@ -18,7 +18,7 @@
           <span id="ptime" class="sText">{{ data.ptime.slice(0, -3) }}</span>
         </div>
         <div v-html="html_structure"></div>
-        <p id="ec" class="sText">{{ '责任编辑：' + data.ec }}</p>
+        <p id="ec" class="sText" v-if="data.ec">{{ '责任编辑：' + data.ec }}</p>
         <div class="searchKwList">
           <span class="searchKw" v-for="(item, i) in data.searchKw" :key="i" @click="toSearch(item)">{{ item.keyword }}</span>
         </div>
@@ -218,8 +218,8 @@ export default class NewsDetail extends Vue {
       loop: true,
       // 如果需要前进后退按钮
       navigation: {
-        //              nextEl: '.swiper-button-next',
-        //              prevEl: '.swiper-button-prev s',
+        // nextEl: '.swiper-button-next',
+        // prevEl: '.swiper-button-prev s',
       },
     });
   }
@@ -241,7 +241,7 @@ export default class NewsDetail extends Vue {
     //转换img标签
     if (img.length != 0) {
       for (let i = 0; i < img.length; i++) {
-        let width = 640,
+        let width: number = 640,
           height = 320;
         let pixel = img[i].pixel;
         if (pixel) {

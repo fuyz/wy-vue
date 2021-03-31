@@ -196,7 +196,7 @@ image[lazy="loading"] {
 <template>
   <div id="app">
     <keep-alive>
-      <transition name="slide">
+      <transition name="fade" appear>
         <router-view></router-view>
       </transition>
     </keep-alive>
@@ -248,6 +248,12 @@ export default {
   methods: {},
 };
 </script>
+<style lang="less">
+@fontSize: 14px;
+* {
+  font-size: @fontSize;
+}
+</style>
 
 
 

@@ -37,7 +37,7 @@ export default new Router({
         {
           path: 'head/:type',
           components: {
-            NewsList: NewsList,
+            NewsListView: NewsList,
           },
           // props: (route) => ({ query: route.query.key })
         },
@@ -121,7 +121,7 @@ export default new Router({
       component: VideoDetail
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     // form.meta.y = document.getElementsByClassName('indexWrap')[0].scrollTop
     // console.log(arguments);
     // return {x: 0, y: 100};
