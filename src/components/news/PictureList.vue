@@ -57,12 +57,12 @@
 </template>
 
 <script>
-import { Indicator } from "mint-ui";
+import Dialog from "@/utils/dialog";
 import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "@/../config/index";
 
 export default {
-  // name: 'Picture',
+  name: "Picture",
   data() {
     return {
       host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
@@ -70,7 +70,6 @@ export default {
       dataList: [],
       currentUrl: URL_PARAMS.urlArray["图片"],
       allLoaded: false,
-
       newList:
         "http://c.m.163.com/photo/api/morelist/0096/54GI0096/128012.json",
       moreList:
@@ -82,9 +81,9 @@ export default {
     if (this.dataList.length != 0) return;
     let title = this.$route.params.type ? this.$route.params.type : this.title;
     this.ajaxData({ title: title });
-    setTimeout(function () {
-      // document.getElementsByClassName('indexWrap')[0].scrollTop = 0;
-    });
+    // setTimeout(function () {
+    // document.getElementsByClassName('indexWrap')[0].scrollTop = 0;
+    // });
   },
   watch: {},
   methods: {
@@ -102,16 +101,11 @@ export default {
         }
       }
 
-      Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
-      });
+      Dialog.showLoading(true);
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
         (res) => {
-          Indicator.close();
-
+          Dialog.showLoading(false);
           res = JSON.parse(JSON.parse(res.body));
-
           if (obj.loadMore) {
             //关闭loading状态
             this.$refs.loadmore.onBottomLoaded();
@@ -191,16 +185,21 @@ export default {
 };
 </script>
 <style scoped>
+#listWrap {
+  background: #efefef;
+}
 .picItem {
-  width: 96%;
+  width: 100%;
   margin: 0 auto 0.2rem;
-  border-bottom: 1px solid #f5f7f9;
-  box-shadow: 0px 2px 2px 2px #ddd;
+  border-bottom: 1px solid #eee;
+  border-radius: 5px;
+  /* box-shadow: 0px 2px 2px 2px #ddd; */
   display: block;
   color: #333;
   border-radius: 3px;
   overflow: hidden;
   position: relative;
+  background: white;
 }
 
 .count {
