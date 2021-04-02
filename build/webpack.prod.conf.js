@@ -13,20 +13,20 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
-  module: {
-    rules: utils.styleLoaders({
-      sourceMap: config.build.productionSourceMap,
-      extract: true,
-      usePostCSS: true
-    })
-  },
+  // module: {
+  //   rules: utils.styleLoaders({
+  //     sourceMap: config.build.productionSourceMap,
+  //     extract: true,
+  //     usePostCSS: true
+  //   })
+  // },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
     publicPath: './',
     filename: utils.assetsPath('js/[name].[chunkhash].bundle.js'),
     // chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
-  },  
+  },
   // 设置 可以关闭 编译警告提醒
   performance: { hints: false },
   plugins: [

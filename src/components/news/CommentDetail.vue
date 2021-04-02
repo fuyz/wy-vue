@@ -1,4 +1,4 @@
-<style>
+<style lang="less">
 #commentDetailWrap {
   height: calc(100vh - 95px);
   position: relative;
@@ -12,14 +12,23 @@
   /*top: 40px;*/
   /*margin-top: 40px;*/
   /*z-index: 2;*/
-  background: white;
+  background: #efefef;
   min-height: calc(100vh - 95px);
   /*overflow-y: scroll;*/
   box-sizing: border-box;
+  & > .commentItem {
+    margin-bottom: 5px;
+  }
+}
+
+.box {
+  border: 1px solid #eee;
 }
 
 .commentItem {
+  background: white;
   padding: 0.2rem 0.2rem;
+  border-bottom: 1px solid #eee;
 }
 
 .user {
@@ -77,19 +86,19 @@
 }
 
 #commentDetailWrap .comment-input {
-  width: 95vw;
+  width: 98vw;
   display: inline-block;
-  margin: 15px auto;
+  margin: 5px auto;
   outline: none;
-  border-radius: 10px;
+  border-radius: 5px;
   background: transparent;
   border: 1px solid #ccc;
-  padding: 3px 10px;
+  padding: 8px 10px;
   box-sizing: border-box;
   color: #111;
 }
-</style><!-- Add "scoped" attribute to limit CSS to this component only -->
-
+</style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <template>
   <transition name="slide">
     <div id="commentDetailWrap">
@@ -113,18 +122,19 @@
 </template>
 
 <script>
-import { Indicator } from "mint-ui";
-import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "../../../config/index";
+import getCommentDom from "@/utils/getCommentDom";
+import Dialog from "@/utils/dialog";
 
 export default {
-  name: "comment",
+  name: "Comment",
   data() {
     return {
       host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       currentUrl: "",
       html_structure: "",
       allLoaded: false,
+      commentArr: [],
     };
   },
   created: function () {
@@ -152,24 +162,18 @@ export default {
         this.currentUrl = this.transformUrl(this.currentUrl, "loadNew");
       }
 
-      Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
-      });
-
+      Dialog.showLoading(true);
       this.$http
         .jsonp(
           this.host_port + "?key=wy&url=" + encodeURIComponent(this.currentUrl)
         )
         .then(
           (res) => {
-            Indicator.close();
-
+            Dialog.showLoading(false);
             try {
               res = JSON.parse(JSON.parse(res.body));
               let commentIds = res.commentIds;
               let comments = res.comments;
-              let commentArr = [];
 
               for (let i = 0; i < commentIds.length; i++) {
                 let ids = commentIds[i].split(",");
@@ -184,106 +188,27 @@ export default {
                       obj2.otherComment = obj1;
                     } else {
                       //如果当前元素是最后一个
-                      commentArr.push(obj2);
+                      this.commentArr.push(obj2);
                     }
                   }
                 } else {
                   //如果无回复
-                  commentArr.push(comments[ids[0]]);
+                  this.commentArr.push(comments[ids[0]]);
                 }
               }
-              let str = "";
-              for (let i = 0; i < commentArr.length; i++) {
-                if (!commentArr[i]) {
+              let htmlStr = "";
+              for (let i = 0; i < this.commentArr.length; i++) {
+                if (!this.commentArr[i]) {
                   continue;
                 }
-                if (commentArr[i].otherComment == undefined) {
-                  getDom(commentArr[i], false);
+                if (this.commentArr[i].otherComment == undefined) {
+                  htmlStr = getCommentDom(this.commentArr[i], false, htmlStr);
                 } else {
-                  getDom(commentArr[i], true);
-                }
-
-                function getDom(obj, reply) {
-                  obj.user.avatar = obj.user.avatar
-                    ? obj.user.avatar
-                    : "http://img1.cache.netease.com/t/img/default80.png";
-                  if (!reply) {
-                    str += `
-                     <div class="commentItem" style="border-bottom: 2px solid #eee;">
-                      <div class="user">
-                        <div class="avatarWrap">
-                          <img class="avatar" src="${obj.user.avatar}" alt="">
-                        </div>
-                        <div class="userInfo">
-                          <p class="name">${
-                            obj.user.nickname ? obj.user.nickname : "***"
-                          } <span class="sText fr gray" >${
-                      obj.vote
-                    }<i class="icon zan_icon"></i></span></p>
-                          <p class="other sText">
-                            <span>${obj.user.location}</span>
-                            <span>${obj.deviceInfo.deviceName}</span>
-                            <span>${obj.createTime.slice(0, -3)}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <p class="content">${obj.content}</p>
-                    </div>`;
-                  } else if (obj.otherComment != undefined && reply) {
-                    let otherCommentStr = getDom(obj.otherComment, true);
-                    str += `
-                     <div class="commentItem" style="border-bottom: 2px solid #eee;">
-                      <div class="user">
-                        <div class="avatarWrap">
-                          <img class="avatar" src="${obj.user.avatar}" alt="">
-                        </div>
-                        <div class="userInfo">
-                          <p class="name">${
-                            obj.user.nickname ? obj.user.nickname : "***"
-                          }<span class="sText fr gray" >${
-                      obj.vote
-                    }<i class="icon zan_icon"></i></span></p>
-                          <p class="other sText">
-                            <span>${obj.user.location}</span>
-                            <span>${obj.deviceInfo.deviceName}</span>
-                            <span>${obj.createTime.slice(0, -3)}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="content">
-                        <p>${obj.content}</p>
-                         <div class="box" style="border: 1px solid #eee">${otherCommentStr}</div>
-                      </div>
-                    </div>`;
-                  } else if (obj.otherComment == undefined && reply) {
-                    let string = `
-                     <div class="commentItem" >
-                      <div class="user">
-                        <div class="avatarWrap">
-                          <img class="avatar" src="${obj.user.avatar}" alt="">
-                        </div>
-                        <div class="userInfo">
-                          <p class="name">${
-                            obj.user.nickname ? obj.user.nickname : "***"
-                          }<span class="sText fr gray" >${
-                      obj.vote
-                    }<i class="icon zan_icon"></i></span></p>
-                          <p class="other sText">
-                            <span>${obj.user.location}</span>
-                            <span>${obj.deviceInfo.deviceName}</span>
-                            <span>${obj.createTime.slice(0, -3)}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <p class="content">${obj.content}</p>
-                    </div>`;
-
-                    return string;
-                  }
+                  htmlStr = getCommentDom(this.commentArr[i], true, htmlStr);
                 }
               }
-              console.log([this.currentUrl, commentArr]);
-              this.html_structure = str;
+              console.log([this.currentUrl, this.commentArr]);
+              this.html_structure = htmlStr;
             } catch (err) {
               console.log(err);
             } finally {
@@ -305,30 +230,30 @@ export default {
     },
     /*转换url*/
     transformUrl: function (url, key) {
-      let arr1 = url.split("?");
-      let str = arr1[1];
-      let arr2 = str.split("&");
-      for (var i = 0; i < arr2.length; i++) {
-        let arr3 = arr2[i].split("=");
+      let arr = url.split("?");
+      let pageParamsStr = arr[1];
+      let pageParamsArr = pageParamsStr.split("&");
+      for (var i = 0; i < pageParamsArr.length; i++) {
+        let pageArr = pageParamsArr[i].split("=");
         if (key == "loadNew") {
-          if (arr3[0] == "fn") {
-            let num = Number(arr3[1]);
+          if (pageArr[0] == "fn") {
+            let num = Number(pageArr[1]);
             num += 1;
-            arr3[1] = num;
+            pageArr[1] = num;
           }
         } else if (key == "loadMore") {
-          if (arr3[0] == "limit") {
-            let num = Number(arr3[1]);
-            num += 10;
-            arr3[1] = num;
-          }
+          // if (pageArr[0] == "limit") {
+          //   let num = Number(pageArr[1]);
+          //   num += 10;
+          //   pageArr[1] = num;
+          // }
+          pageArr[1] = Number(pageArr[1]) + 10;
         }
 
-        arr2[i] = arr3.join("=");
+        pageParamsArr[i] = pageArr.join("=");
       }
-      str = arr2.join("&");
-      arr1[1] = str;
-      let newUrl = arr1.join("?");
+      arr[1] = pageParamsArr.join("&");
+      let newUrl = arr.join("?");
       this.currentUrl = newUrl;
       return newUrl;
     },
