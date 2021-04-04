@@ -8,12 +8,13 @@ const path = require('path')
 module.exports = {
   devServer: {
     proxy: {
-      // '/app': {
-      //   target: '192.168.0.102/app/',
-      //   pathRewrite: { '^/api': '' },
-      //   changeOrigin: true,     // target是域名的话，需要这个参数，
-      //   secure: false,          // 设置支持https协议的代理
-      // },
+      '/app': {
+        target: '192.168.0.100/app/',
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true,     // target是域名的话，需要这个参数，
+        secure: false,          // 设置支持https协议的代理
+        //本地服务器所加载的页面所在的目录
+      },
     }
   },
   dev: {
@@ -23,8 +24,8 @@ module.exports = {
     proxyTable: {},
     // Various Dev Server settings    
     // host: (process.env.NODE_ENV === 'production') ? 'www.fuyingzhi.com' : 'localhost', // can be overwritten by process.env.HOST
-    host: (process.env.NODE_ENV === 'production') ? '192.168.0.102' : 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: (process.env.NODE_ENV === 'production') ? '192.168.0.100' : 'localhost', // can be overwritten by process.env.HOST
+    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     servePort: 9999,
     autoOpenBrowser: true,
     errorOverlay: true,

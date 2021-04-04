@@ -63,7 +63,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // keep module.id stable when vendor modules does not change
     // new webpack.HashedModuleIdsPlugin(),
 
-    // 没错打包文件先清除旧文件
+    // 每次打包文件先清除旧文件
     new CleanWebpackPlugin(),
 
     // new MiniCssExtractPlugin()

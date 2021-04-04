@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
-let Obj = {
+module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -98,4 +98,3 @@ let Obj = {
     child_process: 'empty'
   }
 }
-module.exports = Obj

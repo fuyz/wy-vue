@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import Dialog from './src/utils/dialog'
+import Dialog from './dialog'
 
 const axiosBaseConfig: AxiosRequestConfig = {
     baseURL: '',

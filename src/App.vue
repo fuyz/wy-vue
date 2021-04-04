@@ -201,7 +201,6 @@ image[lazy="loading"] {
       </transition>
     </keep-alive>
 
-    <!--//tabBar-->
     <mt-tabbar id="tabBar" fixed v-model="selected">
       <router-link class="tabBarItem" to="/news/head/头条">
         <mt-tab-item id="tab1">
@@ -215,12 +214,12 @@ image[lazy="loading"] {
           视频
         </mt-tab-item>
       </router-link>
-      <!--<router-link class="tabBarItem" to="/live">-->
-      <!--<mt-tab-item id="tab3">-->
-      <!--<img slot="icon" src="./assets/live_icon.png">-->
-      <!--直播-->
-      <!--</mt-tab-item>-->
-      <!--</router-link>-->
+      <router-link class="tabBarItem" to="/live">
+        <mt-tab-item id="tab3">
+          <img slot="icon" :src="live_icon">
+          直播
+        </mt-tab-item>
+      </router-link>
       <router-link class="tabBarItem" to="/mine">
         <mt-tab-item id="tab4">
           <img slot="icon" :src="mine_icon" />
@@ -234,6 +233,7 @@ image[lazy="loading"] {
 <script>
 import index_icon from "@/assets/index_icon.png";
 import video_icon from "@/assets/video_icon.png";
+import live_icon from "@/assets/live_icon.png";
 import mine_icon from "@/assets/mine_icon.png";
 export default {
   name: "App",
@@ -242,6 +242,7 @@ export default {
       index_icon,
       video_icon,
       mine_icon,
+      live_icon,
       selected: "tab1",
     };
   },

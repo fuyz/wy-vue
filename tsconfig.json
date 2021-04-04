@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "/",
-    // "target": "es2018",
-    "target": "es6",
+    // "target": "es6",
+    "target": "es5",
     // "module": "esnext",
     "moduleResolution": "node",
-    "module": "es2015",
+    // "module": "es2015",
+    "module": "commonjs",
     "lib": [
       "esnext",
       "esnext.asynciterable",
