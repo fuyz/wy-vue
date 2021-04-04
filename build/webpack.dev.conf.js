@@ -29,11 +29,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
       ],
     },
-    hot: true,
-    contentBase: false, // since we use CopyWebpackPlugin.
-    compress: true,
-    host: HOST || config.dev.host,
-    port: PORT || config.dev.port,
+    compress: true, //文件压缩
+    hot: false, // 热加载 ???
+    liveReload: false,
+    inline: false, //实时刷新
+    contentBase: false, // since we use CopyWebpackPlugin.    //本地服务器所加载的页面所在的目录
+    host: HOST || config.dev.host, //访问域名
+    port: PORT || config.dev.port, //端口
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
       ? { warnings: false, errors: true }
@@ -43,7 +45,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+    // 当 devServer 服务器内部的 所有中间件执行完成之后执行
+    after: function (app, server, compiler) {
+      // console.log([app, server, compiler])
+      // do fancy stuff
+    },
   },
   plugins: [
     new webpack.DefinePlugin({

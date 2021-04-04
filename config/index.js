@@ -25,7 +25,7 @@ module.exports = {
     // Various Dev Server settings    
     // host: (process.env.NODE_ENV === 'production') ? 'www.fuyingzhi.com' : 'localhost', // can be overwritten by process.env.HOST
     host: (process.env.NODE_ENV === 'production') ? '192.168.0.100' : 'localhost', // can be overwritten by process.env.HOST
-    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     servePort: 9999,
     autoOpenBrowser: true,
     errorOverlay: true,
@@ -37,6 +37,7 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
+    // 这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；
     devtool: 'cheap-module-eval-source-map',
 
     // If you have problems debugging vue-files in devtools,
@@ -63,7 +64,8 @@ module.exports = {
      */
     productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
+    // 在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包速度；
+    devtool: 'source-map',
 
     // 对打包文件进行压缩
     // npm install --save-dev compression-webpack-plugin
