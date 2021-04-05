@@ -42,9 +42,23 @@ module.exports = {
           extractCSS: true
         }
       },
+      // {
+      //   test: /\.vue$/,
+      //   loader: 'happypack/loader?id=vue',  //配置happyPack
+      //   include: [resolve('src')]
+      // },
+
+      // {
+      //   test: /\.(le|c)ss$/,
+      //   use: ['style-loader', 'css-loader', 'less-loader']
+      // },
       {
-        test: /\.(le|c)ss$/,
-        use: ['style-loader', 'css-loader', 'less-loader']
+        test: /\.css$/,
+        loader: 'happypack/loader?id=css',  //配置happyPack
+      },
+      {
+        test: /\.less$/,
+        loader: 'happypack/loader?id=less',  //配置happyPack
       },
       {
         // babel-loader is slow! 所以不仅要使用exclude、include，尽可能准确的指定要转化内容的范畴，而且要充分利用缓存，进一步提升性能。
@@ -56,16 +70,17 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: ['babel-loader',
+        use: [
+          'babel-loader',
           {
             loader: 'ts-loader',
             options: {
               appendTsSuffixTo: [/\.vue$/],
             }
-          }],
+          }
+        ],
         exclude: /node_modules/,
-        include: [resolve('src')],
-
+        include: [resolve('src')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -91,7 +106,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin(),
+    new VueLoaderPlugin(), // loader vue 文件必依赖插件
     new MiniCssExtractPlugin(),
     new HappyPack({
       // 这个HappyPack的“名字”就叫做happyBabel，和楼上的查询参数遥相呼应
@@ -99,7 +114,44 @@ module.exports = {
       // 指定进程池
       threadPool: happyThreadPool,
       loaders: ['babel-loader?cacheDirectory']
-    })
+    }),
+    // new HappyPack({
+    //   id: 'happyTsx',
+    //   threadPool: happyThreadPool,
+    //   loaders: [
+    //     {
+    //       loader: 'babel-loader'
+    //     },
+    //     {
+    //       loader: 'ts-loader',
+    //       options: {
+    //         appendTsSuffixTo: [/\.vue$/],
+    //       }
+    //     }]
+    // })
+
+    // new HappyPack({
+    //   id: 'vue',
+    //   threadPool: happyThreadPool,
+    //   loaders: [{
+    //     loader: 'vue-loader',
+    //     options: {
+    //       extractCSS: true,
+    //     }
+    //   }]
+    // }),
+    new HappyPack({
+      id: 'css',
+      threadPool: happyThreadPool,
+      loaders: ['css-loader']
+    }),
+
+    new HappyPack({
+      id: 'less',
+      threadPool: happyThreadPool,
+      loaders: ['css-loader', 'less-loader']
+    }),
+
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

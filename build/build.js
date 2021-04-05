@@ -4,7 +4,7 @@
 // process.env.NODE_ENV = 'production'
 
 const ora = require('ora')
-const rm = require('rimraf')
+const rm = require('rimraf') //rimraf 的作用：以包的形式包装rm -rf命令，用来删除文件和文件夹的，不管文件夹是否为空，都可删除
 const path = require('path')
 const chalk = require('chalk')
 const webpack = require('webpack')
@@ -22,7 +22,7 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
     process.stdout.write(stats.toString({
       colors: true,
       modules: false,
-      children: false, // If you are using ts-loader, setting this to true will make TypeScript errors show up during build.
+      children: true, // If you are using ts-loader, setting this to true will make TypeScript errors show up during build.
       chunks: false,
       chunkModules: false
     }) + '\n\n')

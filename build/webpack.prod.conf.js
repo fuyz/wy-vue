@@ -70,8 +70,10 @@ const webpackConfig = merge(baseWebpackConfig, {
 
 
   ],
-  optimization: {
-    minimizer: [new UglifyJsPlugin()],
+  optimization: {  //配置优化
+    minimizer: [
+      new UglifyJsPlugin()
+    ],
     splitChunks: {
       chunks: 'all',
       minSize: 20000,
