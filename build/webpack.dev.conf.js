@@ -7,9 +7,6 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const portfinder = require('portfinder')
-debugger
-const HOST = process.env.HOST
-const PORT = process.env.PORT && Number(process.env.PORT)
 const handler = (percentage, message, ...args) => {
   // e.g. Output each progress message directly to the console:
   console.info(percentage, message);
@@ -23,19 +20,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
-    clientLogLevel: 'warning',
-    historyApiFallback: {
-      rewrites: [
+    clientLogLevel: 'warn', // 客户端启动日志
+    historyApiFallback: { //使用 HTML5 History API 时, 所有的 404 请求都会响应 index.html 的内容
+      rewrites: [ //通过传递对象，可以使用配置选项诸如 rewrites
         { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
       ],
     },
     compress: true, //文件压缩
-    hot: false, // 热加载 ???
+    hot: true, // 热加载
     liveReload: false,
-    inline: false, //实时刷新
+    inline: true, //实时刷新
     contentBase: false, // since we use CopyWebpackPlugin.    //本地服务器所加载的页面所在的目录
-    host: HOST || config.dev.host, //访问域名
-    port: PORT || config.dev.port, //端口
+    host: process.env.HOST || config.dev.host, //访问域名
+    port: process.env.PORT && Number(process.env.PORT) || config.dev.port, //端口
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
       ? { warnings: false, errors: true }

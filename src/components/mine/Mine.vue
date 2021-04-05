@@ -13,7 +13,7 @@
 
 <template>
   <div class="iframeWrap">
-    <iframe src="http://elemefe.github.io/mint-ui/#/" frameborder="0"></iframe>
+    <iframe src="https://cloud.tencent.com/developer/doc/1273" frameborder="0"></iframe>
   </div>
 </template>
 

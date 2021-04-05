@@ -16,9 +16,9 @@
   min-height: calc(100vh - 95px);
   /*overflow-y: scroll;*/
   box-sizing: border-box;
-  & > .commentItem {
-    margin-bottom: 5px;
-  }
+  // & > .commentItem {
+  //   margin-bottom: 5px;
+  // }
 }
 
 .box {
@@ -165,7 +165,7 @@ export default {
       Dialog.showLoading(true);
       this.$http
         .jsonp(
-          this.host_port + "?key=wy&url=" + encodeURIComponent(this.currentUrl)
+          this.host_port + "/?key=wy&url=" + encodeURIComponent(this.currentUrl)
         )
         .then(
           (res) => {

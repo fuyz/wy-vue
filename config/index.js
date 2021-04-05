@@ -24,7 +24,7 @@ module.exports = {
     proxyTable: {},
     // Various Dev Server settings    
     // host: (process.env.NODE_ENV === 'production') ? 'www.fuyingzhi.com' : 'localhost', // can be overwritten by process.env.HOST
-    host: (process.env.NODE_ENV === 'production') ? '192.168.0.100' : 'localhost', // can be overwritten by process.env.HOST
+    host: (process.env.NODE_ENV === 'production') ? '192.168.0.100' : '0.0.0.0', // can be overwritten by process.env.HOST
     port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     servePort: 9999,
     autoOpenBrowser: true,

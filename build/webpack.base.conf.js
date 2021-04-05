@@ -5,6 +5,11 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const os = require('os')
+const HappyPack = require('happypack')
+// 手动创建进程池
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -21,7 +26,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.vue', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
@@ -38,17 +43,29 @@ module.exports = {
         }
       },
       {
-        test: /\.(sa|sc|c)ss$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.less$/,
+        test: /\.(le|c)ss$/,
         use: ['style-loader', 'css-loader', 'less-loader']
       },
       {
+        // babel-loader is slow! 所以不仅要使用exclude、include，尽可能准确的指定要转化内容的范畴，而且要充分利用缓存，进一步提升性能。
+        // babel-loader 提供了 cacheDirectory特定选项（默认 false）：设置时，给定的目录将用于缓存加载器的结果。
         test: /\.js$/,
-        loader: 'babel-loader',
+        // loader: 'babel-loader?cacheDirectory=true',
+        loader: 'happypack/loader?id=happyBabel',  //配置happyPack
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+      },
+      {
+        test: /\.tsx?$/,
+        use: ['babel-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+            }
+          }],
+        exclude: /node_modules/,
+        include: [resolve('src')],
+
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -70,20 +87,19 @@ module.exports = {
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
         loader: 'file-loader'
-      },
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader', exclude: /node_modules/,
-        include: [resolve('src')],
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-        }
       }
     ]
   },
   plugins: [
     new VueLoaderPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new HappyPack({
+      // 这个HappyPack的“名字”就叫做happyBabel，和楼上的查询参数遥相呼应
+      id: 'happyBabel',
+      // 指定进程池
+      threadPool: happyThreadPool,
+      loaders: ['babel-loader?cacheDirectory']
+    })
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

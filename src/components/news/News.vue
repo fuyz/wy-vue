@@ -33,7 +33,7 @@ export default {
     return {};
   },
   components: {
-    Nav: Nav,
+    Nav,
   },
   created: function () {},
   watch: {

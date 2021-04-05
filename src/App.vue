@@ -223,7 +223,7 @@ image[lazy="loading"] {
       <router-link class="tabBarItem" to="/mine">
         <mt-tab-item id="tab4">
           <img slot="icon" :src="mine_icon" />
-          我test2
+          我t111
         </mt-tab-item>
       </router-link>
     </mt-tabbar>
@@ -247,6 +247,9 @@ export default {
     };
   },
   methods: {},
+  created() {
+    // alert(123);
+  },
 };
 </script>
 <style lang="less">
