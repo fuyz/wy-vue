@@ -1,5 +1,4 @@
 <style>
-/*indicator*/
 .mint-indicator-wrapper {
   z-index: 10;
 }

@@ -73,9 +73,9 @@
   display: inline-block;
   border: 1px solid #bbb;
   text-align: center;
-  padding: 0.05rem 0.1rem;
+  padding: 0.1rem 0.15rem;
   font-size: 12px;
-  width: 1.4rem;
+  /* width: 1.4rem; */
   margin: 0.1rem;
   color: #222;
 }
@@ -90,13 +90,12 @@
 </style>
 
 <template>
-
   <div id="specialWrap">
     <mt-header fixed style="z-index: 5">
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <header>
-      <img class="banner" :src="dataList.banner" alt="">
+      <img v-if="dataList.banner" class="banner" :src="dataList.banner" alt="banner图片">
       <div class="cellWrap">
         <div @click="fyz(index)" class="cell" v-for="(item, index) in dataList.topics" :key="index">
           {{ item.shortname || item.tname }}</div>
@@ -133,7 +132,7 @@ import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "../../../config/index";
 
 export default {
-  //    name: 'myNews',
+  name: "Special",
   data() {
     return {
       host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
@@ -143,11 +142,10 @@ export default {
     };
   },
   created: function () {
-    console.log(this.$route);
+    // console.log(this.$route);
     let specialID = this.$route.query.specialID;
     this.currentUrl = "http://c.m.163.com/nc/special/" + specialID + ".html";
-    console.log(this.currentUrl);
-
+    // console.log(this.currentUrl);
     getData.bind(this)();
     function getData() {
       Indicator.open({
@@ -160,7 +158,7 @@ export default {
           try {
             res = JSON.parse(JSON.parse(res.body));
             this.dataList = res[specialID];
-            console.log(this.dataList);
+            console.log(["专题数据", this.dataList]);
           } catch (err) {
             console.log(err);
             MessageBox({

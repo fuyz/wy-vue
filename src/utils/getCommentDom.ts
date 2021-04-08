@@ -66,5 +66,4 @@ function getCommentDom(obj: any, reply: boolean, str: string) {
     }
     return str
 }
-
 export default getCommentDom

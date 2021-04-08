@@ -1,4 +1,4 @@
-// <style src="@/assets/css/newsDetail.css" scoped=""></style>
+<style src="../../assets/css/newsDetail.css" scoped=""></style>
 
 <template>
   <transition name="slide">
@@ -98,12 +98,11 @@
 // vue-class-component：强化 Vue 组件，使用 TypeScript/装饰器 增强 Vue 组件
 // vue-property-decorator：在 vue-class-component 上增强更多的结合 Vue 特性的装饰器
 import { Vue, Component } from "vue-property-decorator";
-import Dialog from "@/utils/dialog";
+import * as Dialog from "@/utils/dialog";
 import Swiper from "swiper";
 import PARAMS from "@/../config/index";
 import Service from "@/service/service";
 import "swiper/dist/css/swiper.css";
-import "@/assets/css/newsDetail.css";
 
 @Component({})
 export default class NewsDetail extends Vue {
@@ -117,7 +116,6 @@ export default class NewsDetail extends Vue {
   pictureArr = null;
   key = "article";
   created() {
-    console.log(Service);
     let postid = this.$route.query.postid;
     let skipID = this.$route.query.skipID;
     let photosetID = this.$route.query.photosetID;
@@ -147,10 +145,11 @@ export default class NewsDetail extends Vue {
     }
     //    请求新闻详情信息
     const getData = () => {
+      debugger;
       Dialog.showLoading(true);
       this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
         (res: any) => {
-          Dialog.showLoading(false);
+          // Dialog.showLoading(false);
           try {
             res = JSON.parse(JSON.parse(res.body));
             if (setid != undefined) {
