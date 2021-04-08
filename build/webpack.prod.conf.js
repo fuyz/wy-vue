@@ -8,7 +8,8 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
@@ -24,7 +25,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     path: config.build.assetsRoot,
     publicPath: './',
     filename: utils.assetsPath('js/[name].[chunkhash].bundle.js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
+    //自定义chunk名字
+    // chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
   },
   // 设置 可以关闭 编译警告提醒
   performance: { hints: false },
@@ -65,32 +67,48 @@ const webpackConfig = merge(baseWebpackConfig, {
     // 每次打包文件先清除旧文件
     new CleanWebpackPlugin(),
 
-
   ],
   optimization: {  //配置优化
+    minimize: true,
     minimizer: [
-      new UglifyJsPlugin()
+      // new UglifyJsPlugin() // 压缩js文件
+      // 压缩javascript
+      new TerserWebpackPlugin({
+        parallel: true, //使用多进程并发运行以提高构建速度。 并发运行的默认数量： os.cpus().length - 1 
+      })
     ],
     splitChunks: {
+      // 这表明将选择哪些 chunk 进行优化。当提供一个字符串，有效值为 all，async 和 initial。
+      // 设置为 all 可能特别强大，因为这意味着 chunk 可以在异步和非异步 chunk 之间共享。
       chunks: 'all',
-      minSize: 20000,
+      minSize: 20000, //生成 chunk 的最小体积（以 bytes 为单位
       // minRemainingSize: 0,
       maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
+      minChunks: 1, //拆分前必须共享模块的最小 chunks 数。
+      maxAsyncRequests: 30, //按需加载时的最大并行请求数。
+      maxInitialRequests: 30, //入口点的最大并行请求数。
       enforceSizeThreshold: 50000,
       cacheGroups: {
+        // commons: {
+        //   name: 'commons',
+        //   chunks: 'initial',
+        //   minChunks: 2,
+        // },
+        // commons: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   name: 'vendors',
+        //   chunks: 'all',
+        // },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           reuseExistingChunk: true,
         },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        }
+        // default: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true,
+        // }
       }
     }
   }
