@@ -5,7 +5,8 @@ import router from './router'
 import Resource from 'vue-resource'
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css'
-import '@/css/index.css'
+import '@/assets/css/index.css'
+import '@/assets/css/custom-font-awesome.css'
 import store from "@/store/index";
 
 Vue.config.productionTip = false

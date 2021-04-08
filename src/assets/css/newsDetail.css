@@ -147,17 +147,17 @@
   vertical-align: middle;
   color: #aaa;
   text-align: center;
-  background-image: url("../assets/comment_icon.png");
+  background-image: url("../img/comment_icon.png");
 }
 
 .favorite {
   vertical-align: middle;
-  background-image: url("../assets/favorite_icon.png");
+  background-image: url("../img/favorite_icon.png");
 }
 
 .share {
   vertical-align: middle;
-  background-image: url("../assets/share_icon.png");
+  background-image: url("../img/share_icon.png");
 }
 
 .footer {

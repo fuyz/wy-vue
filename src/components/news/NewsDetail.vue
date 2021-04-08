@@ -1,4 +1,4 @@
-<style src="../../css/newsDetail.css" scoped=""></style>
+// <style src="@/assets/css/newsDetail.css" scoped=""></style>
 
 <template>
   <transition name="slide">
@@ -103,6 +103,7 @@ import Swiper from "swiper";
 import PARAMS from "@/../config/index";
 import Service from "@/service/service";
 import "swiper/dist/css/swiper.css";
+import "@/assets/css/newsDetail.css";
 
 @Component({})
 export default class NewsDetail extends Vue {

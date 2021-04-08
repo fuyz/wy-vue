@@ -1,62 +1,4 @@
 <style>
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-size: 13.33333vw;
-}
-
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-  text-decoration: none;
-}
-
-p {
-  font-size: 0.3rem;
-  margin: 0;
-}
-
-.sText {
-  font-size: 0.2rem;
-}
-
-.fl {
-  float: left;
-}
-
-.fr {
-  float: right;
-}
-
-.clear {
-  zoom: 1;
-}
-
-.clear:after {
-  display: block;
-  content: "";
-  clear: both;
-}
-
-.gray {
-  color: gray;
-}
-
 /*indicator*/
 .mint-indicator-wrapper {
   z-index: 10;
@@ -135,57 +77,6 @@ p {
   transform: translate(0, 0);
 }
 
-/*图标icon*/
-.icon {
-  width: 0.55rem;
-  height: 0.4rem;
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center center;
-  vertical-align: sub;
-}
-
-.laugh_icon {
-  background-image: url("./assets/laugh.png");
-}
-
-.love_icon {
-  background-image: url("./assets/love.png");
-}
-
-.bored_icon {
-  background-image: url("./assets/bored.png");
-}
-
-.comment_icon {
-  background-image: url("./assets/comment.png");
-}
-
-.laugh_icon {
-  background-image: url("./assets/laugh.png");
-}
-
-.love_icon {
-  background-image: url("./assets/love.png");
-}
-
-.bored_icon {
-  background-image: url("./assets/bored.png");
-}
-
-.comment_icon {
-  background-image: url("./assets/comment.png");
-}
-
-.zan_icon {
-  background-image: url("assets/zan_icon.png");
-}
-
-.mint-swipe {
-  width: 100%;
-}
-
 image[lazy="loading"] {
   width: 40px;
   height: 300px;
@@ -204,25 +95,26 @@ image[lazy="loading"] {
     <mt-tabbar id="tabBar" fixed v-model="selected">
       <router-link class="tabBarItem" to="/news/head/头条">
         <mt-tab-item id="tab1">
-          <img slot="icon" :src="index_icon" />
+          <i slot="icon" class="fa fa-home"></i>
           首页
         </mt-tab-item>
       </router-link>
       <router-link class="tabBarItem" to="/video/videoList/推荐">
         <mt-tab-item id="tab2">
-          <img slot="icon" :src="video_icon" />
+          <i slot="icon" class="fa fa-play-circle"></i>
           视频
         </mt-tab-item>
       </router-link>
       <router-link class="tabBarItem" to="/live">
         <mt-tab-item id="tab3">
-          <img slot="icon" :src="live_icon">
+          <i slot="icon" class="fa fa-video"></i>
           直播
         </mt-tab-item>
       </router-link>
       <router-link class="tabBarItem" to="/mine">
         <mt-tab-item id="tab4">
-          <img slot="icon" :src="mine_icon" />
+          <!-- <img slot="icon" :src="mine_icon" /> -->
+          <i slot="icon" class="fas fa-user"></i>
           我
         </mt-tab-item>
       </router-link>
@@ -231,18 +123,10 @@ image[lazy="loading"] {
 </template>
 
 <script>
-import index_icon from "@/assets/index_icon.png";
-import video_icon from "@/assets/video_icon.png";
-import live_icon from "@/assets/live_icon.png";
-import mine_icon from "@/assets/mine_icon.png";
 export default {
   name: "App",
   data: function () {
     return {
-      index_icon,
-      video_icon,
-      mine_icon,
-      live_icon,
       selected: "tab1",
     };
   },
