@@ -7,10 +7,6 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const portfinder = require('portfinder')
-const handler = (percentage, message, ...args) => {
-  // e.g. Output each progress message directly to the console:
-  console.info(percentage, message);
-};
 const devWebpackConfig = merge(baseWebpackConfig, {
   // module: {
   // rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -58,8 +54,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
-    // 展示编译实时进度
-    // new webpack.ProgressPlugin(handler)    
+
   ]
 })
 module.exports = devWebpackConfig

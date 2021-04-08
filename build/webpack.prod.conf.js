@@ -24,7 +24,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     path: config.build.assetsRoot,
     publicPath: './',
     filename: utils.assetsPath('js/[name].[chunkhash].bundle.js'),
-    // chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
   },
   // 设置 可以关闭 编译警告提醒
   performance: { hints: false },
@@ -113,7 +113,7 @@ if (config.build.productionGzip) {
     })
   )
 }
-
+// 在打包结束之后能将各个包的内容、信息、占比以图形化界面表现出来，界面中还有其他的交互和过滤器
 if (config.build.bundleAnalyzerReport) {
   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())

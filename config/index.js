@@ -74,6 +74,7 @@ module.exports = {
 
     // 运行带有额外参数的构建命令，在构建完成后查看bundle analyzer报告:
     // `npm run build --report`
+    // bundleAnalyzerReport: process.env.npm_config_report; 
     // 也可以设置为' true '或' false '总是打开或关闭它
     bundleAnalyzerReport: process.env.npm_config_report
   }

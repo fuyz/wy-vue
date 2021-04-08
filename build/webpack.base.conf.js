@@ -2,13 +2,19 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
+const webpack = require('webpack')
 const vueLoaderConfig = require('./vue-loader.conf')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackBar = require('webpackbar')
 const os = require('os')
 const HappyPack = require('happypack')
 // 手动创建进程池
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+const handler = (percentage, message, ...args) => {
+  // e.g. Output each progress message directly to the console:
+  // console.info(percentage, message);
+};
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -89,7 +95,7 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         },
-        // exclude: [resolve('src/assets')]
+        // exclude: [resolve('src/assets/img')]
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -101,11 +107,25 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+        }
       }
     ]
   },
   plugins: [
+    // 展示编译实时进度
+    // new webpack.ProgressPlugin(handler),
+    new WebpackBar({
+      name: '拼命打包中...😘😘😘', // 默认webpack，可自定义进度条名称
+      profile: false, // 默认false, 探查器
+      basic: false, //默认true,启用一个简单的日志报告器（仅开始和结束）。
+      fancy: true, //启用进度条
+      color: 'green', //设置进度条颜色
+      // reporters: ['fancy', 'profile', /* 'stats' */]
+    }),
     new VueLoaderPlugin(), // loader vue 文件必依赖插件
     new MiniCssExtractPlugin({
       // 类似于 webpackOptions.output 中的选项
