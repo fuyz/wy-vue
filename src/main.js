@@ -8,10 +8,12 @@ import 'mint-ui/lib/style.css'
 import '@/assets/css/index.css'
 import '@/assets/css/custom-font-awesome.css'
 import store from "@/store/index";
+import mixins from '@/mixins'
 
 Vue.config.productionTip = false
 Vue.use(Mint);
 Vue.use(Resource);
+Vue.mixin(mixins)
 new Vue({
   el: '#app',
   router,

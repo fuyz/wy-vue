@@ -257,9 +257,6 @@ export default {
       this.currentUrl = newUrl;
       return newUrl;
     },
-    goBack: function () {
-      this.$router.go(-1);
-    },
   },
 };
 </script>

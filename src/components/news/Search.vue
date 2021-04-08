@@ -95,7 +95,8 @@
       <mt-search class="searchHead" cancel-text="取消" placeholder="搜索">
       </mt-search>
 
-      <mt-loadmore id="listWrap" style="font-size: 0.3rem;" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill=false>
+      <mt-loadmore id="listWrap" style="font-size: 0.3rem;" :bottom-method="loadMore" :bottom-all-loaded="allLoaded"
+        ref="loadmore" :autoFill=false>
         <!--文章新闻-->
         <div class="searchItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
           <div class="searchItem-wrap" v-if="item.skipType == undefined">
@@ -361,9 +362,6 @@ export default {
       let newUrl = arr1.join("?");
       this.currentUrl = newUrl;
       return newUrl;
-    },
-    goBack: function () {
-      this.$router.go(-1);
     },
   },
 };

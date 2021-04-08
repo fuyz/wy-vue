@@ -98,7 +98,7 @@
 // vue-class-component：强化 Vue 组件，使用 TypeScript/装饰器 增强 Vue 组件
 // vue-property-decorator：在 vue-class-component 上增强更多的结合 Vue 特性的装饰器
 import { Vue, Component } from "vue-property-decorator";
-import * as Dialog from "@/utils/dialog";
+import Dialog from "@/utils/dialog";
 import Swiper from "swiper";
 import PARAMS from "@/../config/index";
 import Service from "@/service/service";
@@ -108,6 +108,8 @@ import "swiper/dist/css/swiper.css";
 export default class NewsDetail extends Vue {
   host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort;
   currentUrl = "";
+  skipID: string | (string | null)[] = "";
+  setid: string | (string | null)[] = "";
   data: any = {
     replyCount: "",
     ptime: "",
@@ -117,15 +119,15 @@ export default class NewsDetail extends Vue {
   key = "article";
   created() {
     let postid = this.$route.query.postid;
-    let skipID = this.$route.query.skipID;
+    this.skipID = this.$route.query.skipID;
     let photosetID = this.$route.query.photosetID;
     let docid = this.$route.query.docid;
-    let setid = this.$route.query.setid;
+    this.setid = this.$route.query.setid;
     let skipType = this.$route.query.skipType;
-    if (setid != undefined) {
+    if (this.setid != undefined) {
       //图片详情
       this.currentUrl =
-        "http://c.m.163.com/photo/api/set/0096/" + setid + ".json";
+        "http://c.m.163.com/photo/api/set/0096/" + this.setid + ".json";
       this.key = "pic";
     } else if (photosetID != undefined) {
       //图片新闻
@@ -143,56 +145,57 @@ export default class NewsDetail extends Vue {
         this.key = "article";
       }
     }
-    //    请求新闻详情信息
-    const getData = () => {
-      debugger;
-      Dialog.showLoading(true);
-      this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
-        (res: any) => {
-          // Dialog.showLoading(false);
-          try {
-            res = JSON.parse(JSON.parse(res.body));
-            if (setid != undefined) {
-              this.data = res;
-              this.pictureArr = res.photos;
-            } else if (skipID == undefined || skipID.indexOf("|") == -1) {
-              let urlParamArr = this.currentUrl.split("/");
-              let urlKey = urlParamArr[urlParamArr.length - 2];
-              this.data = res[urlKey];
-            } else {
-              this.data = res;
-              this.pictureArr = res.photos;
-            }
-            console.log([this.currentUrl, this.data]);
-          } catch (err) {
-            console.log(err);
-            Dialog.confirm(
-              {
-                text: "网络错误，请刷新重试！",
-              },
-              () => {
-                getData();
-              }
-            );
-          } finally {
-          }
-        },
-        (res) => {
-          console.log(res);
-        }
-      );
-    };
-    getData.bind(this)();
+
+    this.getData();
   }
 
   updated() {
     this.pictureNews();
     this.articleNews();
   }
-  /*返回*/
-  goBack() {
-    this.$router.go(-1);
+
+  //    请求新闻详情信息
+  getData() {
+    Dialog.showLoading(true);
+    this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
+      (res: any) => {
+        Dialog.showLoading(false);
+        try {
+          res = JSON.parse(JSON.parse(res.body));
+          if (this.setid != undefined) {
+            this.data = res;
+            this.pictureArr = res.photos;
+          } else if (
+            this.skipID == undefined ||
+            this.skipID.indexOf("|") == -1
+          ) {
+            let urlParamArr = this.currentUrl.split("/");
+            let urlKey = urlParamArr[urlParamArr.length - 2];
+            this.data = res[urlKey];
+          } else {
+            this.data = res;
+            this.pictureArr = res.photos;
+          }
+          console.log(["详情", this.currentUrl, this.data]);
+        } catch (err) {
+          console.log(err);
+          Dialog.confirm(
+            {
+              text: "网络错误，请刷新重试！",
+            },
+            () => {
+              this.getData();
+            }
+          );
+        } finally {
+        }
+      },
+      (res) => {
+        console.log(res);
+      }
+    );
   }
+
   /*跳转-》详情页*/
   toComment(obj) {
     this.$router.push({

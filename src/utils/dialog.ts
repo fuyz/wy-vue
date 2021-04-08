@@ -1,7 +1,7 @@
-import Mint from 'mint-ui';
+import { MessageBox, Indicator } from 'mint-ui';
 export default {
     showError(text, title?: '网络错误') {
-        Mint.MessageBox.alert(text, title);
+        MessageBox.alert(text, title);
     },
     confirm(options, resolve, reject?) {
         let _options = {
@@ -14,7 +14,7 @@ export default {
         if (options.message) {
             _options = Object.assign(_options, options)
         }
-        Mint.MessageBox(_options).then(resolve, reject)
+        MessageBox(_options).then(resolve, reject)
     },
     showLoading(isShow, option: any = {}) {
         if (isShow) {
@@ -25,9 +25,9 @@ export default {
             if (option.text) {
                 _option = Object.assign(_option, option)
             }
-            Mint.Indicator.open(_option)
+            Indicator.open(_option)
         } else {
-            Mint.Indicator.close()
+            Indicator.close()
         }
     }
 }
