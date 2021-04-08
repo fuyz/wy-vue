@@ -50,7 +50,7 @@ module.exports = {
 
       {
         test: /\.(le|c)ss$/,
-        use: ['style-loader', 'css-loader', 'less-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
       },
       // {
       //   test: /\.css$/,
@@ -107,15 +107,13 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(), // loader vue 文件必依赖插件
-    new MiniCssExtractPlugin(
-      // {
+    new MiniCssExtractPlugin({
       // 类似于 webpackOptions.output 中的选项
       // 所有选项都是可选的
-      // filename: '[name].css',
+      filename: utils.assetsPath('css/[name].[chunkhash].css'),
       // chunkFilename: '[id].css',
       // ignoreOrder: false, // 忽略有关顺序冲突的警告
-      // }
-    ),
+    }),
     new HappyPack({
       // 这个HappyPack的“名字”就叫做happyBabel，和楼上的查询参数遥相呼应
       id: 'happyBabel',
