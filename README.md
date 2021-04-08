@@ -1,6 +1,7 @@
 # 移动端网页新闻app
 
-> A Vue.js project（vue、vue-router、vuex、mint-ui、swiperJs、nodeJs）
+> A Vue.js project
+> 技术栈基于webpack打包工具、vue框架：如webpack、vue、vue-router、vuex、mint-ui、swiperJs、nodeJs、less、typescript）
 
 ## Build Setup
 
