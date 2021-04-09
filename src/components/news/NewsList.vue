@@ -14,7 +14,7 @@
               </div>
             </div>
             <div class="right">
-              <img class="newsImg" :src="item.imgsrc" alt />
+              <img class="newsImg" :data-src="item.imgsrc" alt />
             </div>
           </div>
           <!--文章新闻-->
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="right" v-if="!item.hasImg">
-                <img class="newsImg" :src="item.imgsrc" alt />
+                <img class="newsImg" :data-src="item.imgsrc" alt />
               </div>
             </div>
           </div>
@@ -50,142 +50,183 @@
               </div>
             </div>
             <div class="right">
-              <img class="newsImg" :src="item.imgsrc" alt />
+              <img class="newsImg" :data-src="item.imgsrc" alt />
+            </div>
+          </div>
+          <!--视频新闻-->
+          <div class="newsItem-wrap" v-if="item.skipType == 'video'">
+            <div class="left">
+              <h3 class="title">{{ item.title }}</h3>
+              <div class="detial">
+                <span class="pubTime">{{ item.mtime.slice(0, -3) }}</span>
+                <span class="reply">{{ item.replyCount }}跟帖</span>
+              </div>
+            </div>
+            <div class="right">
+              <img class="newsImg" :data-src="item.imgsrc" alt />
             </div>
           </div>
         </template>
       </div>
     </template>
-    <div class="noData">暂无数据</div>
+    <div v-else class="noData">暂无数据</div>
   </mt-loadmore>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import URL_PARAMS from "@/utils/urls-config";
-import PARAMS from "@/../config/index";
-import Dialog from "@/utils/dialog";
-import Service from "@/service/service";
+import Vue from 'vue'
+import URL_PARAMS from '@/utils/urls-config'
+import PARAMS from '@/../config/index'
+import Dialog from '@/utils/dialog'
+import Service from '@/service/service'
+import { debounce } from '@/utils'
 
 export default Vue.extend({
-  name: "NewsList",
+  name: 'NewsList',
   data() {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
       dataList: [],
-      title: "头条",
-      currentUrl: "",
+      title: '头条',
+      currentUrl: '',
       allLoaded: false,
-    };
+    }
   },
   created() {
-    this.currentUrl = URL_PARAMS.urlArray[this.title];
-    if (this.dataList.length != 0) return;
-    this.title = this.$route.params.type || this.title;
-    this.getNewsList();
+    console.log('created')
+    this.currentUrl = URL_PARAMS.urlArray[this.title]
+    if (this.dataList.length != 0) return
+    this.title = this.$route.params.type || this.title
+    this.getNewsList()
   },
   mounted() {
+    console.log('mounted')
+
     //详情页返回到新闻列表时回到原位置
     // let pageY = this.$store.state.Position[this.title];
     // document.getElementsByClassName('indexWrap')[0].scrollTop = pageY ? pageY.y : 0;
+    let warpEle: any = document.getElementsByClassName('indexWrap')[0]
+    warpEle.onscroll = debounce(this.loadImg, 300)
+    this.$nextTick(() => {
+      this.loadImg()
+    })
+  },
+  updated() {
+    console.log('up')
+    this.loadImg()
   },
   watch: {
     $route: function (val, old) {
-      this.title = val.params.type;
-      this.getNewsList();
+      this.title = val.params.type
+      this.getNewsList()
     },
   },
   methods: {
+    loadImg() {
+      let warpEle: any = document.getElementsByClassName('indexWrap')[0]
+      let imgEleArr: any = document.querySelectorAll('.indexWrap img')
+      let scrollTop = warpEle.scrollTop
+      let clientH = document.documentElement.clientHeight
+      for (let i = 0; i < imgEleArr.length; i++) {
+        let offsetTop = imgEleArr[i].offsetTop
+        if (scrollTop + clientH > offsetTop - 200) {
+          if (imgEleArr[i].src) continue
+          let src = imgEleArr[i].getAttribute('data-src')
+          src && (imgEleArr[i].src = src)
+        }
+      }
+    },
     /*请求数据*/
-    getNewsList(obj?) {
+    getNewsList(obj?: any) {
       if (!obj) {
-        this.currentUrl = URL_PARAMS.urlArray[this.title];
-        let $state: any = this.$store.state;
-        let news_DATA: any[] = $state.news_DATA;
+        this.currentUrl = URL_PARAMS.urlArray[this.title]
+        let $state: any = this.$store.state
+        let news_DATA: any = $state.news_DATA
         if (news_DATA[this.title] != undefined) {
           //使用缓存数据
-          this.dataList = news_DATA[this.title];
-          return;
+          this.dataList = news_DATA[this.title]
+          return
         } else {
-          this.dataList = [];
+          this.dataList = []
         }
       } else if (obj.loadMore) {
         //加载更多
-        this.currentUrl = this.transformUrl(this.currentUrl, "loadMore");
+        this.currentUrl = this.transformUrl(this.currentUrl, 'loadMore')
       } else if (obj.loadNew) {
         //加载更新
-        this.currentUrl = this.transformUrl(this.currentUrl, "loadNew");
+        this.currentUrl = this.transformUrl(this.currentUrl, 'loadNew')
       }
-      Dialog.showLoading(true);
+      Dialog.showLoading(true)
       Service.getNewsList(this.currentUrl).then((res: any) => {
-        Dialog.showLoading(false);
+        Dialog.showLoading(false)
         try {
-          res = JSON.parse(JSON.parse(res.body));
+          res = JSON.parse(JSON.parse(res.body))
 
-          let urlParamArr = this.currentUrl.split("/");
-          let urlKey = urlParamArr[urlParamArr.length - 2];
-          let dataArr = res[urlKey];
+          let urlParamArr = this.currentUrl.split('/')
+          let urlKey = urlParamArr[urlParamArr.length - 2]
+          let dataArr = res[urlKey]
 
           if (dataArr.length == 0) {
-            this.allLoaded = true;
-            return;
+            this.allLoaded = true
+            return
           }
           if (!obj) {
-            this.dataList = dataArr;
+            this.dataList = dataArr
           } else if (obj.loadMore) {
-            this.dataList = this.dataList.concat(dataArr);
+            // this.dataList = this.dataList.concat(dataArr);
+            this.dataList = dataArr
           } else if (obj.loadNew) {
-            this.dataList = dataArr.concat(this.dataList);
+            this.dataList = dataArr.concat(this.dataList)
           }
 
           //缓存数据
-          this.$store.commit("setData", {
-            type: "news",
+          this.$store.commit('setData', {
+            type: 'news',
             title: this.title,
             data: this.dataList,
-          });
+          })
           // $('img').hide();
-          // console.log([obj.title, this.currentUrl, this.dataList]);
+          console.log(['新闻列表', this.currentUrl, this.dataList])
         } catch (err) {
-          console.log(err);
+          console.log(err)
           Dialog.confirm(
             {
-              message: "网络错误，请刷新重试！",
-              confirmButtonText: "刷新",
+              message: '网络错误，请刷新重试！',
+              confirmButtonText: '刷新',
             },
             () => {
-              this.getNewsList();
+              this.getNewsList()
             }
-          );
+          )
         } finally {
-          let loadmore: any = this.$refs.loadmore;
+          let loadmore: any = this.$refs.loadmore
           if (!obj || obj.loadNew) {
-            loadmore.onTopLoaded();
+            loadmore.onTopLoaded()
           } else if (obj.loadMore) {
-            loadmore.onBottomLoaded();
+            loadmore.onBottomLoaded()
           }
         }
-      });
+      })
     },
     /*上拉加载更多*/
     loadMore: function () {
-      this.getNewsList({ loadMore: true });
+      this.getNewsList({ loadMore: true })
     },
     /*下拉刷新*/
     loadNew: function () {
-      this.getNewsList({ loadNew: true });
+      this.getNewsList({ loadNew: true })
     },
     /*跳转-》详情页*/
-    toDetail(obj) {
+    toDetail(obj?: any) {
       if (obj.specialID) {
         this.$router.push({
-          name: "special",
+          name: 'special',
           query: {
             specialID: obj.specialID,
           },
-        });
+        })
       } else {
         this.$router.push({
-          name: "newsDetail",
+          name: 'newsDetail',
           query: {
             postid: obj.postid,
             skipID: obj.skipID,
@@ -194,32 +235,29 @@ export default Vue.extend({
             setid: obj.setid,
             skipType: obj.skipType,
           },
-        });
+        })
       }
     },
     /*转换url*/
-    transformUrl: function (url, key) {
-      let arr1 = url.split("/");
-      let str = arr1[arr1.length - 1];
-      let arr2 = str.split(".");
-      let arr3 = arr2[0].split("-");
-      if (key == "loadNew") {
-        let startNum = Number(arr3[0]);
-        startNum += 10;
-        arr3[0] = startNum;
-      } else if (key == "loadMore") {
-        let endNum = Number(arr3[1]);
-        endNum += 20;
-        arr3[1] = endNum;
+    transformUrl: function (url: string, key: string) {
+      let urlArr = url.split('/')
+      let lastUrlStr = urlArr[urlArr.length - 1]
+      let paramsArr = lastUrlStr.split('.')
+      let paramsNumberArr: any[] = paramsArr[0].split('-')
+      if (key == 'loadNew') {
+        paramsNumberArr[0] = Number(paramsNumberArr[0]) + 20
+      } else if (key == 'loadMore') {
+        paramsNumberArr[1] = Number(paramsNumberArr[1]) + 20
       }
-      arr2[0] = arr3.join("-");
-      str = arr2.join(".");
-      arr1[arr1.length - 1] = str;
-      let newUrl = arr1.join("/");
-      return newUrl;
+      paramsArr[0] = paramsNumberArr.join('-')
+      lastUrlStr = paramsArr.join('.')
+      urlArr[urlArr.length - 1] = lastUrlStr
+      let newUrl = urlArr.join('/')
+      console.log(newUrl)
+      return newUrl
     },
   },
-});
+})
 </script>
 <style scoped lang="less">
 .listWrap {

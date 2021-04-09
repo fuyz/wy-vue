@@ -4,7 +4,7 @@
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -76,7 +76,7 @@
   transform: translate(0, 0);
 }
 
-image[lazy="loading"] {
+image[lazy='loading'] {
   width: 40px;
   height: 300px;
   margin: auto;
@@ -86,7 +86,7 @@ image[lazy="loading"] {
 <template>
   <div id="app">
     <keep-alive>
-      <transition name="fade" appear>
+      <transition name="slide" appear>
         <router-view></router-view>
       </transition>
     </keep-alive>
@@ -123,17 +123,17 @@ image[lazy="loading"] {
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   data: function () {
     return {
-      selected: "tab1",
-    };
+      selected: 'tab1',
+    }
   },
   methods: {},
   created() {
     // alert(123);
   },
-};
+}
 </script>
 <style lang="less">
 @fontSize: 14px;

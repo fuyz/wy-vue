@@ -97,169 +97,169 @@
 <script lang="ts">
 // vue-class-component：强化 Vue 组件，使用 TypeScript/装饰器 增强 Vue 组件
 // vue-property-decorator：在 vue-class-component 上增强更多的结合 Vue 特性的装饰器
-import { Vue, Component } from "vue-property-decorator";
-import Dialog from "@/utils/dialog";
-import Swiper from "swiper";
-import PARAMS from "@/../config/index";
-import Service from "@/service/service";
-import "swiper/dist/css/swiper.css";
+import { Vue, Component } from 'vue-property-decorator'
+import Dialog from '@/utils/dialog'
+import Swiper from 'swiper'
+import PARAMS from '@/../config/index'
+import Service from '@/service/service'
+import 'swiper/dist/css/swiper.css'
 
 @Component({})
 export default class NewsDetail extends Vue {
-  host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort;
-  currentUrl = "";
-  skipID: string | (string | null)[] = "";
-  setid: string | (string | null)[] = "";
+  host_port = 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort
+  currentUrl = ''
+  skipID: string | (string | null)[] = ''
+  setid: string | (string | null)[] = ''
   data: any = {
-    replyCount: "",
-    ptime: "",
-  };
-  html_structure = "";
-  pictureArr = null;
-  key = "article";
+    replyCount: '',
+    ptime: '',
+  }
+  html_structure = ''
+  pictureArr = null
+  key = 'article'
   created() {
-    let postid = this.$route.query.postid;
-    this.skipID = this.$route.query.skipID;
-    let photosetID = this.$route.query.photosetID;
-    let docid = this.$route.query.docid;
-    this.setid = this.$route.query.setid;
-    let skipType = this.$route.query.skipType;
+    let postid = this.$route.query.postid
+    this.skipID = this.$route.query.skipID
+    let photosetID = this.$route.query.photosetID
+    let docid = this.$route.query.docid
+    this.setid = this.$route.query.setid
+    let skipType = this.$route.query.skipType
     if (this.setid != undefined) {
       //图片详情
       this.currentUrl =
-        "http://c.m.163.com/photo/api/set/0096/" + this.setid + ".json";
-      this.key = "pic";
+        'http://c.m.163.com/photo/api/set/0096/' + this.setid + '.json'
+      this.key = 'pic'
     } else if (photosetID != undefined) {
       //图片新闻
-      let ID: any = "";
-      ID = photosetID.slice(4);
-      ID = ID.replace(/\|/, "/");
-      this.currentUrl = "http://c.3g.163.com/photo/api/set/" + ID + ".json";
-      this.key = "picture";
+      let ID: any = ''
+      ID = photosetID.slice(4)
+      ID = ID.replace(/\|/, '/')
+      this.currentUrl = 'http://c.3g.163.com/photo/api/set/' + ID + '.json'
+      this.key = 'picture'
     } else if (docid != undefined) {
       //文章新闻、段子详情
-      this.currentUrl = "http://c.m.163.com/nc/article/" + docid + "/full.html";
-      if (skipType == "dz") {
-        this.key = "dz";
+      this.currentUrl = 'http://c.m.163.com/nc/article/' + docid + '/full.html'
+      if (skipType == 'dz') {
+        this.key = 'dz'
       } else {
-        this.key = "article";
+        this.key = 'article'
       }
     }
 
-    this.getData();
+    this.getData()
   }
 
   updated() {
-    this.pictureNews();
-    this.articleNews();
+    this.pictureNews()
+    this.articleNews()
   }
 
   //    请求新闻详情信息
   getData() {
-    Dialog.showLoading(true);
-    this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
+    Dialog.showLoading(true)
+    this.$http.jsonp(this.host_port + '?key=wy&url=' + this.currentUrl).then(
       (res: any) => {
-        Dialog.showLoading(false);
+        Dialog.showLoading(false)
         try {
-          res = JSON.parse(JSON.parse(res.body));
+          res = JSON.parse(JSON.parse(res.body))
           if (this.setid != undefined) {
-            this.data = res;
-            this.pictureArr = res.photos;
+            this.data = res
+            this.pictureArr = res.photos
           } else if (
             this.skipID == undefined ||
-            this.skipID.indexOf("|") == -1
+            this.skipID.indexOf('|') == -1
           ) {
-            let urlParamArr = this.currentUrl.split("/");
-            let urlKey = urlParamArr[urlParamArr.length - 2];
-            this.data = res[urlKey];
+            let urlParamArr = this.currentUrl.split('/')
+            let urlKey = urlParamArr[urlParamArr.length - 2]
+            this.data = res[urlKey]
           } else {
-            this.data = res;
-            this.pictureArr = res.photos;
+            this.data = res
+            this.pictureArr = res.photos
           }
-          console.log(["详情", this.currentUrl, this.data]);
+          console.log(['详情', this.currentUrl, this.data])
         } catch (err) {
-          console.log(err);
+          console.log(err)
           Dialog.confirm(
             {
-              text: "网络错误，请刷新重试！",
+              text: '网络错误，请刷新重试！',
             },
             () => {
-              this.getData();
+              this.getData()
             }
-          );
+          )
         } finally {
         }
       },
       (res) => {
-        console.log(res);
+        console.log(res)
       }
-    );
+    )
   }
 
   /*跳转-》详情页*/
-  toComment(obj) {
+  toComment(obj: any) {
     this.$router.push({
-      name: "comment",
+      name: 'comment',
       query: {
         docid: obj.docid,
         postid: obj.postid,
       },
-    });
+    })
   }
   /*去搜索页*/
-  toSearch(obj) {
+  toSearch(obj: any) {
     this.$router.push({
-      name: "search",
+      name: 'search',
       query: {
         keyword: obj.keyword,
       },
-    });
+    })
   }
   /*渲染图片文章*/
   pictureNews() {
-    if (document.getElementsByClassName("swiper-container").length == 0) return;
-    var mySwiper = new Swiper(".swiper-container", {
-      direction: "horizontal",
+    if (document.getElementsByClassName('swiper-container').length == 0) return
+    var mySwiper = new Swiper('.swiper-container', {
+      direction: 'horizontal',
       loop: true,
       // 如果需要前进后退按钮
       navigation: {
         // nextEl: '.swiper-button-next',
         // prevEl: '.swiper-button-prev s',
       },
-    });
+    })
   }
   /*渲染文本文章*/
   articleNews() {
-    let body = this.data.body;
-    if (typeof body == "undefined") return;
-    let video = this.data.video == undefined ? [] : this.data.video;
-    let img = this.data.img == undefined ? [] : this.data.img;
+    let body = this.data.body
+    if (typeof body == 'undefined') return
+    let video = this.data.video == undefined ? [] : this.data.video
+    let img = this.data.img == undefined ? [] : this.data.img
     //转换video标签
     if (video.length != 0) {
       for (let i = 0; i < video.length; i++) {
         body = body.replace(
           video[i].ref,
-          '<video src="' + video[i].mp4_url + '"></video>'
-        );
+          `<video src="${video[i].mp4_url}'"></video>`
+        )
       }
     }
     //转换img标签
     if (img.length != 0) {
       for (let i = 0; i < img.length; i++) {
         let width: number = 640,
-          height = 320;
-        let pixel = img[i].pixel;
+          height = 320
+        let pixel = img[i].pixel
         if (pixel) {
-          width = img[i].pixel.split("*")[0];
-          height = img[i].pixel.split("*")[1];
+          width = img[i].pixel.split('*')[0]
+          height = img[i].pixel.split('*')[1]
         }
         body = body.replace(
           img[i].ref,
           `<img src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
-        );
+        )
       }
     }
-    this.html_structure = body;
+    this.html_structure = body
   }
 }
 </script>

@@ -5,97 +5,97 @@
   z-index: 20;
   overflow-y: scroll;
   margin-top: 40px;
-}
 
-.commentList {
-  /*position: relative;*/
-  /*top: 40px;*/
-  /*margin-top: 40px;*/
-  /*z-index: 2;*/
-  background: #efefef;
-  min-height: calc(100vh - 95px);
-  /*overflow-y: scroll;*/
-  box-sizing: border-box;
-  // & > .commentItem {
-  //   margin-bottom: 5px;
-  // }
-}
+  .commentList {
+    /*position: relative;*/
+    /*top: 40px;*/
+    /*margin-top: 40px;*/
+    /*z-index: 2;*/
+    background: #efefef;
+    min-height: calc(100vh - 95px);
+    /*overflow-y: scroll;*/
+    box-sizing: border-box;
+    // & > .commentItem {
+    //   margin-bottom: 5px;
+    // }
+  }
 
-.box {
-  border: 1px solid #eee;
-}
+  .box {
+    border: 1px solid #eee;
+  }
 
-.commentItem {
-  background: white;
-  padding: 0.2rem 0.2rem;
-  border-bottom: 1px solid #eee;
-}
+  .commentItem {
+    background: white;
+    padding: 0.2rem 0.2rem;
+    border-bottom: 1px solid #eee;
+  }
 
-.user {
-  line-height: 0.4rem;
-}
+  .user {
+    line-height: 0.4rem;
+  }
 
-.avatarWrap {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: 5px;
-}
+  .avatarWrap {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: 5px;
+  }
 
-.avatar {
-  width: 100%;
-}
+  .avatar {
+    width: 100%;
+  }
 
-.userInfo {
-  display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: calc(100% - 35px);
-}
+  .userInfo {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 35px);
+  }
 
-.name {
-  color: rgb(48, 131, 251);
-  font-size: 0.25rem;
-}
+  .name {
+    color: rgb(48, 131, 251);
+    font-size: 0.25rem;
+  }
 
-.other span {
-  margin-right: 5px;
-  color: #999;
-}
+  .other span {
+    margin-right: 5px;
+    color: #999;
+  }
 
-.content {
-  font-size: 0.3rem;
-  /*padding-left: 40px;*/
-  color: #222;
-}
+  .content {
+    font-size: 0.3rem;
+    /*padding-left: 40px;*/
+    color: #222;
+  }
 
-#commentDetailWrap .commentWrap {
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  height: 50px;
-  line-height: 35px;
-  font-size: 0.3rem;
-  background: #fff;
-  color: #ccc;
-  padding: 0 5px;
-  box-sizing: border-box;
-}
+  .commentWrap {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    line-height: 35px;
+    font-size: 0.3rem;
+    background: #fff;
+    color: #ccc;
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
 
-#commentDetailWrap .comment-input {
-  width: 98vw;
-  display: inline-block;
-  margin: 5px auto;
-  outline: none;
-  border-radius: 5px;
-  background: transparent;
-  border: 1px solid #ccc;
-  padding: 8px 10px;
-  box-sizing: border-box;
-  color: #111;
+  .comment-input {
+    width: 98vw;
+    display: inline-block;
+    margin: 5px auto;
+    outline: none;
+    border-radius: 5px;
+    background: transparent;
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    color: #111;
+  }
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -242,11 +242,6 @@ export default {
             pageArr[1] = num;
           }
         } else if (key == "loadMore") {
-          // if (pageArr[0] == "limit") {
-          //   let num = Number(pageArr[1]);
-          //   num += 10;
-          //   pageArr[1] = num;
-          // }
           pageArr[1] = Number(pageArr[1]) + 10;
         }
 
