@@ -12,10 +12,11 @@ const store = new Vuex.Store({
     news_DATA: {},
     newsDetail_DATA: {},
     video_DATA: {},
-    Position:{}
+    Position: {}
   },
   mutations: {
     setData(state, obj) {
+      console.log(['存储数据', obj])
       if (obj.type == 'news') {
         state.news_DATA[obj.title] = obj.data;
         // state.Position[obj.title] = obj.position;

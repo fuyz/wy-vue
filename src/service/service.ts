@@ -2,11 +2,11 @@ import Vue from "vue"
 import PARAMS from "../../config/index";
 // import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
 
-let _vue = new Vue()
+const _vue: any = new Vue()
 const host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort
 
 export default {
-  getNewsList(currentUrl) {
+  getNewsList(currentUrl: string) {
     return _vue.$http.jsonp(host_port + "?key=wy&url=" + currentUrl)
   }
 }

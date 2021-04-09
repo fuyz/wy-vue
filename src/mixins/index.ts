@@ -8,8 +8,8 @@ declare module 'vue/types/vue' {
     interface Vue {
         $formValidateMx(name: string, isShowError?: boolean): Promise<boolean>
         goBack(): void
-        goHome(nodeId): void
-        goPage(hash, nodeId, isParent?: boolean, isShowloading?: boolean, isSimple?: boolean): void
+        goHome(nodeId: number): void
+        goPage(hash: string, nodeId: number, isParent?: boolean, isShowloading?: boolean, isSimple?: boolean): void
         $router: VueRouter
         $route: Route
     }
@@ -17,10 +17,10 @@ declare module 'vue/types/vue' {
 
 export default {
     methods: {
-        $formValidateMx(formname, showError = false) {
+        $formValidateMx(formname: string, showError = false) {
             const $form: any = (this as any).$refs[formname]
             return new Promise((resolve, reject) => {
-                $form.validate((valid, error) => {
+                $form.validate((valid: boolean, error: any) => {
                     if (valid) {
                         resolve(valid)
                     } else {
@@ -37,7 +37,7 @@ export default {
         goBack() {
             window.history.back()
         },
-        goPage(hash) {
+        goPage(hash: string) {
             (this as any).$router.push(hash)
         }
     }

@@ -1,9 +1,9 @@
 import { MessageBox, Indicator } from 'mint-ui';
 export default {
-    showError(text, title?: '网络错误') {
+    showError(text: string | number, title?: '网络错误') {
         MessageBox.alert(text, title);
     },
-    confirm(options, resolve, reject?) {
+    confirm(options: any, resolve: any, reject?: void) {
         let _options = {
             title: "提示",
             message: '',
@@ -16,7 +16,7 @@ export default {
         }
         MessageBox(_options).then(resolve, reject)
     },
-    showLoading(isShow, option: any = {}) {
+    showLoading(isShow: boolean, option: any = {}) {
         if (isShow) {
             let _option = {
                 text: '加载中...',
