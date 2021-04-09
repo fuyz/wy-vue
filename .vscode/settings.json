@@ -8,10 +8,16 @@
     //   "wrapLineLength": 60,
     //   "wrapAttributes": false
     // },
+    "prettier": {
+      // 格式化不加分号
+      "semi": false,
+      // 格式化为单引号
+      "singleQuote": true
+    },
     "js-beautify-html": {
       "wrap_line_length": 130,
       "wrap_attributes": true,
-      "end_with_newline": true
+      "end_with_newline": true,
     }
   },
   "editor.codeActionsOnSave": {
