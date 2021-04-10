@@ -7,9 +7,11 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const portfinder = require('portfinder')
+// console.log(utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: false }))
+// console.log(utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: false })[2].use)
 const devWebpackConfig = merge(baseWebpackConfig, {
   // module: {
-  // rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+  //   rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: false })
   // },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,

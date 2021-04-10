@@ -15,7 +15,7 @@
       "singleQuote": true
     },
     "js-beautify-html": {
-      "wrap_line_length": 130,
+      "wrap_line_length": 160,
       "wrap_attributes": true,
       "end_with_newline": true,
     }

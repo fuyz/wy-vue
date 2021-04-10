@@ -6,8 +6,6 @@
   font-size: 0.3rem;
   margin-top: 40px;
   background: white;
-  /*height: calc(100vh - 101px);*/
-  /*overflow-y: scroll;*/
 }
 
 .newsItem {
@@ -97,8 +95,9 @@
     <header>
       <img v-if="dataList.banner" class="banner" :src="dataList.banner" alt="banner图片">
       <div class="cellWrap">
-        <div @click="fyz(index)" class="cell" v-for="(item, index) in dataList.topics" :key="index">
-          {{ item.shortname || item.tname }}</div>
+        <div @click="toAnchor(index)" class="cell" v-for="(item, index) in dataList.topics" :key="index">
+          {{ item.shortname || item.tname }}
+        </div>
       </div>
 
     </header>
@@ -115,7 +114,7 @@
           </div>
         </div>
         <div class="right">
-          <img class="newsImg" :src="e.imgsrc" alt="">
+          <img class="newsImg" :data-src="e.imgsrc" alt="">
         </div>
       </div>
 
@@ -125,80 +124,84 @@
 
 </template>
 
-<script>
-import { MessageBox, Indicator } from "mint-ui";
-import URL_PARAMS from "@/utils/urls-config";
-import PARAMS from "../../../config/index";
+<script lang="ts">
+import Vue from 'vue'
+import { MessageBox, Indicator } from 'mint-ui'
+import URL_PARAMS from '@/utils/urls-config'
+import PARAMS from '../../../config/index'
+import { debounce } from '@/utils'
 
-export default {
-  name: "Special",
+export default Vue.extend({
+  name: 'Special',
   data() {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      title: '',
+      specialID: '',
+      host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
       dataList: [],
-      currentUrl: URL_PARAMS.urlArray[this.title],
+      currentUrl: '',
       allLoaded: false,
-    };
-  },
-  created: function () {
-    // console.log(this.$route);
-    let specialID = this.$route.query.specialID;
-    this.currentUrl = "http://c.m.163.com/nc/special/" + specialID + ".html";
-    // console.log(this.currentUrl);
-    getData.bind(this)();
-    function getData() {
-      Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
-      });
-      this.$http.jsonp(this.host_port + "?key=wy&url=" + this.currentUrl).then(
-        (res) => {
-          Indicator.close();
-          try {
-            res = JSON.parse(JSON.parse(res.body));
-            this.dataList = res[specialID];
-            console.log(["专题数据", this.dataList]);
-          } catch (err) {
-            console.log(err);
-            MessageBox({
-              title: "提示",
-              message: "网络错误，请刷新重试！",
-              confirmButtonText: "刷新",
-            }).then((action) => {
-              getData.bind(this)();
-            });
-          } finally {
-          }
-        },
-        (res) => {
-          console.log(res);
-        }
-      );
     }
   },
-  watch: {
-    //监听路由变动情况
-    $route: function (val, old) {
-      this.title = val.params.type;
-      this.ajaxData({ title: this.title });
-    },
+  created() {
+    let query: any = this.$route.query
+    this.specialID = query.specialID
+    this.currentUrl =
+      'http://c.m.163.com/nc/special/' + this.specialID + '.html'
+    this.getData()
   },
+  mounted() {
+    let warpEle: any = document.getElementById('app')
+    warpEle && (warpEle.onscroll = debounce(this.loadImg, 300))
+    this.$nextTick(() => {
+      this.loadImg()
+    })
+  },
+  updated() {
+    this.loadImg()
+  },
+  watch: {},
   methods: {
-    goBack: function () {
-      this.$router.go(-1);
+    getData() {
+      Indicator.open({
+        text: '加载中...',
+        spinnerType: 'snake',
+      })
+      this.$http.jsonp(this.host_port + '?key=wy&url=' + this.currentUrl).then(
+        (res: any) => {
+          Indicator.close()
+          try {
+            let body: any = JSON.parse(JSON.parse(res.body))
+            this.dataList = body[this.specialID]
+            console.log(['专题数据', this.currentUrl, this.dataList])
+          } catch (err) {
+            console.log(err)
+            MessageBox({
+              title: '提示',
+              message: '网络错误，请刷新重试！',
+              confirmButtonText: '刷新',
+            }).then(() => {
+              this.getData()
+            })
+          }
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
     },
     /*跳转-》详情页*/
     toDetail: function (obj) {
       if (obj.specialID) {
         this.$router.push({
-          name: "special",
+          name: 'special',
           query: {
             specialID: obj.specialID,
           },
-        });
+        })
       } else {
         this.$router.push({
-          name: "newsDetail",
+          name: 'newsDetail',
           query: {
             postid: obj.postid,
             skipID: obj.skipID,
@@ -206,14 +209,31 @@ export default {
             photosetID: obj.photosetID,
             setid: obj.setid,
           },
-        });
+        })
       }
     },
-    fyz: function (index) {
-      let scrollTop = document.getElementById(index).offsetTop;
-      document.getElementById("app").scrollTop = scrollTop;
+    toAnchor(index) {
+      let ele: any = document.getElementById(index)
+      let scrollTop: any = ele.offsetTop
+      let app: any = document.getElementById('app')
+      app.scrollTop = scrollTop
+    },
+    loadImg() {
+      let warpEle: any = document.getElementById('app')
+      if (!warpEle) return
+      let imgEleArr: any = document.querySelectorAll('#specialWrap img')
+      let scrollTop = warpEle.scrollTop
+      let clientH = document.documentElement.clientHeight
+      for (let i = 0; i < imgEleArr.length; i++) {
+        let offsetTop = imgEleArr[i].offsetTop
+        if (scrollTop + clientH > offsetTop - 200) {
+          if (imgEleArr[i].src) continue
+          let src = imgEleArr[i].getAttribute('data-src')
+          src && (imgEleArr[i].src = src)
+        }
+      }
     },
   },
-};
+})
 </script>
 

@@ -103,6 +103,7 @@ import Swiper from 'swiper'
 import PARAMS from '@/../config/index'
 import Service from '@/service/service'
 import 'swiper/dist/css/swiper.css'
+import { debounce } from '@/utils'
 
 @Component({})
 export default class NewsDetail extends Vue {
@@ -148,13 +149,19 @@ export default class NewsDetail extends Vue {
 
     this.getData()
   }
-
+  mounted() {
+    let warpEle: any = document.getElementById('newsDetailContent')
+    warpEle && (warpEle.onscroll = debounce(this.loadImg, 300))
+    this.$nextTick(() => {
+      this.loadImg()
+    })
+  }
   updated() {
     this.pictureNews()
     this.articleNews()
+    this.loadImg()
   }
-
-  //    请求新闻详情信息
+  // 请求新闻详情信息
   getData() {
     Dialog.showLoading(true)
     this.$http.jsonp(this.host_port + '?key=wy&url=' + this.currentUrl).then(
@@ -195,7 +202,6 @@ export default class NewsDetail extends Vue {
       }
     )
   }
-
   /*跳转-》详情页*/
   toComment(obj: any) {
     this.$router.push({
@@ -255,11 +261,26 @@ export default class NewsDetail extends Vue {
         }
         body = body.replace(
           img[i].ref,
-          `<img src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
+          `<img data-src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
         )
       }
     }
     this.html_structure = body
+  }
+  loadImg() {
+    let warpEle: any = document.getElementById('newsDetailContent')
+    if (!warpEle) return
+    let imgEleArr: any = document.querySelectorAll('#newsDetailContent img')
+    let scrollTop = warpEle.scrollTop
+    let clientH = document.documentElement.clientHeight
+    for (let i = 0; i < imgEleArr.length; i++) {
+      let offsetTop = imgEleArr[i].offsetTop
+      if (scrollTop + clientH > offsetTop - 200) {
+        if (imgEleArr[i].src) continue
+        let src = imgEleArr[i].getAttribute('data-src')
+        src && (imgEleArr[i].src = src)
+      }
+    }
   }
 }
 </script>
