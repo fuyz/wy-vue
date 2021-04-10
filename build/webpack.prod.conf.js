@@ -23,7 +23,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    publicPath: './',
+    publicPath: config.dev.assetsPublicPath,
     filename: utils.assetsPath('js/[name].[chunkhash].bundle.js'),
     //自定义chunk名字
     // chunkFilename: utils.assetsPath('js/[id].[chunkhash].bundle.js')
