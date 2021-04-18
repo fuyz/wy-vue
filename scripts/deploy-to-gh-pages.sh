@@ -8,5 +8,5 @@ cd dist
 git init
 git add .
 git commit -m 'Travis build'
-git push --force --quiet "https://${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}@github.com/fuyz/wy-vue.git" master:gh-pages
+git push --force --quiet "https://${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}@github.com/fuyz/wy-vue.git" master:gh-pages
 
