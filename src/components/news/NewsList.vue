@@ -1,6 +1,5 @@
 <template>
-  <mt-loadmore class="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
-    :autoFill="false">
+  <mt-loadmore class="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="false">
     <template v-if="dataList.length">
       <div class="newsItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
         <template v-if="item.skipType !== 'live' && item.skipType != 'video'">
