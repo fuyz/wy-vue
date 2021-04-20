@@ -8,7 +8,7 @@ script:
   - bash scripts/deploy-to-gh-pages.sh
 
 after_script:
-  cd ./dist
+  cd ./docs
   git init
   git config --global user.email "953958160@qq.com"
   git config --global user.name "fuyz"
