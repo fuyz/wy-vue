@@ -38,6 +38,10 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  externals: {
+    'vue': 'Vue',
+    // 'vue-router': 'VueRouter',
+  },
   module: {
     rules: [
       {
