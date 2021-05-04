@@ -2,9 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router);
 
-// import News from '@/components/news/News'
-// import NewsList from '@/components/news/NewsList'
-// import CityList from '@/components/news/CityList'
+// 动态组件引入，会作用于对应打包文件bundle.js文件数量变化
+import News from '@/components/news/News'
+// let News = () => import('@/components/news/News')
+// let NewsList = () => import('@/components/news/NewsList')
+// let CityList = () => import('@/components/news/CityList')
+import NewsList from '@/components/news/NewsList'
+import CityList from '@/components/news/CityList'
 // import PictureList from '@/components/news/PictureList'
 // import TextList from '@/components/news/TextList'
 // import NewsList4 from '@/components/news/NewsList4'
@@ -28,12 +32,12 @@ const routerArr = [
   {
     path: '/news',
     name: 'myNews',
-    component: () => import('@/components/news/News'),
+    component: News,
     children: [
       {
         path: 'head/:type',
         components: {
-          NewsListView: () => import('@/components/news/NewsList'),
+          NewsListView: NewsList,
         },
         // props: (route) => ({ query: route.query.key })
       },
@@ -41,7 +45,7 @@ const routerArr = [
         path: 'city',
         name: 'myNews-city',
         components: {
-          CityList: () => import('@/components/news/CityList'),
+          CityList: CityList,
         }
       },
       {
