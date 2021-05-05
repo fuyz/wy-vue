@@ -41,6 +41,8 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "happypack": "^5.0.1",
     "hard-source-webpack-plugin": "^0.13.1",
+    "hello_fuyz": "^1.0.1",
+    "hello_test_fuyz": "^1.0.0",
     "html-webpack-plugin": "^4.5.2",
     "less": "^4.1.1",
     "less-loader": "5.0.0",
