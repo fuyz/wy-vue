@@ -10,6 +10,9 @@ import '@/assets/css/custom-font-awesome.css'
 import store from "@/store/index";
 import mixins from '@/mixins'
 
+import hello_fuyz from 'hello_fuyz'
+hello_fuyz.consoleHello()
+
 Vue.config.productionTip = false
 Vue.use(Mint);
 Vue.use(Resource);
@@ -21,4 +24,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 });
-
