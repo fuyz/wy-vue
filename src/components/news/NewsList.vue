@@ -93,7 +93,7 @@ export default Vue.extend({
   created() {
     console.log('created')
     this.currentUrl = URL_PARAMS.urlArray[this.title]
-    if (this.dataList.length != 0) return
+    if (this.dataList.length) return
     this.title = this.$route.params.type || this.title
     this.getNewsList()
   },
@@ -103,7 +103,7 @@ export default Vue.extend({
     //详情页返回到新闻列表时回到原位置
     // let pageY = this.$store.state.Position[this.title];
     // document.getElementsByClassName('indexWrap')[0].scrollTop = pageY ? pageY.y : 0;
-    let warpEle: any = document.getElementsByClassName('indexWrap')[0]
+    const warpEle: any = document.getElementsByClassName('indexWrap')[0]
     warpEle.onscroll = debounce(this.loadImg, 300)
     this.$nextTick(() => {
       this.loadImg()
@@ -114,23 +114,23 @@ export default Vue.extend({
     this.loadImg()
   },
   watch: {
-    $route: function (val, old) {
+    $route: function (val) {
       this.title = val.params.type
       this.getNewsList()
     },
   },
   methods: {
     loadImg() {
-      let warpEle: any = document.getElementsByClassName('indexWrap')[0]
-      let imgEleArr: any = document.querySelectorAll('.indexWrap img')
-      let scrollTop = warpEle.scrollTop
-      let clientH = document.documentElement.clientHeight
+      const warpEle: any = document.getElementsByClassName('indexWrap')[0]
+      const imgEleArr: any = document.querySelectorAll('.indexWrap img')
+      const scrollTop = warpEle.scrollTop
+      const clientH = document.documentElement.clientHeight
       for (let i = 0; i < imgEleArr.length; i++) {
-        let offsetTop = imgEleArr[i].offsetTop
-        if (scrollTop + clientH > offsetTop - 200) {
-          if (imgEleArr[i].src) continue
-          let src = imgEleArr[i].getAttribute('data-src')
-          src && (imgEleArr[i].src = src)
+        const imgEle = imgEleArr[i]
+        if (scrollTop + clientH > imgEle.offsetTop - 200) {
+          // if (imgEleArr[i].src) continue
+          const src = imgEle.getAttribute('data-src')
+          src && (imgEle.src = src)
         }
       }
     },
@@ -138,9 +138,9 @@ export default Vue.extend({
     getNewsList(obj?: any) {
       if (!obj) {
         this.currentUrl = URL_PARAMS.urlArray[this.title]
-        let $state: any = this.$store.state
-        let news_DATA: any = $state.news_DATA
-        if (news_DATA[this.title] != undefined) {
+        const $state: any = this.$store.state
+        const news_DATA: any = $state.news_DATA
+        if (news_DATA[this.title]) {
           //使用缓存数据
           this.dataList = news_DATA[this.title]
           return
@@ -159,12 +159,10 @@ export default Vue.extend({
         Dialog.showLoading(false)
         try {
           res = JSON.parse(JSON.parse(res.body))
-
-          let urlParamArr = this.currentUrl.split('/')
-          let urlKey = urlParamArr[urlParamArr.length - 2]
-          let dataArr = res[urlKey]
-
-          if (dataArr.length == 0) {
+          const urlParamArr = this.currentUrl.split('/')
+          const urlKey = urlParamArr[urlParamArr.length - 2]
+          const dataArr = res[urlKey]
+          if (!dataArr.length) {
             this.allLoaded = true
             return
           }
@@ -176,14 +174,12 @@ export default Vue.extend({
           } else if (obj.loadNew) {
             this.dataList = dataArr.concat(this.dataList)
           }
-
           //缓存数据
           this.$store.commit('setData', {
             type: 'news',
             title: this.title,
             data: this.dataList,
           })
-          // $('img').hide();
           console.log(['新闻列表', this.currentUrl, this.dataList])
         } catch (err) {
           console.log(err)
@@ -197,7 +193,7 @@ export default Vue.extend({
             }
           )
         } finally {
-          let loadmore: any = this.$refs.loadmore
+          const loadmore: any = this.$refs.loadmore
           if (!obj || obj.loadNew) {
             loadmore.onTopLoaded()
           } else if (obj.loadMore) {
@@ -239,19 +235,19 @@ export default Vue.extend({
     },
     /*转换url*/
     transformUrl: function (url: string, key: string) {
-      let urlArr = url.split('/')
+      const urlArr = url.split('/')
       let lastUrlStr = urlArr[urlArr.length - 1]
-      let paramsArr = lastUrlStr.split('.')
-      let paramsNumberArr: any[] = paramsArr[0].split('-')
-      if (key == 'loadNew') {
-        paramsNumberArr[0] = Number(paramsNumberArr[0]) + 20
-      } else if (key == 'loadMore') {
-        paramsNumberArr[1] = Number(paramsNumberArr[1]) + 20
+      const paramsArr = lastUrlStr.split('.')
+      let [start, end]: any[] = paramsArr[0].split('-')
+      if (key === 'loadNew') {
+        start = Number(start) + 20
+      } else if (key === 'loadMore') {
+        end = Number(end) + 20
       }
-      paramsArr[0] = paramsNumberArr.join('-')
+      paramsArr[0] = start + '-' + end
       lastUrlStr = paramsArr.join('.')
       urlArr[urlArr.length - 1] = lastUrlStr
-      let newUrl = urlArr.join('/')
+      const newUrl = urlArr.join('/')
       console.log(newUrl)
       return newUrl
     },

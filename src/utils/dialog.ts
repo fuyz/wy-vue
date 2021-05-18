@@ -1,11 +1,11 @@
-import { MessageBox, Indicator } from 'mint-ui';
+import { MessageBox, Indicator } from 'mint-ui'
 export default {
     showError(text: string | number, title?: '网络错误') {
-        MessageBox.alert(text, title);
+        MessageBox.alert(text, title)
     },
     confirm(options: any, resolve: any, reject?: void) {
         let _options = {
-            title: "提示",
+            title: '提示',
             message: '',
             confirmButtonText: '确定',
             showCancelButton: true,

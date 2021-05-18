@@ -86,7 +86,7 @@ image[lazy='loading'] {
 <template>
   <div id="app">
     <keep-alive>
-      <transition name="fade" appear>
+      <transition name="slide" appear>
         <router-view></router-view>
       </transition>
     </keep-alive>

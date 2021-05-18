@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import Nav from "@/components/widgets/Nav";
+import Nav from '@/components/widgets/Nav'
 
 export default {
-  name: "myNews",
-  data() {
-    return {};
+  name: 'myNews',
+  data () {
+    return {}
   },
   components: {
     Nav,
@@ -74,7 +74,7 @@ export default {
     //      }
   },
   methods: {},
-};
+}
 </script>
 <style>
 .indexWrap {
