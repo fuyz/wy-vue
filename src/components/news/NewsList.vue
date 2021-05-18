@@ -128,7 +128,7 @@ export default Vue.extend({
       for (let i = 0; i < imgEleArr.length; i++) {
         let offsetTop = imgEleArr[i].offsetTop
         if (scrollTop + clientH > offsetTop - 200) {
-          if (imgEleArr[i].src) continue
+          // if (imgEleArr[i].src) continue
           let src = imgEleArr[i].getAttribute('data-src')
           src && (imgEleArr[i].src = src)
         }
@@ -176,7 +176,6 @@ export default Vue.extend({
           } else if (obj.loadNew) {
             this.dataList = dataArr.concat(this.dataList)
           }
-
           //缓存数据
           this.$store.commit('setData', {
             type: 'news',
