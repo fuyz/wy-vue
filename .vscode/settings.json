@@ -1,6 +1,8 @@
 {
 
   "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+
   "vetur.format.defaultFormatterOptions": {
     // "prettyhtml": {
     //   // 单行超过160个长度的时候开始换行显示各种参数和事件
@@ -12,7 +14,7 @@
       // 格式化不加分号
       "semi": false,
       // 格式化为单引号
-      "singleQuote": true
+      "singleQuote": true,
     },
     "js-beautify-html": {
       "wrap_line_length": 160,
@@ -20,10 +22,18 @@
       "end_with_newline": true,
     }
   },
+  // 每次保存的时候将代码按eslint格式进行修复
   "editor.codeActionsOnSave": {
     // For ESLint
     "source.fixAll.eslint": true,
   },
+  //自动保存的时候，eslint自动修复一些格式上的错误
+  "eslint.alwaysShowStatus": true,
+  // 当保存代码的时候，会自动格式化
+  "editor.formatOnSave": true,
+  // 函数括号之前加上空格
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+
   // eslint 校验
   "eslint.validate": [
     "javascript",
@@ -31,6 +41,6 @@
     "vue",
     "typescript",
   ],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
 
 }

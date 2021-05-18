@@ -90,23 +90,28 @@
 <template>
   <div id="specialWrap">
     <mt-header fixed style="z-index: 5">
-      <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
+      <mt-button slot="left" icon="back" @click="goBack">
+        返回
+      </mt-button>
     </mt-header>
     <header>
       <img v-if="dataList.banner" class="banner" :src="dataList.banner" alt="banner图片">
       <div class="cellWrap">
-        <div @click="toAnchor(index)" class="cell" v-for="(item, index) in dataList.topics" :key="index">
+        <div v-for="(item, index) in dataList.topics" :key="index" class="cell" @click="toAnchor(index)">
           {{ item.shortname || item.tname }}
         </div>
       </div>
-
     </header>
 
-    <div class="" v-for="(item, index) in dataList.topics" :key="index">
-      <div class="newsItem-title" :id="index">{{ ++index +'/'+ dataList.topics.length }} {{ item.tname }}</div>
-      <div class="newsItem" v-for="(e, i) in item.docs" :key="i" @click="toDetail(e)">
+    <div v-for="(item, index) in dataList.topics" :key="index" class="">
+      <div :id="index" class="newsItem-title">
+        {{ ++index +'/'+ dataList.topics.length }} {{ item.tname }}
+      </div>
+      <div v-for="(e, i) in item.docs" :key="i" class="newsItem" @click="toDetail(e)">
         <div class="left">
-          <h3 class="title">{{ e.title }}</h3>
+          <h3 class="title">
+            {{ e.title }}
+          </h3>
           <div class="detial">
             <span class="source">{{ e.source }}</span>
             <span class="pubTime">{{ e.ptime.slice(5, -3) }}</span>
@@ -117,17 +122,14 @@
           <img class="newsImg" :data-src="e.imgsrc" alt="">
         </div>
       </div>
-
     </div>
-
   </div>
-
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { MessageBox, Indicator } from 'mint-ui'
-import URL_PARAMS from '@/utils/urls-config'
+// import URL_PARAMS from '@/utils/urls-config'
 import PARAMS from '../../../config/index'
 import { debounce } from '@/utils'
 
@@ -143,15 +145,16 @@ export default Vue.extend({
       allLoaded: false,
     }
   },
+  watch: {},
   created() {
-    let query: any = this.$route.query
+    const query: any = this.$route.query
     this.specialID = query.specialID
     this.currentUrl =
       'http://c.m.163.com/nc/special/' + this.specialID + '.html'
     this.getData()
   },
   mounted() {
-    let warpEle: any = document.getElementById('app')
+    const warpEle: any = document.getElementById('app')
     warpEle && (warpEle.onscroll = debounce(this.loadImg, 300))
     this.$nextTick(() => {
       this.loadImg()
@@ -160,7 +163,6 @@ export default Vue.extend({
   updated() {
     this.loadImg()
   },
-  watch: {},
   methods: {
     getData() {
       Indicator.open({
@@ -171,7 +173,7 @@ export default Vue.extend({
         (res: any) => {
           Indicator.close()
           try {
-            let body: any = JSON.parse(JSON.parse(res.body))
+            const body: any = JSON.parse(JSON.parse(res.body))
             this.dataList = body[this.specialID]
             console.log(['专题数据', this.currentUrl, this.dataList])
           } catch (err) {
@@ -213,22 +215,22 @@ export default Vue.extend({
       }
     },
     toAnchor(index) {
-      let ele: any = document.getElementById(index)
-      let scrollTop: any = ele.offsetTop
-      let app: any = document.getElementById('app')
+      const ele: any = document.getElementById(index)
+      const scrollTop: any = ele.offsetTop
+      const app: any = document.getElementById('app')
       app.scrollTop = scrollTop
     },
     loadImg() {
-      let warpEle: any = document.getElementById('app')
+      const warpEle: any = document.getElementById('app')
       if (!warpEle) return
-      let imgEleArr: any = document.querySelectorAll('#specialWrap img')
-      let scrollTop = warpEle.scrollTop
-      let clientH = document.documentElement.clientHeight
+      const imgEleArr: any = document.querySelectorAll('#specialWrap img')
+      const scrollTop = warpEle.scrollTop
+      const clientH = document.documentElement.clientHeight
       for (let i = 0; i < imgEleArr.length; i++) {
-        let offsetTop = imgEleArr[i].offsetTop
+        const offsetTop = imgEleArr[i].offsetTop
         if (scrollTop + clientH > offsetTop - 200) {
           if (imgEleArr[i].src) continue
-          let src = imgEleArr[i].getAttribute('data-src')
+          const src = imgEleArr[i].getAttribute('data-src')
           src && (imgEleArr[i].src = src)
         }
       }
