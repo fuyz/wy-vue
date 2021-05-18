@@ -95,8 +95,7 @@
       <mt-search class="searchHead" cancel-text="取消" placeholder="搜索">
       </mt-search>
 
-      <mt-loadmore id="listWrap" style="font-size: 0.3rem;" :bottom-method="loadMore" :bottom-all-loaded="allLoaded"
-        ref="loadmore" :autoFill=false>
+      <mt-loadmore id="listWrap" style="font-size: 0.3rem;" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill=false>
         <!--文章新闻-->
         <div class="searchItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
           <div class="searchItem-wrap" v-if="item.skipType == undefined">
@@ -127,108 +126,115 @@
 </template>
 
 <script>
-import { Indicator } from "mint-ui";
-import PARAMS from "../../../config/index";
+import { Indicator } from 'mint-ui'
+import PARAMS from '../../../config/index'
 
 export default {
-  name: "comment",
-  data() {
+  name: 'comment',
+  data () {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
-      currentUrl: "",
+      host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
+      currentUrl: '',
       dataList: [],
       allLoaded: false,
-    };
+    }
   },
-  created: function () {
-    console.log(this.$route);
-    let docid = this.$route.query.docid;
-    let postid = this.$route.query.postid;
-    let key = docid ? docid : postid;
+  created () {
+    console.log(this.$route)
+    // const docid = this.$route.query.docid
+    // const postid = this.$route.query.postid
+    // const key = docid ? docid : postid
     this.currentUrl =
-      "http://c.m.163.com/search/comp2/Kg%3D%3D/20/6buE5rW35rOi.html?deviceId=uxGr11o3NAPfZGlyCllTkHr2kKvBJ%2Fpli9SInyoBygw%2FSoTJgjnVV7%2Ft0WxZ27gS&version=newsclient.37.2.android&channel=VDEzNDg2NDc5MDkxMDc%3D&canal=b3Bwb19zdG9yZTIwMTRfbmV3cw%3D%3D&dtype=0&tabname=zonghe&qId=MTYyMDA4NjIyMjQzMjUx&position=5pCc57Si5Y6G5Y%2By&ts=1529044030&lat=X%2Fnl%2BNAym6VpiFBmfD0QKQ%3D%3D&lon=NLt2AapSR2nOrohszqrfdg%3D%3D&sign=s%2FmCxjkFMQtF5JsD407FmZBDIGArZFbXmbjPk5Q%2FBtF48ErR02zJ6%2FKXOnxX046I&spever=FALSE&open=scheme_%E9%BB%98%E8%AE%A4&openpath=/doc/DKBLBTJ70517JVUJ";
-    this.ajaxData({});
+      'http://c.m.163.com/search/comp2/Kg%3D%3D/20/6buE5rW35rOi.html?deviceId=uxGr11o3NAPfZGlyCllTkHr2kKvBJ%2Fpli9SInyoBygw%2FSoTJgjnVV7%2Ft0WxZ27gS&version=newsclient.37.2.android&channel=VDEzNDg2NDc5MDkxMDc%3D&canal=b3Bwb19zdG9yZTIwMTRfbmV3cw%3D%3D&dtype=0&tabname=zonghe&qId=MTYyMDA4NjIyMjQzMjUx&position=5pCc57Si5Y6G5Y%2By&ts=1529044030&lat=X%2Fnl%2BNAym6VpiFBmfD0QKQ%3D%3D&lon=NLt2AapSR2nOrohszqrfdg%3D%3D&sign=s%2FmCxjkFMQtF5JsD407FmZBDIGArZFbXmbjPk5Q%2FBtF48ErR02zJ6%2FKXOnxX046I&spever=FALSE&open=scheme_%E9%BB%98%E8%AE%A4&openpath=/doc/DKBLBTJ70517JVUJ'
+    this.ajaxData({})
   },
   mounted: function () {
     setTimeout(function () {
       //        document.getElementById('commentDetailWrap').scrollTop = 0
-    }, 1000);
+    }, 1000)
   },
   watch: {},
   methods: {
-    ajaxData: function (obj) {
+    ajaxData (obj) {
       if (obj.loadMore) {
-        this.currentUrl = this.transformUrl(this.currentUrl, "loadMore");
+        this.currentUrl = this.transformUrl(this.currentUrl, 'loadMore')
       } else if (obj.loadNew) {
-        this.currentUrl = this.transformUrl(this.currentUrl, "loadNew");
+        this.currentUrl = this.transformUrl(this.currentUrl, 'loadNew')
       }
-      console.log(this.currentUrl);
-
+      console.log(this.currentUrl)
       Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
-      });
-
+        text: '加载中...',
+        spinnerType: 'snake',
+      })
       this.$http
-        .jsonp(
-          this.host_port + "?key=wy&url=" + encodeURIComponent(this.currentUrl)
-        )
-        .then(
-          (res) => {
-            Indicator.close();
-
-            try {
-              res = JSON.parse(JSON.parse(res.body));
-              let commentIds = res.commentIds;
-              let comments = res.comments;
-              let commentArr = [];
-
-              for (let i = 0; i < commentIds.length; i++) {
-                let ids = commentIds[i].split(",");
-                if (ids.length > 1) {
-                  //如果有回复
-                  let obj1, obj2;
-                  for (let j = 0; j < ids.length; j++) {
-                    if (j + 1 < ids.length) {
-                      //如果当前元素不是最后一个
-                      obj1 = JSON.parse(JSON.stringify(comments[ids[j]]));
-                      obj2 = JSON.parse(JSON.stringify(comments[ids[j + 1]]));
-                      obj2.otherComment = obj1;
-                    } else {
-                      //如果当前元素是最后一个
-                      commentArr.push(obj2);
-                    }
+        .jsonp(this.host_port + '?key=wy&url=' + encodeURIComponent(this.currentUrl))
+        .then((res) => {
+          Indicator.close()
+          try {
+            res = JSON.parse(JSON.parse(res.body))
+            const commentIds = res.commentIds
+            const comments = res.comments
+            const commentArr = []
+            for (let i = 0; i < commentIds.length; i++) {
+              const ids = commentIds[i].split(',')
+              if (ids.length > 1) {
+                //如果有回复
+                let obj1, obj2
+                for (let j = 0; j < ids.length; j++) {
+                  if (j + 1 < ids.length) {
+                    //如果当前元素不是最后一个
+                    obj1 = JSON.parse(JSON.stringify(comments[ids[j]]))
+                    obj2 = JSON.parse(JSON.stringify(comments[ids[j + 1]]))
+                    obj2.otherComment = obj1
+                  } else {
+                    //如果当前元素是最后一个
+                    commentArr.push(obj2)
                   }
-                } else {
-                  //如果无回复
-                  commentArr.push(comments[ids[0]]);
                 }
+              } else {
+                //如果无回复
+                commentArr.push(comments[ids[0]])
               }
-              let str = "";
-              for (let i = 0; i < commentArr.length; i++) {
-                if (commentArr[i].otherComment == undefined) {
-                  getDom(commentArr[i], false);
-                } else {
-                  getDom(commentArr[i], true);
-                }
-
-                function getDom(obj, reply) {
-                  obj.user.avatar = obj.user.avatar
-                    ? obj.user.avatar
-                    : "http://img1.cache.netease.com/t/img/default80.png";
-                  if (!reply) {
-                    str += `
+            }
+            const str = ''
+            for (let i = 0; i < commentArr.length; i++) {
+              if (!commentArr[i].otherComment) {
+                this.getDom(str, commentArr[i], false)
+              } else {
+                this.getDom(str, commentArr[i], true)
+              }
+            }
+            console.log(commentArr)
+            this.html_structure = str
+          } catch (err) {
+            console.log(err)
+          } finally {
+            //关闭loading状态
+            this.$refs.loadmore.onBottomLoaded()
+            if (res.code === 42212) {
+              this.allLoaded = true
+            }
+          }
+        }, (res) => {
+          console.log(res)
+        }
+        )
+    },
+    getDom (str, obj, reply) {
+      obj.user.avatar = obj.user.avatar
+        ? obj.user.avatar
+        : 'http://img1.cache.netease.com/t/img/default80.png'
+      if (!reply) {
+        str += `
                      <div class="commentItem" style="border-bottom: 2px solid #eee;">
                       <div class="user">
                         <div class="avatarWrap">
                           <img class="avatar" src="${obj.user.avatar}" alt="">
                         </div>
                         <div class="userInfo">
-                          <p class="name">${
-                            obj.user.nickname ? obj.user.nickname : "***"
-                          } <span class="sText fr gray" >${
-                      obj.vote
-                    }<i class="icon zan_icon"></i></span></p>
+                          <p class="name">${obj.user.nickname ? obj.user.nickname : '***'
+          } <span class="sText fr gray" >${obj.vote
+          }<i class="icon zan_icon"></i></span></p>
                           <p class="other sText">
                             <span>${obj.user.location}</span>
                             <span>${obj.deviceInfo.deviceName}</span>
@@ -237,21 +243,19 @@ export default {
                         </div>
                       </div>
                       <p class="content">${obj.content}</p>
-                    </div>`;
-                  } else if (obj.otherComment != undefined && reply) {
-                    let otherCommentStr = getDom(obj.otherComment, true);
-                    str += `
+                    </div>`
+      } else if (obj.otherComment && reply) {
+        const otherCommentStr = this.getDom(str, obj.otherComment, true)
+        str += `
                      <div class="commentItem" style="border-bottom: 2px solid #eee;">
                       <div class="user">
                         <div class="avatarWrap">
                           <img class="avatar" src="${obj.user.avatar}" alt="">
                         </div>
                         <div class="userInfo">
-                          <p class="name">${
-                            obj.user.nickname ? obj.user.nickname : "***"
-                          }<span class="sText fr gray" >${
-                      obj.vote
-                    }<i class="icon zan_icon"></i></span></p>
+                          <p class="name">${obj.user.nickname ? obj.user.nickname : '***'
+          }<span class="sText fr gray" >${obj.vote
+          }<i class="icon zan_icon"></i></span></p>
                           <p class="other sText">
                             <span>${obj.user.location}</span>
                             <span>${obj.deviceInfo.deviceName}</span>
@@ -263,20 +267,18 @@ export default {
                         <p>${obj.content}</p>
                          <div class="box" style="border: 1px solid #eee">${otherCommentStr}</div>
                       </div>
-                    </div>`;
-                  } else if (obj.otherComment == undefined && reply) {
-                    let string = `
+                    </div>`
+      } else if (!obj.otherComment && reply) {
+        const string = `
                      <div class="commentItem" >
                       <div class="user">
                         <div class="avatarWrap">
                           <img class="avatar" src="${obj.user.avatar}" alt="">
                         </div>
                         <div class="userInfo">
-                          <p class="name">${
-                            obj.user.nickname ? obj.user.nickname : "***"
-                          }<span class="sText fr gray" >${
-                      obj.vote
-                    }<i class="icon zan_icon"></i></span></p>
+                          <p class="name">${obj.user.nickname ? obj.user.nickname : '***'
+          }<span class="sText fr gray" >${obj.vote
+          }<i class="icon zan_icon"></i></span></p>
                           <p class="other sText">
                             <span>${obj.user.location}</span>
                             <span>${obj.deviceInfo.deviceName}</span>
@@ -285,44 +287,26 @@ export default {
                         </div>
                       </div>
                       <p class="content">${obj.content}</p>
-                    </div>`;
+                    </div>`
 
-                    return string;
-                  }
-                }
-              }
-              console.log(commentArr);
-              this.html_structure = str;
-            } catch (err) {
-              console.log(err);
-            } finally {
-              //关闭loading状态
-              this.$refs.loadmore.onBottomLoaded();
-              if (res.code == 42212) {
-                this.allLoaded = true;
-              }
-            }
-          },
-          (res) => {
-            console.log(res);
-          }
-        );
+        return string
+      }
     },
     /*上拉加载更多*/
-    loadMore: function () {
-      this.ajaxData({ loadMore: true });
+    loadMore () {
+      this.ajaxData({ loadMore: true })
     },
     toDetail: function (obj) {
       if (obj.specialID) {
         this.$router.push({
-          name: "special",
+          name: 'special',
           query: {
             specialID: obj.specialID,
           },
-        });
+        })
       } else {
         this.$router.push({
-          name: "newsDetail",
+          name: 'newsDetail',
           query: {
             postid: obj.postid,
             skipID: obj.skipID,
@@ -331,40 +315,40 @@ export default {
             setid: obj.setid,
             skipType: obj.skipType,
           },
-        });
+        })
       }
     },
     /*转换url*/
     transformUrl: function (url, key) {
-      let arr1 = url.split("?");
-      let str = arr1[1];
-      let arr2 = str.split("&");
-      for (var i = 0; i < arr2.length; i++) {
-        let arr3 = arr2[i].split("=");
-        if (key == "loadNew") {
-          if (arr3[0] == "fn") {
-            let num = Number(arr3[1]);
-            num += 1;
-            arr3[1] = num;
+      const arr1 = url.split('?')
+      let str = arr1[1]
+      const arr2 = str.split('&')
+      for (let i = 0; i < arr2.length; i++) {
+        const arr3 = arr2[i].split('=')
+        if (key === 'loadNew') {
+          if (arr3[0] === 'fn') {
+            let num = Number(arr3[1])
+            num += 1
+            arr3[1] = num
           }
-        } else if (key == "loadMore") {
-          if (arr3[0] == "limit") {
-            let num = Number(arr3[1]);
-            num += 10;
-            arr3[1] = num;
+        } else if (key === 'loadMore') {
+          if (arr3[0] === 'limit') {
+            let num = Number(arr3[1])
+            num += 10
+            arr3[1] = num
           }
         }
 
-        arr2[i] = arr3.join("=");
+        arr2[i] = arr3.join('=')
       }
-      str = arr2.join("&");
-      arr1[1] = str;
-      let newUrl = arr1.join("?");
-      this.currentUrl = newUrl;
-      return newUrl;
+      str = arr2.join('&')
+      arr1[1] = str
+      const newUrl = arr1.join('?')
+      this.currentUrl = newUrl
+      return newUrl
     },
   },
-};
+}
 </script>
 
 

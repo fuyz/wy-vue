@@ -101,7 +101,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import Dialog from '@/utils/dialog'
 import Swiper from 'swiper'
 import PARAMS from '@/../config/index'
-import Service from '@/service/service'
+// import Service from '@/service/service'
 import 'swiper/dist/css/swiper.css'
 import { debounce } from '@/utils'
 
@@ -119,28 +119,28 @@ export default class NewsDetail extends Vue {
   pictureArr = null
   key = 'article'
   created() {
-    let postid = this.$route.query.postid
+    // const postid = this.$route.query.postid
     this.skipID = this.$route.query.skipID
-    let photosetID = this.$route.query.photosetID
-    let docid = this.$route.query.docid
+    const photosetID = this.$route.query.photosetID
+    const docid = this.$route.query.docid
     this.setid = this.$route.query.setid
-    let skipType = this.$route.query.skipType
-    if (this.setid != undefined) {
+    const skipType = this.$route.query.skipType
+    if (this.setid) {
       //图片详情
       this.currentUrl =
         'http://c.m.163.com/photo/api/set/0096/' + this.setid + '.json'
       this.key = 'pic'
-    } else if (photosetID != undefined) {
+    } else if (photosetID) {
       //图片新闻
       let ID: any = ''
       ID = photosetID.slice(4)
       ID = ID.replace(/\|/, '/')
       this.currentUrl = 'http://c.3g.163.com/photo/api/set/' + ID + '.json'
       this.key = 'picture'
-    } else if (docid != undefined) {
+    } else if (docid) {
       //文章新闻、段子详情
       this.currentUrl = 'http://c.m.163.com/nc/article/' + docid + '/full.html'
-      if (skipType == 'dz') {
+      if (skipType === 'dz') {
         this.key = 'dz'
       } else {
         this.key = 'article'
@@ -150,7 +150,7 @@ export default class NewsDetail extends Vue {
     this.getData()
   }
   mounted() {
-    let warpEle: any = document.getElementById('newsDetailContent')
+    const warpEle: any = document.getElementById('newsDetailContent')
     warpEle && (warpEle.onscroll = debounce(this.loadImg, 300))
     this.$nextTick(() => {
       this.loadImg()
@@ -169,15 +169,12 @@ export default class NewsDetail extends Vue {
         Dialog.showLoading(false)
         try {
           res = JSON.parse(JSON.parse(res.body))
-          if (this.setid != undefined) {
+          if (this.setid) {
             this.data = res
             this.pictureArr = res.photos
-          } else if (
-            this.skipID == undefined ||
-            this.skipID.indexOf('|') == -1
-          ) {
-            let urlParamArr = this.currentUrl.split('/')
-            let urlKey = urlParamArr[urlParamArr.length - 2]
+          } else if (!this.skipID || !this.skipID.includes('|')) {
+            const urlParamArr = this.currentUrl.split('/')
+            const urlKey = urlParamArr[urlParamArr.length - 2]
             this.data = res[urlKey]
           } else {
             this.data = res
@@ -194,7 +191,6 @@ export default class NewsDetail extends Vue {
               this.getData()
             }
           )
-        } finally {
         }
       },
       (res) => {
@@ -223,8 +219,8 @@ export default class NewsDetail extends Vue {
   }
   /*渲染图片文章*/
   pictureNews() {
-    if (document.getElementsByClassName('swiper-container').length == 0) return
-    var mySwiper = new Swiper('.swiper-container', {
+    if (!document.getElementsByClassName('swiper-container').length) return
+    new Swiper('.swiper-container', {
       direction: 'horizontal',
       loop: true,
       // 如果需要前进后退按钮
@@ -237,47 +233,42 @@ export default class NewsDetail extends Vue {
   /*渲染文本文章*/
   articleNews() {
     let body = this.data.body
-    if (typeof body == 'undefined') return
-    let video = this.data.video == undefined ? [] : this.data.video
-    let img = this.data.img == undefined ? [] : this.data.img
+    if (typeof body === 'undefined') return
+    const video = !this.data.video ? [] : this.data.video
+    const img = !this.data.img ? [] : this.data.img
     //转换video标签
-    if (video.length != 0) {
-      for (let i = 0; i < video.length; i++) {
-        body = body.replace(
-          video[i].ref,
-          `<video src="${video[i].mp4_url}'"></video>`
-        )
-      }
+    for (let i = 0; i < video.length; i++) {
+      body = body.replace(
+        video[i].ref,
+        `<video src="${video[i].mp4_url}'"></video>`
+      )
     }
     //转换img标签
-    if (img.length != 0) {
-      for (let i = 0; i < img.length; i++) {
-        let width: number = 640,
-          height = 320
-        let pixel = img[i].pixel
-        if (pixel) {
-          width = img[i].pixel.split('*')[0]
-          height = img[i].pixel.split('*')[1]
-        }
-        body = body.replace(
-          img[i].ref,
-          `<img data-src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
-        )
+    for (let i = 0; i < img.length; i++) {
+      // let [width, height] = [640, 320]
+      const pixel = img[i].pixel
+      if (pixel) {
+        // width = img[i].pixel.split('*')[0]
+        // height = img[i].pixel.split('*')[1]
       }
+      body = body.replace(
+        img[i].ref,
+        `<img data-src="${img[i].src}" title="${img[i].alt}" style="max-width: 100%;display: block;margin: 0.1rem auto"><p style="color: #888;font-size: 0.2rem;line-height: 0.2rem;margin: 0.2rem 0 0.2rem">"${img[i].alt}"</p>`
+      )
     }
     this.html_structure = body
   }
   loadImg() {
-    let warpEle: any = document.getElementById('newsDetailContent')
+    const warpEle: any = document.getElementById('newsDetailContent')
     if (!warpEle) return
-    let imgEleArr: any = document.querySelectorAll('#newsDetailContent img')
-    let scrollTop = warpEle.scrollTop
-    let clientH = document.documentElement.clientHeight
+    const imgEleArr: any = document.querySelectorAll('#newsDetailContent img')
+    const scrollTop = warpEle.scrollTop
+    const clientH = document.documentElement.clientHeight
     for (let i = 0; i < imgEleArr.length; i++) {
-      let offsetTop = imgEleArr[i].offsetTop
+      const offsetTop = imgEleArr[i].offsetTop
       if (scrollTop + clientH > offsetTop - 200) {
         if (imgEleArr[i].src) continue
-        let src = imgEleArr[i].getAttribute('data-src')
+        const src = imgEleArr[i].getAttribute('data-src')
         src && (imgEleArr[i].src = src)
       }
     }
