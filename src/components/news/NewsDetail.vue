@@ -100,10 +100,10 @@
 import { Vue, Component } from 'vue-property-decorator'
 import Dialog from '@/utils/dialog'
 // Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import PARAMS from '@/../config/index'
 // import Service from '@/service/service'
-import 'swiper/swiper.scss'
+import 'swiper/swiper.min.css'
 import { debounce } from '@/utils'
 
 @Component({})
