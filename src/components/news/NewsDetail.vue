@@ -99,10 +99,11 @@
 // vue-property-decorator：在 vue-class-component 上增强更多的结合 Vue 特性的装饰器
 import { Vue, Component } from 'vue-property-decorator'
 import Dialog from '@/utils/dialog'
-import Swiper from 'swiper'
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import PARAMS from '@/../config/index'
 // import Service from '@/service/service'
-import 'swiper/dist/css/swiper.css'
+import 'swiper/swiper.scss'
 import { debounce } from '@/utils'
 
 @Component({})
