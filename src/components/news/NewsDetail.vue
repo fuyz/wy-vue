@@ -103,7 +103,7 @@ import Dialog from '@/utils/dialog'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import PARAMS from '@/../config/index'
 // import Service from '@/service/service'
-import 'swiper/swiper.min.css'
+import 'swiper/swiper-bundle.min.css'
 import { debounce } from '@/utils'
 
 @Component({})
