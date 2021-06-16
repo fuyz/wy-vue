@@ -9,7 +9,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/app': {
-        target: '192.168.0.100/app/',
+        target: 'https://fuyz.github.io/wy-vue/app/',
         pathRewrite: { '^/api': '' },
         changeOrigin: true,     // target是域名的话，需要这个参数，
         secure: false,          // 设置支持https协议的代理
