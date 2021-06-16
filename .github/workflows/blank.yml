@@ -38,7 +38,8 @@ jobs:
       - name: Server Start
         uses: actions/setup-node@v2
         with:
-          script: sh /front/news/deploy.sh
+          node-version: '14'
+          script: sh scripts/server-start.sh
       #   run: |
       #     node server/server.js
 
