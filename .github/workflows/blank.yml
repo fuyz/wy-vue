@@ -35,7 +35,10 @@ jobs:
           npm install
           npm run build
 
-      # - name: Start Server
+      - name: Server Start
+        uses: actions/setup-node@v2
+        with:
+          script: sh /front/news/deploy.sh
       #   run: |
       #     node server/server.js
 
