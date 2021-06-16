@@ -35,9 +35,9 @@ jobs:
           npm install
           npm run build
 
-      - name: Start Server
-        run: |
-          node server/server.js
+      # - name: Start Server
+      #   run: |
+      #     node server/server.js
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
