@@ -13,12 +13,12 @@ after_script:
   git config --global user.email "953958160@qq.com"
   git config --global user.name "fuyz"
   git add .
-  git commit -m 'Travis build'
+  git commit -m 'Travis build on forTravis branch'
   git push --force --quiet "https://${GITHUB_TOKEN}@${GH_REF}" master:gh-pages
 
 branches:
   only:
-    master
+    forTravis
 
 # before_deploy: "before deploy"
 # 参考： https://docs.travis-ci.com/user/deployment-v2/providers/pages/
@@ -28,4 +28,4 @@ deploy:
   token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
   on:
-    branch: master
+    branch: forTravis
