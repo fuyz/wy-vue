@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "outDir": "/",
+    // "target": "es6",
+    "target": "es5", // 编译出的代码采用 ES 的哪个版本
+    // "module": "esnext",
+    "moduleResolution": "node",
+    // "module": "es2015",
+    "module": "commonjs", // 编译出的代码采用的模块规范
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom",
+      "es2020.promise"
+    ],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "sourceMap": true, // 输出 Source Map 方便调试
+    "strict": true,
+    // "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "types": [
+      "@types/node"
+    ]
+  },
+  "include": ["src/*"],
+  "exclude": [
+    "node_modules", "public", "dist"
+  ],
+}

@@ -34,11 +34,20 @@ jobs:
         run: |
           npm install
           npm run build
+
+      - name: Server Start
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          script: sh scripts/server-start.sh
+      #   run: |
+      #     node server/server.js
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with: 
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: dist
+          FOLDER: docs
           BUILD_SCRIPT: npm install && npm run build
 
