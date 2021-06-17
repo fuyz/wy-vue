@@ -1,0 +1,31 @@
+# .travis.yml
+
+language: node_js
+sudo: false
+node_js:
+  - 14.16.0
+script: 
+  - bash scripts/deploy-to-gh-pages.sh
+
+after_script:
+  cd ./docs
+  git init
+  git config --global user.email "953958160@qq.com"
+  git config --global user.name "fuyz"
+  git add .
+  git commit -m 'Travis build on forTravis branch'
+  git push --force --quiet "https://${GITHUB_TOKEN}@${GH_REF}" master:gh-pages
+
+branches:
+  only:
+    forTravis
+
+# before_deploy: "before deploy"
+# 参考： https://docs.travis-ci.com/user/deployment-v2/providers/pages/
+deploy:
+  provider: pages
+  skip_cleanup: true
+  token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  on:
+    branch: forTravis
