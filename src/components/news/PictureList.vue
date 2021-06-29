@@ -1,6 +1,5 @@
 <template>
-  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
-    :autoFill="false">
+  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="false">
     <div class="picItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
       <div class="newsItem-wrap">
         <b class="count">{{ item.imgsum + 'pics' }}</b>
@@ -63,9 +62,9 @@ import PARAMS from "@/../config/index";
 
 export default {
   name: "Picture",
-  data() {
+  data () {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       title: "图片",
       dataList: [],
       currentUrl: URL_PARAMS.urlArray["图片"],

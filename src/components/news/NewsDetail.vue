@@ -108,7 +108,7 @@ import { debounce } from '@/utils'
 
 @Component({})
 export default class NewsDetail extends Vue {
-  host_port = 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort
+  host_port = PARAMS.dev.host + ':' + PARAMS.dev.servePort
   currentUrl = ''
   skipID: string | (string | null)[] = ''
   setid: string | (string | null)[] = ''

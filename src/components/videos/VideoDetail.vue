@@ -97,8 +97,7 @@
         <div class="videoCover" @click="playVideo">
           <img class="poster" :src="data.cover" alt="">
         </div>
-        <video width="100%" height="200px" webkit-playsinline="true" playsinline="true" x-webkit-airplay="true"
-          x5-video-player-fullscreen="false">
+        <video width="100%" height="200px" webkit-playsinline="true" playsinline="true" x-webkit-airplay="true" x5-video-player-fullscreen="false">
           <source :src="data.mp4_url">
         </video>
       </div>
@@ -139,9 +138,9 @@ import PARAMS from "../../../config/index";
 
 export default {
   //    name: 'myNews',
-  data() {
+  data () {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       currentUrl: "",
       data: null,
     };

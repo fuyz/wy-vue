@@ -133,7 +133,7 @@ export default {
   name: 'comment',
   data () {
     return {
-      host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ':' + PARAMS.dev.servePort,
       currentUrl: '',
       dataList: [],
       allLoaded: false,

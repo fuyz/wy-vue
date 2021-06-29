@@ -139,7 +139,7 @@ export default Vue.extend({
     return {
       title: '',
       specialID: '',
-      host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ':' + PARAMS.dev.servePort,
       dataList: [],
       currentUrl: '',
       allLoaded: false,

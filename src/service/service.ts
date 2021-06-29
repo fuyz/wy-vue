@@ -3,7 +3,7 @@ import PARAMS from "../../config/index";
 // import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '@/util/request'
 
 const _vue: any = new Vue()
-const host_port = "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort
+const host_port = PARAMS.dev.host + ":" + PARAMS.dev.servePort
 
 export default {
   getNewsList(currentUrl: string) {
