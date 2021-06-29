@@ -58,7 +58,7 @@ jobs:
           # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
           # version: # optional
         run: |
-          echo start server(启动正向代理!!)
+          echo 'start server(启动正向代理!!)'
           node server/server.js
           
       - name: Deploy
