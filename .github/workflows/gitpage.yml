@@ -36,7 +36,7 @@ jobs:
           npm run build
 
       - name: Server Start
-        uses: actions/setup-node@v2.1.5
+        # uses: actions/setup-node@v2.1.5
         # with:
         #   node-version: '14'
           # script: sh scripts/server-start.sh        
