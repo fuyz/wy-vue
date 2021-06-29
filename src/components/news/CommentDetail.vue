@@ -106,8 +106,7 @@
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
       </mt-header>
 
-      <mt-loadmore style="font-size: 0.3rem;" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
-        :autoFill=false>
+      <mt-loadmore style="font-size: 0.3rem;" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill=false>
         <div class="commentList" v-html="html_structure">
 
         </div>
@@ -128,9 +127,9 @@ import Dialog from "@/utils/dialog";
 
 export default {
   name: "Comment",
-  data() {
+  data () {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       currentUrl: "",
       html_structure: "",
       allLoaded: false,

@@ -83,7 +83,6 @@ export default Vue.extend({
   name: 'NewsList',
   data() {
     return {
-      host_port: 'http://' + PARAMS.dev.host + ':' + PARAMS.dev.servePort,
       dataList: [],
       title: '头条',
       currentUrl: '',
@@ -155,52 +154,55 @@ export default Vue.extend({
         this.currentUrl = this.transformUrl(this.currentUrl, 'loadNew')
       }
       Dialog.showLoading(true)
-      Service.getNewsList(this.currentUrl).then((res: any) => {
-        Dialog.showLoading(false)
-        try {
-          res = JSON.parse(JSON.parse(res.body))
-          const urlParamArr = this.currentUrl.split('/')
-          const urlKey = urlParamArr[urlParamArr.length - 2]
-          const dataArr = res[urlKey]
-          if (!dataArr.length) {
-            this.allLoaded = true
-            return
-          }
-          if (!obj) {
-            this.dataList = dataArr
-          } else if (obj.loadMore) {
-            // this.dataList = this.dataList.concat(dataArr);
-            this.dataList = dataArr
-          } else if (obj.loadNew) {
-            this.dataList = dataArr.concat(this.dataList)
-          }
-          //缓存数据
-          this.$store.commit('setData', {
-            type: 'news',
-            title: this.title,
-            data: this.dataList,
-          })
-          console.log(['新闻列表', this.currentUrl, this.dataList])
-        } catch (err) {
-          console.log(err)
-          Dialog.confirm(
-            {
-              message: '网络错误，请刷新重试！',
-              confirmButtonText: '刷新',
-            },
-            () => {
-              this.getNewsList()
+      Service.getNewsList(this.currentUrl)
+        .then((res: any) => {
+          try {
+            res = JSON.parse(JSON.parse(res.body))
+            const urlParamArr = this.currentUrl.split('/')
+            const urlKey = urlParamArr[urlParamArr.length - 2]
+            const dataArr = res[urlKey]
+            if (!dataArr.length) {
+              this.allLoaded = true
+              return
             }
-          )
-        } finally {
-          const loadmore: any = this.$refs.loadmore
-          if (!obj || obj.loadNew) {
-            loadmore.onTopLoaded()
-          } else if (obj.loadMore) {
-            loadmore.onBottomLoaded()
+            if (!obj) {
+              this.dataList = dataArr
+            } else if (obj.loadMore) {
+              // this.dataList = this.dataList.concat(dataArr);
+              this.dataList = dataArr
+            } else if (obj.loadNew) {
+              this.dataList = dataArr.concat(this.dataList)
+            }
+            //缓存数据
+            this.$store.commit('setData', {
+              type: 'news',
+              title: this.title,
+              data: this.dataList,
+            })
+            console.log(['新闻列表', this.currentUrl, this.dataList])
+          } catch (err) {
+            console.log(err)
+            Dialog.confirm(
+              {
+                message: '网络错误，请刷新重试！',
+                confirmButtonText: '刷新',
+              },
+              () => {
+                this.getNewsList()
+              }
+            )
+          } finally {
+            const loadmore: any = this.$refs.loadmore
+            if (!obj || obj.loadNew) {
+              loadmore.onTopLoaded()
+            } else if (obj.loadMore) {
+              loadmore.onBottomLoaded()
+            }
           }
-        }
-      })
+        })
+        .finally(() => {
+          Dialog.showLoading(false)
+        })
     },
     /*上拉加载更多*/
     loadMore: function () {

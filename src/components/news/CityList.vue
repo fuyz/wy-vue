@@ -65,8 +65,7 @@
 
 <template>
 
-  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore"
-    :autoFill=false>
+  <mt-loadmore id="listWrap" :top-method="loadNew" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill=false>
 
     <div class="newsItem" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
       <!--图片新闻-->
@@ -123,9 +122,9 @@ import PARAMS from "../../../config/index";
 
 export default {
   name: "myNews",
-  data() {
+  data () {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       dataList: [],
       title: "深圳",
       allLoaded: false,

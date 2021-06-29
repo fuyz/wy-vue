@@ -14,9 +14,9 @@ import URL_PARAMS from "@/utils/urls-config";
 import PARAMS from "../../../config/index";
 
 export default {
-  data() {
+  data () {
     return {
-      host_port: "http://" + PARAMS.dev.host + ":" + PARAMS.dev.servePort,
+      host_port: PARAMS.dev.host + ":" + PARAMS.dev.servePort,
       navBarList: [
         //          {link: '/video/videoList/推荐', title: '推荐' },
         //          {link: '/video/videoList/榜单', title: '榜单' },
