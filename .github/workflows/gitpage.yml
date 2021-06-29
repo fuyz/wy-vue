@@ -37,8 +37,8 @@ jobs:
 
       - name: Server Start
         uses: actions/setup-node@v2.1.5
-        with:
-          node-version: '14'
+        # with:
+        #   node-version: '14'
           # script: sh scripts/server-start.sh        
 
           # Set always-auth in npmrc
@@ -57,8 +57,8 @@ jobs:
           # token: # optional, default is ${{ github.token }}
           # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
           # version: # optional
-          run: |
-            node server/server.js        
+        run: |
+          node server/server.js        
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
