@@ -7,7 +7,7 @@ on:
   push:
     # branches: [ "master" ] 
     tags:
-      - deploy.**
+      - v1.**
 jobs:
   build:
 
