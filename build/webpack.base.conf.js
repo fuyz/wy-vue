@@ -8,15 +8,15 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar')
 const os = require('os')
-const HappyPack = require('happypack')
+// const HappyPack = require('happypack')
 // 手动创建进程池
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+// const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const handler = (percentage, message, ...args) => {
   // e.g. Output each progress message directly to the console:
   // console.info(percentage, message);
 };
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 module.exports = {
@@ -75,7 +75,7 @@ module.exports = {
         // babel-loader 提供了 cacheDirectory特定选项（默认 false）：设置时，给定的目录将用于缓存加载器的结果。
         test: /\.js$/,
         // loader: 'babel-loader?cacheDirectory=true',
-        loader: 'happypack/loader?id=happyBabel',  //配置happyPack
+        // loader: 'happypack/loader?id=happyBabel',  //配置happyPack
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
@@ -139,13 +139,13 @@ module.exports = {
       // chunkFilename: '[id].css',
       // ignoreOrder: false, // 忽略有关顺序冲突的警告
     }),
-    new HappyPack({
-      // 这个HappyPack的“名字”就叫做happyBabel，和楼上的查询参数遥相呼应
-      id: 'happyBabel',
-      // 指定进程池
-      threadPool: happyThreadPool,
-      loaders: ['babel-loader?cacheDirectory']
-    }),
+    // new HappyPack({
+    //   // 这个HappyPack的“名字”就叫做happyBabel，和楼上的查询参数遥相呼应
+    //   id: 'happyBabel',
+    //   // 指定进程池
+    //   threadPool: happyThreadPool,
+    //   loaders: ['babel-loader?cacheDirectory']
+    // }),
 
     /* new HappyPack({
       id: 'happyTsx',
@@ -172,17 +172,17 @@ module.exports = {
     //     }
     //   }]
     // }),
-    new HappyPack({
-      id: 'css',
-      threadPool: happyThreadPool,
-      loaders: ['css-loader']
-    }),
+    // new HappyPack({
+    //   id: 'css',
+    //   threadPool: happyThreadPool,
+    //   loaders: ['css-loader']
+    // }),
 
-    new HappyPack({
-      id: 'less',
-      threadPool: happyThreadPool,
-      loaders: ['css-loader', 'less-loader']
-    }),
+    // new HappyPack({
+    //   id: 'less',
+    //   threadPool: happyThreadPool,
+    //   loaders: ['css-loader', 'less-loader']
+    // }),
 
   ],
   node: {
