@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    # branches: [ master ]
-    tags:
-      - v1.**
+    branches: [ master ]
+    # tags:
+    #   - v1.**
 #   pull_request:
 #     branches: [ master ]
 
@@ -45,7 +45,7 @@ jobs:
           # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
           # version: # optional
       - name: 'start server(启动正向代理!!)'
-        run: node server/server.js
+        run: node server/server2.js
 
       - name: End Console
         run: echo node server run successful!
@@ -65,9 +65,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
+      # npm install -g cnpm -registry=https://registry.npm.taobao.org
       - name: Install and Build
         run: |
-          npm install -g cnpm -registry=https://registry.npm.taobao.org
           cnpm install
           npm run build
 
