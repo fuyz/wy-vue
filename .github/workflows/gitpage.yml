@@ -45,7 +45,7 @@ jobs:
           # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
           # version: # optional
       - name: 'start server(启动正向代理!!)'
-        run: node server/server2.js
+        run: node server/server.js
 
       - name: End Console
         run: echo node server run successful!
@@ -65,10 +65,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
-      # npm install -g cnpm -registry=https://registry.npm.taobao.org
       - name: Install and Build
         run: |
-          cnpm install
+          npm install
           npm run build
 
       - name: Deploy
@@ -77,5 +76,5 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
-          BUILD_SCRIPT: cnpm install && npm run build
+          BUILD_SCRIPT: npm install && npm run build
 
