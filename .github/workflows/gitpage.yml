@@ -62,7 +62,7 @@ jobs:
 
       - name: Install and Build
         run: |
-          npm install
+          cnpm install
           npm run build
 
       - name: Deploy
@@ -71,5 +71,5 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
-          BUILD_SCRIPT: npm install && npm run build
+          BUILD_SCRIPT: cnpm install && npm run build
 
