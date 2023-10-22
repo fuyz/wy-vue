@@ -30,7 +30,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     liveReload: false,
     inline: true, //实时刷新
     contentBase: false, // since we use CopyWebpackPlugin.    //本地服务器所加载的页面所在的目录
-    host: process.env.HOST || config.dev.host, //访问域名
+    host: process.env.HOST || config.dev.startHost, //访问域名
     port: process.env.PORT && Number(process.env.PORT) || config.dev.port, //端口
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay

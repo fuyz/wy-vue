@@ -23,11 +23,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {},
     // Various Dev Server settings    
-    // 上线：
-    host: (process.env.NODE_ENV === 'production') ? 'www.fuyingzhi.com' : 'localhost', // can be overwritten by process.env.HOST
-    // 本地启动：需要带http
+    // 接口请求：需要协议
     // host: (process.env.NODE_ENV === 'production') ? 'https://fuyz.github.io/wy-vue' : 'http://localhost', // can be overwritten by process.env.HOST
-    // host: 'http://localhost',
+    host: (process.env.NODE_ENV === 'production') ? 'https://www.fuyingzhi.com' : 'http://localhost', // can be overwritten by process.env.HOST
+    // 启动项目：不需要http
+    startHost: 'localhost', // can be overwritten by process.env.HOST
     port: 8088, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     servePort: 9999,
     autoOpenBrowser: true,
