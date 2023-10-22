@@ -24,12 +24,12 @@ module.exports = {
     proxyTable: {},
     // Various Dev Server settings    
     // 接口请求：需要协议
-    host: (process.env.NODE_ENV === 'production') ? 'https://fuyz.github.io/wy-vue' : 'http://localhost', // can be overwritten by process.env.HOST
+    host: (process.env.NODE_ENV === 'production') ? 'https://fuyz.github.io' : 'http://localhost', // can be overwritten by process.env.HOST
     // host: (process.env.NODE_ENV === 'production') ? 'https://www.fuyingzhi.com' : 'http://localhost', // can be overwritten by process.env.HOST
     // 启动项目：不需要http
     startHost: 'localhost', // can be overwritten by process.env.HOST
     port: 8088, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    servePort: 9999,
+    servePort: 9998,
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
