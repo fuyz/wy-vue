@@ -45,10 +45,10 @@ jobs:
           # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
           # version: # optional
       - name: 'start server(启动正向代理!!)'
-        run: node server/server.js
-
-      - name: End Console
-        run: echo node server run successful!
+        run: |
+          npm install pm2 -g
+          pm2 start server/server.js
+        # run: node server/server.js
 
   # This workflow contains a single job called "build"        
   build:
